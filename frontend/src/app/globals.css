@@ -1,15 +1,48 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
+  --background: #f7f3ea;
+  --foreground: #071f23;
+  --warm-canvas: #f7f3ea;
+  --soft-card: #fffcf6;
+  --muted-surface: #efe7d8;
+  --primary: #002627;
+  --primary-container: #0f3d3e;
+  --secondary: #2f6a3e;
+  --mint-bg: #e6f1e8;
+  --muted-coral: #c96b5a;
+  --soft-coral-bg: #f6dcd6;
+  --amber-bg: #f8e7c6;
+  --border-soft: #e3d8c8;
+  --border-strong: #c9bca8;
+  --text-secondary: #526365;
+  --text-muted: #7a898b;
+  --danger: #b42318;
+  --soft-blue-bg: #e3f4f6;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-warm-canvas: var(--warm-canvas);
+  --color-soft-card: var(--soft-card);
+  --color-muted-surface: var(--muted-surface);
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-secondary: var(--secondary);
+  --color-mint-bg: var(--mint-bg);
+  --color-muted-coral: var(--muted-coral);
+  --color-soft-coral-bg: var(--soft-coral-bg);
+  --color-amber-bg: var(--amber-bg);
+  --color-border-soft: var(--border-soft);
+  --color-border-strong: var(--border-strong);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-danger: var(--danger);
+  --color-soft-blue-bg: var(--soft-blue-bg);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --shadow-paper: 0 4px 12px rgb(0 38 39 / 0.05);
 }
 
 body {
@@ -23,4 +56,9 @@ input,
 select,
 textarea {
   font: inherit;
+}
+
+::selection {
+  background: var(--amber-bg);
+  color: var(--foreground);
 }

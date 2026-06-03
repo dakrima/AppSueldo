@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, FolderKanban, LayoutDashboard, Settings, WalletCards } from "lucide-react";
+import { FolderKanban, Home, LogOut, Plus, Settings, WalletCards } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 
 const navItems = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/dashboard", label: "Inicio", icon: Home },
   { href: "/transactions", label: "Movimientos", icon: WalletCards },
-  { href: "/categories", label: "Categorias", icon: FolderKanban },
+  { href: "/categories", label: "Categorías", icon: FolderKanban },
   { href: "/settings", label: "Ajustes", icon: Settings },
 ];
 
@@ -15,37 +16,47 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 border-r border-slate-200 bg-white lg:block">
-      <div className="flex h-full flex-col px-5 py-5">
-        <Link href="/" className="flex items-center gap-3 text-lg font-semibold text-slate-950">
-          <span className="flex size-10 items-center justify-center rounded-lg bg-emerald-600 text-white">
-            <BarChart3 size={21} />
-          </span>
-          AppSueldo
+    <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 border-r border-border-soft bg-muted-surface lg:block">
+      <div className="flex h-full flex-col px-6 py-8">
+        <Link href="/" className="grid gap-1 text-primary">
+          <span className="text-4xl font-semibold leading-none tracking-normal">AppSueldo</span>
+          <span className="text-base text-text-secondary">Control y alivio</span>
         </Link>
-        <nav className="mt-8 grid gap-1">
+
+        <nav className="mt-12 grid gap-2">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const active = pathname === item.href;
+            const active = item.href === "/transactions" ? pathname.startsWith("/transactions") : pathname === item.href;
+
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex h-11 items-center gap-3 rounded-lg px-3 text-sm font-medium transition ${
-                  active ? "bg-emerald-50 text-emerald-700" : "text-slate-600 hover:bg-slate-50 hover:text-slate-950"
+                className={`flex h-12 items-center gap-4 rounded-lg px-4 text-base font-semibold transition ${
+                  active
+                    ? "border-r-4 border-primary bg-soft-card text-primary shadow-[var(--shadow-paper)]"
+                    : "text-text-secondary hover:bg-soft-card/70 hover:text-primary"
                 }`}
               >
-                <Icon size={18} />
+                <Icon size={22} />
                 {item.label}
               </Link>
             );
           })}
         </nav>
-        <div className="mt-auto rounded-lg border border-slate-200 bg-slate-50 p-4">
-          <p className="text-sm font-medium text-slate-950">Autenticacion preparada</p>
-          <p className="mt-2 text-sm leading-6 text-slate-500">
-            El frontend apunta al backend para Google OAuth y perfil de usuario.
-          </p>
+
+        <Button asChild size="lg" className="mt-auto w-full">
+          <Link href="/transactions/new">
+            <Plus size={22} />
+            Agregar movimiento
+          </Link>
+        </Button>
+
+        <div className="mt-8 border-t border-border-soft pt-6">
+          <button className="flex h-11 items-center gap-3 rounded-lg px-2 text-base font-medium text-text-secondary transition hover:text-primary">
+            <LogOut size={21} />
+            Cerrar sesión
+          </button>
         </div>
       </div>
     </aside>

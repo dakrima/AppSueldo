@@ -1,30 +1,46 @@
-import { ArrowDownLeft, ArrowUpRight, Repeat } from "lucide-react";
 import { Transaction } from "@/lib/mock-data";
 
-const icons = {
-  INCOME: ArrowDownLeft,
-  EXPENSE: ArrowUpRight,
-  TRANSFER: Repeat,
+const toneClasses = {
+  income: {
+    icon: "bg-mint-bg text-secondary",
+    amount: "text-secondary",
+  },
+  expense: {
+    icon: "bg-soft-coral-bg text-muted-coral",
+    amount: "text-muted-coral",
+  },
+  transfer: {
+    icon: "bg-soft-blue-bg text-primary-container",
+    amount: "text-primary",
+  },
+  amber: {
+    icon: "bg-amber-bg text-[#7a4b00]",
+    amount: "text-primary",
+  },
+  neutral: {
+    icon: "bg-muted-surface text-primary",
+    amount: "text-primary",
+  },
 };
 
 export function TransactionItem({ transaction }: { transaction: Transaction }) {
-  const Icon = icons[transaction.type];
-  const amountClass = transaction.type === "INCOME" ? "text-emerald-700" : "text-slate-950";
+  const Icon = transaction.icon;
+  const tone = toneClasses[transaction.tone];
 
   return (
-    <li className="flex items-center justify-between gap-4 border-b border-slate-100 py-4 last:border-0">
-      <div className="flex min-w-0 items-center gap-3">
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
-          <Icon size={18} />
+    <li className="flex items-center justify-between gap-4 border-b border-border-soft py-5 last:border-0">
+      <div className="flex min-w-0 items-center gap-4">
+        <span className={`flex size-12 shrink-0 items-center justify-center rounded-lg ${tone.icon}`}>
+          <Icon size={22} />
         </span>
         <div className="min-w-0">
-          <p className="truncate font-medium text-slate-950">{transaction.description}</p>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="truncate text-base font-semibold text-primary">{transaction.description}</p>
+          <p className="mt-1 text-sm text-text-secondary">
             {transaction.category} · {transaction.date}
           </p>
         </div>
       </div>
-      <p className={`shrink-0 text-sm font-semibold ${amountClass}`}>{transaction.amount}</p>
+      <p className={`shrink-0 text-base font-semibold ${tone.amount}`}>{transaction.amount}</p>
     </li>
   );
 }

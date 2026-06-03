@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ajustes - AppSueldo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "text-muted": "#7A898B",
+                        "surface-tint": "#3b6566",
+                        "surface-container": "#d9f2f7",
+                        "secondary": "#2f6a3e",
+                        "amber-bg": "#F8E7C6",
+                        "border-strong": "#C9BCA8",
+                        "surface-bright": "#eefcff",
+                        "on-tertiary-fixed-variant": "#633f00",
+                        "primary": "#002627",
+                        "tertiary-fixed-dim": "#fdba5a",
+                        "on-primary": "#ffffff",
+                        "border-soft": "#E3D8C8",
+                        "outline": "#717978",
+                        "soft-card": "#FFFCF6",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#145128",
+                        "on-surface": "#071f23",
+                        "muted-surface": "#EFE7D8",
+                        "tertiary": "#321d00",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#d29437",
+                        "surface-container-highest": "#cee7ec",
+                        "secondary-container": "#b2f2ba",
+                        "primary-fixed": "#beebeb",
+                        "inverse-primary": "#a3cfcf",
+                        "mint-bg": "#E6F1E8",
+                        "text-secondary": "#526365",
+                        "tertiary-container": "#4e3100",
+                        "primary-fixed-dim": "#a3cfcf",
+                        "outline-variant": "#c0c8c8",
+                        "surface-container-low": "#dff8fd",
+                        "on-secondary-fixed": "#00210b",
+                        "muted-coral": "#C96B5A",
+                        "on-primary-container": "#7da8a8",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#d4edf2",
+                        "on-background": "#071f23",
+                        "on-tertiary-fixed": "#291800",
+                        "inverse-on-surface": "#dcf5fa",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#ffddb4",
+                        "on-secondary-container": "#367044",
+                        "secondary-fixed-dim": "#97d5a0",
+                        "surface-variant": "#cee7ec",
+                        "primary-container": "#0f3d3e",
+                        "secondary-fixed": "#b2f2ba",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#404848",
+                        "on-primary-fixed-variant": "#224d4e",
+                        "background": "#eefcff",
+                        "surface-dim": "#c6dee3",
+                        "soft-coral-bg": "#F6DCD6",
+                        "on-primary-fixed": "#002020",
+                        "inverse-surface": "#1d3438",
+                        "warm-canvas": "#F7F3EA",
+                        "surface": "#eefcff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "unit": "4px",
+                        "sm": "8px",
+                        "margin-desktop": "32px",
+                        "gutter": "16px",
+                        "xl": "32px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "xs": "4px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Geist"],
+                        "stat-lg-mobile": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "stat-lg": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "body-base": ["Geist"],
+                        "body-bold": ["Geist"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "stat-lg-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "stat-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-base": ["16px", { "lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-bold": ["16px", { "lineHeight": "24px", "letterSpacing": "0", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[style*="font-variation-settings: 'FILL' 1"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-warm-canvas min-h-screen text-on-surface font-body-base antialiased flex">
+<!-- SideNavBar (Hidden on Mobile) -->
+<nav class="hidden md:flex h-screen w-64 fixed left-0 top-0 border-r border-border-soft bg-warm-canvas flex-col gap-lg p-lg z-50">
+<div class="flex items-center gap-sm px-sm">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<div>
+<h1 class="font-headline-md text-headline-md text-primary">AppSueldo</h1>
+<p class="font-body-base text-body-base text-text-secondary text-sm">Tu control mensual</p>
+</div>
+</div>
+<div class="flex flex-col gap-sm flex-1 mt-lg">
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high hover:text-surface-tint transition-all rounded-lg p-md font-body-base text-body-base" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span>Inicio</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high hover:text-surface-tint transition-all rounded-lg p-md font-body-base text-body-base" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span>Movimientos</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high hover:text-surface-tint transition-all rounded-lg p-md font-body-base text-body-base" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+<span>Categorías</span>
+</a>
+<a class="flex items-center gap-md bg-secondary-container text-on-secondary-container rounded-lg p-md font-body-bold text-body-bold opacity-80 transition-all scale-[0.98] duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span>Ajustes</span>
+</a>
+</div>
+<div class="mt-auto border-t border-border-soft pt-md">
+<div class="flex items-center gap-md p-md">
+<img alt="Avatar de usuario" class="w-10 h-10 rounded-full border border-border-soft object-cover" data-alt="A close-up portrait of a young professional man with short dark hair, smiling warmly. He is wearing a simple, high-quality white t-shirt. The background is a soft, out-of-focus light gray wall. The lighting is natural and flattering, emphasizing a modern, trustworthy, and clean aesthetic suitable for a professional yet approachable profile picture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFc9UHzJOleGZgDhic4GVEJqUe4MvB0N1zzUu4LUK8hYMCmNb5jmLDVor3WN1zlLjjwMGJYbQyYRVI1tw4w5Y-cnAQmU4ba1uzMhA6n8kPdJn8bghcr9iiy24xBoJwGNF68FJ1KizZrbAwzZE_U5MiJoBF6mQVvxJhq3wob-GksHSRe6vZivyMUCU9B1COQdrw2mAnbq1iqKXZ8ccyZ3v_tXQxferuX3o3xjAeAoTRYh8IUgFYRaYIHvCOuj8h_MFugiCGjaBSi-Yc"/>
+<div>
+<p class="font-body-bold text-body-bold text-sm">David</p>
+<p class="font-body-base text-body-base text-text-secondary text-xs">Usuario Pro</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- TopAppBar (Mobile Only) -->
+<header class="md:hidden w-full top-0 sticky bg-warm-canvas flex justify-between items-center px-lg py-md z-40 border-b border-border-soft">
+<h1 class="font-display-lg text-display-lg text-primary text-2xl">AppSueldo</h1>
+<button class="text-primary hover:text-surface-tint transition-colors">
+<span class="material-symbols-outlined text-2xl" data-icon="menu">menu</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-1 md:ml-64 p-margin-mobile md:p-margin-desktop max-w-container-max mx-auto w-full flex flex-col gap-xl pb-32">
+<header class="mb-sm">
+<h1 class="font-display-lg text-display-lg text-primary mb-2">Ajustes</h1>
+<p class="font-body-base text-body-base text-text-secondary">Configura tus preferencias y administra tu cuenta.</p>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg">
+<!-- Left Column: Settings Cards -->
+<div class="md:col-span-8 flex flex-col gap-lg">
+<!-- Perfil & Google Account -->
+<section class="bg-soft-card border border-border-soft rounded-xl p-lg shadow-sm">
+<h2 class="font-headline-md text-headline-md text-primary mb-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">person</span>
+                        Perfil
+                    </h2>
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-md mb-lg">
+<div class="flex items-center gap-md">
+<img alt="Avatar" class="w-16 h-16 rounded-full border-2 border-surface-tint object-cover" data-alt="A close-up portrait of a young professional man with short dark hair, smiling warmly. He is wearing a simple, high-quality white t-shirt. The background is a soft, out-of-focus light gray wall. The lighting is natural and flattering, emphasizing a modern, trustworthy, and clean aesthetic suitable for a professional yet approachable profile picture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAv6TgKxXFZoh3NIEqYR5bbJVuq1T8IRIifYVJNwdju6950yC1LqbdJwxNJrROY7kw15-Pc1pPxReBsAzsguQtX6NH04cdfH45yAz-BwkfeLpRZqNPgXSCKUtMekETcCLOFdW9ZcAFzaR6jimO0EDD5aXRphGFQFYyTlUIou5WPWZzhan1Ji9WofwGP1TbqX-YPjV2CBe1mK2HCITDE1nmoqOGZ4nv6RD0abwp0GwYAv7pxmICZt0TNj55IsBLvQFtIen7uxcitJU81"/>
+<div>
+<p class="font-body-bold text-body-bold text-lg text-primary">David</p>
+<p class="font-body-base text-body-base text-text-secondary">david@ejemplo.com</p>
+</div>
+</div>
+<button class="bg-soft-card border border-border-soft text-on-surface px-md py-sm rounded-lg hover:bg-surface-container transition-colors font-body-bold text-body-bold text-sm flex items-center gap-sm">
+<span class="material-symbols-outlined text-sm">edit</span> Editar Perfil
+                        </button>
+</div>
+<hr class="border-border-soft mb-lg"/>
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-md">
+<div>
+<p class="font-body-bold text-body-bold text-primary flex items-center gap-sm">
+<svg class="w-5 h-5" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path></svg>
+                                Cuenta de Google
+                            </p>
+<p class="font-body-base text-body-base text-text-secondary text-sm mt-1">Conectado. Usado para inicio de sesión.</p>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-body-bold bg-mint-bg text-secondary">
+                            Conectado
+                        </span>
+</div>
+<div class="mt-xl pt-lg border-t border-border-soft">
+<button class="text-error hover:text-on-error-container font-body-bold text-body-bold transition-colors flex items-center gap-sm">
+<span class="material-symbols-outlined">logout</span> Cerrar sesión
+                        </button>
+</div>
+</section>
+<!-- Preferencias -->
+<section class="bg-soft-card border border-border-soft rounded-xl p-lg shadow-sm">
+<h2 class="font-headline-md text-headline-md text-primary mb-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">tune</span>
+                        Preferencias
+                    </h2>
+<div class="space-y-lg">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-sm">
+<div>
+<p class="font-body-bold text-body-bold text-primary">Idioma</p>
+<p class="font-body-base text-body-base text-text-secondary text-sm">Idioma de la interfaz</p>
+</div>
+<div class="relative">
+<select class="appearance-none bg-soft-card border border-border-soft text-on-surface font-body-base text-body-base rounded-lg px-md py-sm pr-10 focus:outline-none focus:border-secondary focus:ring-2 focus:ring-mint-bg cursor-pointer">
+<option selected="" value="es">Español</option>
+<option value="en">English</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-text-secondary">
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</div>
+</div>
+</div>
+<hr class="border-border-soft"/>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-sm">
+<div>
+<p class="font-body-bold text-body-bold text-primary">Moneda Principal</p>
+<p class="font-body-base text-body-base text-text-secondary text-sm">Moneda usada para reportes y saldos</p>
+</div>
+<div class="relative">
+<select class="appearance-none bg-soft-card border border-border-soft text-on-surface font-body-base text-body-base rounded-lg px-md py-sm pr-10 focus:outline-none focus:border-secondary focus:ring-2 focus:ring-mint-bg cursor-pointer">
+<option selected="" value="clp">CLP - Peso Chileno</option>
+<option value="usd">USD - Dólar Estadounidense</option>
+<option value="eur">EUR - Euro</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-text-secondary">
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Security & Data -->
+<div class="md:col-span-4 flex flex-col gap-lg">
+<!-- Seguridad y Datos -->
+<section class="bg-surface-bright border border-border-soft rounded-xl p-lg shadow-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 -mr-4 -mt-4 opacity-5 pointer-events-none">
+<span class="material-symbols-outlined text-9xl text-primary" style="font-variation-settings: 'FILL' 1;">shield_lock</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mb-md flex items-center gap-sm relative z-10">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">security</span>
+                        Privacidad
+                    </h2>
+<div class="bg-mint-bg rounded-lg p-md mb-lg border border-secondary/20 relative z-10">
+<p class="font-body-bold text-body-bold text-secondary flex items-start gap-sm">
+<span class="material-symbols-outlined text-secondary mt-0.5" style="font-variation-settings: 'FILL' 1;">info</span>
+<span>Tu tranquilidad es lo primero</span>
+</p>
+<p class="font-body-base text-body-base text-on-secondary-fixed-variant mt-sm text-sm">
+                            En esta versión <strong>no conectamos bancos ni almacenamos credenciales bancarias</strong>. Tus datos financieros son ingresados manualmente, locales y completamente privados.
+                        </p>
+</div>
+<div class="relative z-10">
+<h3 class="font-body-bold text-body-bold text-primary mb-sm">Exportar Datos</h3>
+<p class="font-body-base text-body-base text-text-secondary text-sm mb-md">
+                            Descarga una copia de todos tus movimientos (ingresos y gastos) para tu propio respaldo o análisis en hojas de cálculo.
+                        </p>
+<button class="w-full bg-primary text-on-primary font-body-bold text-body-bold py-md rounded-lg hover:bg-surface-tint transition-colors flex justify-center items-center gap-sm shadow-sm hover:shadow-md">
+<span class="material-symbols-outlined">download</span>
+                            Descargar movimientos (CSV)
+                        </button>
+</div>
+</section>
+<!-- Delete Account -->
+<section class="bg-soft-coral-bg/30 border border-muted-coral/30 rounded-xl p-lg shadow-sm mt-auto">
+<h3 class="font-body-bold text-body-bold text-error mb-sm">Zona de Peligro</h3>
+<p class="font-body-base text-body-base text-text-secondary text-sm mb-md">
+                        Eliminar tu cuenta borrará permanentemente todos tus registros de AppSueldo. Esta acción no se puede deshacer.
+                    </p>
+<button class="text-error hover:text-on-error-container font-body-bold text-body-bold text-sm transition-colors decoration-error underline underline-offset-4">
+                        Eliminar mi cuenta
+                    </button>
+</section>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full bg-warm-canvas border-t border-border-soft pb-safe pt-sm px-sm z-50 flex justify-around items-center h-16 shadow-[0_-4px_12px_rgba(0,38,39,0.05)]">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-surface-tint p-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps text-[10px]">Inicio</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-surface-tint p-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-caps text-label-caps text-[10px]">Lista</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-surface-tint p-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+<span class="font-label-caps text-label-caps text-[10px]">Categorías</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary bg-secondary-container/50 p-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-label-caps text-label-caps text-[10px] font-bold">Ajustes</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Movimientos - AppSueldo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-primary": "#a3cfcf",
+                      "surface-bright": "#eefcff",
+                      "on-secondary-fixed-variant": "#145128",
+                      "tertiary-fixed-dim": "#fdba5a",
+                      "inverse-on-surface": "#dcf5fa",
+                      "outline-variant": "#c0c8c8",
+                      "soft-coral-bg": "#F6DCD6",
+                      "primary": "#002627",
+                      "on-primary-container": "#7da8a8",
+                      "mint-bg": "#E6F1E8",
+                      "surface-variant": "#cee7ec",
+                      "surface-container-lowest": "#ffffff",
+                      "text-muted": "#7A898B",
+                      "tertiary-container": "#4e3100",
+                      "surface-container-highest": "#cee7ec",
+                      "outline": "#717978",
+                      "on-primary-fixed": "#002020",
+                      "on-tertiary-fixed": "#291800",
+                      "on-secondary-container": "#367044",
+                      "inverse-surface": "#1d3438",
+                      "secondary-fixed": "#b2f2ba",
+                      "on-background": "#071f23",
+                      "on-secondary": "#ffffff",
+                      "primary-container": "#0f3d3e",
+                      "on-error": "#ffffff",
+                      "border-strong": "#C9BCA8",
+                      "on-surface": "#071f23",
+                      "tertiary-fixed": "#ffddb4",
+                      "soft-card": "#FFFCF6",
+                      "secondary-fixed-dim": "#97d5a0",
+                      "surface-dim": "#c6dee3",
+                      "surface-container-high": "#d4edf2",
+                      "on-tertiary": "#ffffff",
+                      "primary-fixed-dim": "#a3cfcf",
+                      "on-error-container": "#93000a",
+                      "tertiary": "#321d00",
+                      "surface-tint": "#3b6566",
+                      "muted-surface": "#EFE7D8",
+                      "error": "#ba1a1a",
+                      "text-secondary": "#526365",
+                      "error-container": "#ffdad6",
+                      "amber-bg": "#F8E7C6",
+                      "on-surface-variant": "#404848",
+                      "surface-container-low": "#dff8fd",
+                      "primary-fixed": "#beebeb",
+                      "background": "#eefcff",
+                      "surface": "#eefcff",
+                      "on-tertiary-fixed-variant": "#633f00",
+                      "surface-container": "#d9f2f7",
+                      "on-secondary-fixed": "#00210b",
+                      "muted-coral": "#C96B5A",
+                      "border-soft": "#E3D8C8",
+                      "on-tertiary-container": "#d29437",
+                      "secondary": "#2f6a3e",
+                      "on-primary-fixed-variant": "#224d4e",
+                      "warm-canvas": "#F7F3EA",
+                      "secondary-container": "#b2f2ba",
+                      "on-primary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "16px",
+                      "container-max": "1280px",
+                      "xl": "32px",
+                      "xs": "4px",
+                      "md": "16px",
+                      "lg": "24px",
+                      "margin-mobile": "16px",
+                      "sm": "8px",
+                      "unit": "4px",
+                      "margin-desktop": "32px"
+              },
+              "fontFamily": {
+                      "label-caps": [
+                              "Geist"
+                      ],
+                      "body-base": [
+                              "Geist"
+                      ],
+                      "headline-md": [
+                              "Geist"
+                      ],
+                      "stat-lg-mobile": [
+                              "Geist"
+                      ],
+                      "body-bold": [
+                              "Geist"
+                      ],
+                      "stat-lg": [
+                              "Geist"
+                      ],
+                      "display-lg": [
+                              "Geist"
+                      ]
+              },
+              "fontSize": {
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-base": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "stat-lg-mobile": [
+                              "26px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-bold": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "stat-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "38px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "40px",
+                              {
+                                      "lineHeight": "48px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: theme('colors.warm-canvas');
+            color: theme('colors.on-background');
+        }
+        
+        /* Ambient Shadows */
+        .ambient-shadow {
+            box-shadow: 0px 4px 12px rgba(0, 38, 39, 0.05); /* Tinted with primary navy */
+        }
+    </style>
+</head>
+<body class="flex min-h-screen bg-warm-canvas font-body-base text-body-base antialiased">
+<!-- SideNavBar -->
+<nav class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-muted-surface border-r border-border-soft flex-col py-xl px-lg z-50">
+<div class="mb-12">
+<h1 class="font-display-lg text-display-lg font-bold text-primary">AppSueldo</h1>
+<p class="font-body-base text-body-base text-text-secondary mt-2">Finanzas Personales</p>
+</div>
+<ul class="flex flex-col gap-sm flex-1">
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-text-secondary hover:bg-warm-canvas transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-body-bold text-body-bold">Inicio</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-primary font-bold border-r-4 border-primary bg-warm-canvas/50 transition-transform duration-200 scale-[0.98]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<span class="font-body-bold text-body-bold">Movimientos</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-text-secondary hover:bg-warm-canvas transition-colors" href="#">
+<span class="material-symbols-outlined">category</span>
+<span class="font-body-bold text-body-bold">Categorías</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-text-secondary hover:bg-warm-canvas transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-bold text-body-bold">Ajustes</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto pt-lg">
+<button class="w-full bg-primary text-on-primary font-body-bold text-body-bold py-sm px-md rounded-lg flex items-center justify-center gap-sm hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+                Agregar movimiento
+            </button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full md:ml-64 px-margin-mobile md:px-margin-desktop py-xl max-w-container-max mx-auto">
+<!-- Header -->
+<header class="flex flex-col md:flex-row md:items-center justify-between mb-xl gap-md">
+<div>
+<h1 class="font-display-lg text-display-lg text-primary font-bold tracking-tight">Movimientos</h1>
+<p class="font-body-base text-body-base text-text-secondary mt-1">Revisa y gestiona tus ingresos y gastos.</p>
+</div>
+<div class="flex items-center gap-md">
+<!-- Actions -->
+<button class="hidden md:flex bg-primary text-on-primary font-body-bold text-body-bold py-sm px-md rounded-lg items-center gap-sm hover:opacity-90 transition-opacity ambient-shadow">
+<span class="material-symbols-outlined">add</span>
+                    Agregar movimiento
+                </button>
+</div>
+</header>
+<!-- Filters & Search Bar (Bento-style layout) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-md mb-xl">
+<!-- Search -->
+<div class="lg:col-span-5 bg-soft-card border border-border-soft rounded-xl p-xs flex items-center ambient-shadow focus-within:border-secondary focus-within:ring-2 focus-within:ring-mint-bg transition-all">
+<span class="material-symbols-outlined text-text-muted ml-md">search</span>
+<input class="w-full bg-transparent border-none focus:ring-0 font-body-base text-body-base text-on-surface px-md py-sm outline-none placeholder:text-text-muted" placeholder="Buscar movimientos..." type="text"/>
+</div>
+<!-- Filters Group -->
+<div class="lg:col-span-7 flex flex-wrap gap-sm">
+<select class="bg-soft-card border border-border-soft rounded-xl font-body-base text-body-base text-on-surface px-md py-sm outline-none focus:border-secondary focus:ring-2 focus:ring-mint-bg cursor-pointer flex-1 min-w-[120px] ambient-shadow">
+<option value="">Tipo: Todos</option>
+<option value="ingreso">Ingreso</option>
+<option value="gasto">Gasto</option>
+<option value="transferencia">Transferencia</option>
+</select>
+<select class="bg-soft-card border border-border-soft rounded-xl font-body-base text-body-base text-on-surface px-md py-sm outline-none focus:border-secondary focus:ring-2 focus:ring-mint-bg cursor-pointer flex-1 min-w-[120px] ambient-shadow">
+<option value="">Categoría: Todas</option>
+<option value="sueldo">Sueldo</option>
+<option value="supermercado">Supermercado</option>
+<option value="transporte">Transporte</option>
+<option value="ahorro">Ahorro</option>
+</select>
+<select class="bg-soft-card border border-border-soft rounded-xl font-body-base text-body-base text-on-surface px-md py-sm outline-none focus:border-secondary focus:ring-2 focus:ring-mint-bg cursor-pointer flex-1 min-w-[120px] ambient-shadow">
+<option value="este_mes">Mes: Actual</option>
+<option value="mes_pasado">Mes Pasado</option>
+<option value="hace_3_meses">Últimos 3 meses</option>
+</select>
+</div>
+</section>
+<!-- Asymmetric Grid: Summary & Transactions -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl">
+<!-- Left Column: Transactions List (2/3 width) -->
+<section class="lg:col-span-8 flex flex-col gap-md">
+<h2 class="font-headline-md text-headline-md text-primary mb-sm">Historial</h2>
+<!-- Transaction Items container -->
+<div class="bg-surface-container-lowest border border-border-soft rounded-[1.5rem] p-md flex flex-col gap-sm ambient-shadow">
+<!-- Item: Income -->
+<div class="flex items-center justify-between p-md rounded-xl hover:bg-soft-card transition-colors group cursor-pointer border border-transparent hover:border-border-soft">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-md bg-mint-bg flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<div>
+<h3 class="font-body-bold text-body-bold text-primary">Sueldo mensual</h3>
+<p class="font-body-base text-body-base text-text-secondary text-sm">Ingreso • 01 Oct 2023</p>
+</div>
+</div>
+<div class="font-body-bold text-body-bold text-secondary text-right">
+                            +$850.000
+                        </div>
+</div>
+<!-- Divider -->
+<div class="h-px bg-border-soft w-full mx-auto my-xs"></div>
+<!-- Item: Expense -->
+<div class="flex items-center justify-between p-md rounded-xl hover:bg-soft-card transition-colors group cursor-pointer border border-transparent hover:border-border-soft">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-md bg-soft-coral-bg flex items-center justify-center text-muted-coral">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+</div>
+<div>
+<h3 class="font-body-bold text-body-bold text-primary">Supermercado</h3>
+<p class="font-body-base text-body-base text-text-secondary text-sm">Alimentación • 05 Oct 2023</p>
+</div>
+</div>
+<div class="font-body-bold text-body-bold text-muted-coral text-right">
+                            -$46.800
+                        </div>
+</div>
+<!-- Divider -->
+<div class="h-px bg-border-soft w-full mx-auto my-xs"></div>
+<!-- Item: Transfer (Neutral) -->
+<div class="flex items-center justify-between p-md rounded-xl hover:bg-soft-card transition-colors group cursor-pointer border border-transparent hover:border-border-soft">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-md bg-surface-variant flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">swap_horiz</span>
+</div>
+<div>
+<h3 class="font-body-bold text-body-bold text-primary">Transferencia ahorro</h3>
+<p class="font-body-base text-body-base text-text-secondary text-sm">Ahorros • 06 Oct 2023</p>
+</div>
+</div>
+<div class="font-body-bold text-body-bold text-on-surface text-right">
+                            -$80.000
+                        </div>
+</div>
+<!-- Divider -->
+<div class="h-px bg-border-soft w-full mx-auto my-xs"></div>
+<!-- Item: Expense -->
+<div class="flex items-center justify-between p-md rounded-xl hover:bg-soft-card transition-colors group cursor-pointer border border-transparent hover:border-border-soft">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-md bg-soft-coral-bg flex items-center justify-center text-muted-coral">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">train</span>
+</div>
+<div>
+<h3 class="font-body-bold text-body-bold text-primary">Metro</h3>
+<p class="font-body-base text-body-base text-text-secondary text-sm">Transporte • 08 Oct 2023</p>
+</div>
+</div>
+<div class="font-body-bold text-body-bold text-muted-coral text-right">
+                            -$12.000
+                        </div>
+</div>
+</div>
+</section>
+<!-- Right Column: Summary Widget (1/3 width) -->
+<aside class="lg:col-span-4 flex flex-col gap-md">
+<h2 class="font-headline-md text-headline-md text-primary mb-sm">Resumen del periodo</h2>
+<!-- Summary Card -->
+<div class="bg-soft-card border border-border-strong rounded-[1.5rem] p-lg ambient-shadow flex flex-col gap-lg">
+<!-- Total Income -->
+<div>
+<p class="font-label-caps text-label-caps text-text-secondary uppercase mb-xs flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm text-secondary">arrow_upward</span>
+                             Total Ingresos
+                        </p>
+<p class="font-stat-lg text-stat-lg text-secondary">+$850.000</p>
+</div>
+<div class="h-px bg-border-soft w-full"></div>
+<!-- Total Expenses -->
+<div>
+<p class="font-label-caps text-label-caps text-text-secondary uppercase mb-xs flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm text-muted-coral">arrow_downward</span>
+                            Total Gastos
+                        </p>
+<p class="font-stat-lg text-stat-lg text-muted-coral">-$138.800</p>
+<p class="font-body-base text-body-base text-text-muted mt-2 text-sm leading-tight">Incluye gastos y transferencias salientes.</p>
+</div>
+</div>
+<!-- Empty State Example (Hidden by default, shown to demonstrate style adherence if needed) -->
+<!--
+                 <div class="mt-lg border-2 border-dashed border-border-soft rounded-xl p-lg flex flex-col items-center justify-center text-center">
+                    <div class="w-16 h-16 rounded-full bg-warm-canvas flex items-center justify-center text-text-muted mb-md">
+                        <span class="material-symbols-outlined text-3xl">receipt_long</span>
+                    </div>
+                    <p class="font-body-bold text-body-bold text-primary mb-sm">Aún no hay movimientos</p>
+                    <p class="font-body-base text-body-base text-text-secondary mb-md max-w-xs">Registra tu primer ingreso o gasto para empezar a ver tu resumen.</p>
+                    <button class="bg-soft-card border border-border-soft text-on-surface font-body-bold text-body-bold py-sm px-md rounded-lg hover:bg-warm-canvas transition-colors">
+                        Agregar movimiento
+                    </button>
+                 </div>
+                 -->
+</aside>
+</div>
+</main>
+<!-- Mobile Navigation Bottom Bar (Shown only on small screens) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-lowest border-t border-border-soft flex justify-around items-center h-16 z-50 pb-safe">
+<a class="flex flex-col items-center justify-center w-full h-full text-text-secondary" href="#">
+<span class="material-symbols-outlined">home</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-primary font-bold relative" href="#">
+<div class="absolute top-0 w-1/2 h-1 bg-primary rounded-b-full"></div>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-text-secondary" href="#">
+<span class="material-symbols-outlined">category</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-text-secondary" href="#">
+<span class="material-symbols-outlined">settings</span>
+</a>
+</nav>
+<!-- Mobile FAB (Floating Action Button) -->
+<button class="md:hidden fixed bottom-20 right-4 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center z-50 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined">add</span>
+</button>
+</body></html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AppSueldo - Categorías</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#1d3438",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#321d00",
+                        "surface-bright": "#eefcff",
+                        "on-secondary-fixed-variant": "#145128",
+                        "border-soft": "#E3D8C8",
+                        "on-primary-fixed": "#002020",
+                        "primary-container": "#0f3d3e",
+                        "text-secondary": "#526365",
+                        "on-primary-container": "#7da8a8",
+                        "surface-container-high": "#d4edf2",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#3b6566",
+                        "muted-coral": "#C96B5A",
+                        "secondary-fixed": "#b2f2ba",
+                        "surface-dim": "#c6dee3",
+                        "surface-container-highest": "#cee7ec",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#cee7ec",
+                        "surface-container": "#d9f2f7",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#dff8fd",
+                        "primary": "#002627",
+                        "muted-surface": "#EFE7D8",
+                        "on-tertiary-fixed-variant": "#633f00",
+                        "secondary": "#2f6a3e",
+                        "outline": "#717978",
+                        "outline-variant": "#c0c8c8",
+                        "tertiary-fixed": "#ffddb4",
+                        "tertiary-container": "#4e3100",
+                        "border-strong": "#C9BCA8",
+                        "primary-fixed": "#beebeb",
+                        "on-surface": "#071f23",
+                        "on-error-container": "#93000a",
+                        "soft-card": "#FFFCF6",
+                        "on-tertiary-container": "#d29437",
+                        "on-surface-variant": "#404848",
+                        "inverse-on-surface": "#dcf5fa",
+                        "on-tertiary-fixed": "#291800",
+                        "background": "#eefcff",
+                        "primary-fixed-dim": "#a3cfcf",
+                        "warm-canvas": "#F7F3EA",
+                        "soft-coral-bg": "#F6DCD6",
+                        "on-background": "#071f23",
+                        "secondary-fixed-dim": "#97d5a0",
+                        "text-muted": "#7A898B",
+                        "secondary-container": "#b2f2ba",
+                        "on-secondary-container": "#367044",
+                        "mint-bg": "#E6F1E8",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#fdba5a",
+                        "on-secondary-fixed": "#00210b",
+                        "on-primary-fixed-variant": "#224d4e",
+                        "inverse-primary": "#a3cfcf",
+                        "surface": "#eefcff",
+                        "amber-bg": "#F8E7C6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "margin-desktop": "32px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Geist", "sans-serif"],
+                        "stat-lg": ["Geist", "sans-serif"],
+                        "display-lg": ["Geist", "sans-serif"],
+                        "body-base": ["Geist", "sans-serif"],
+                        "body-bold": ["Geist", "sans-serif"],
+                        "stat-lg-mobile": ["Geist", "sans-serif"],
+                        "label-caps": ["Geist", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "stat-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-base": ["16px", { "lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-bold": ["16px", { "lineHeight": "24px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "stat-lg-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Geist', sans-serif; background-color: #F7F3EA; color: #071f23; }
+        .ambient-shadow { box-shadow: 0 4px 12px rgba(0, 38, 39, 0.05); }
+    </style>
+</head>
+<body class="bg-warm-canvas min-h-screen flex flex-col md:flex-row">
+<!-- Mobile Top App Bar (Hidden on md and above) -->
+<header class="md:hidden bg-surface dark:bg-on-background flex justify-between items-center w-full px-lg py-md max-w-container-max mx-auto border-b border-soft dark:border-outline">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">
+            AppSueldo
+        </div>
+<div class="flex gap-4 text-primary dark:text-primary-fixed-dim">
+<span aria-label="notifications" class="material-symbols-outlined hover:bg-surface-container-low dark:hover:bg-primary-container transition-colors rounded-full p-2" role="button">notifications</span>
+<span aria-label="account_circle" class="material-symbols-outlined hover:bg-surface-container-low dark:hover:bg-primary-container transition-colors rounded-full p-2" role="button">account_circle</span>
+</div>
+</header>
+<!-- SideNavBar (Hidden on mobile) -->
+<nav class="hidden md:flex bg-warm-canvas dark:bg-on-background flex-col h-full py-xl px-md gap-lg fixed left-0 w-64 border-r border-soft dark:border-outline">
+<div class="mb-xl px-4">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">AppSueldo</div>
+<div class="font-body-base text-body-base text-text-secondary dark:text-text-muted mt-1">Control y alivio</div>
+</div>
+<div class="flex flex-col gap-2 flex-grow">
+<!-- Nav Items -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary dark:text-text-muted font-body-base hover:bg-surface-container-low dark:hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Resumen</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary dark:text-primary-fixed-dim font-body-bold border-r-4 border-secondary dark:border-secondary-fixed hover:bg-surface-container-low dark:hover:bg-surface-variant transition-all Active: opacity-80 transition-all duration-200 Active: translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">category</span>
+<span>Categorías</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary dark:text-text-muted font-body-base hover:bg-surface-container-low dark:hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span>Movimientos</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary dark:text-text-muted font-body-base hover:bg-surface-container-low dark:hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span>Presupuesto</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary dark:text-text-muted font-body-base hover:bg-surface-container-low dark:hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Ajustes</span>
+</a>
+</div>
+<button class="bg-primary text-on-primary font-body-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity mt-auto mb-4 w-full">
+<span class="material-symbols-outlined">add</span>
+            Crear categoría
+        </button>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary dark:text-text-muted font-body-base hover:bg-surface-container-low dark:hover:bg-surface-variant transition-all mt-auto" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Cerrar sesión</span>
+</a>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow md:ml-64 p-margin-mobile md:p-margin-desktop max-w-container-max mx-auto w-full">
+<!-- Header area for Mobile (CTA) -->
+<div class="flex md:hidden justify-between items-center mb-lg">
+<h1 class="font-headline-md text-headline-md text-primary">Categorías</h1>
+<button class="bg-primary text-on-primary font-body-bold py-2 px-4 rounded-lg flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-sm">add</span>
+                Crear
+            </button>
+</div>
+<div class="hidden md:flex justify-between items-center mb-xl">
+<h1 class="font-display-lg text-display-lg text-primary">Categorías</h1>
+</div>
+<!-- Category Grid (Bento style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+<!-- Ingreso Card -->
+<div class="bg-soft-card border border-border-soft rounded-xl p-md ambient-shadow flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="bg-mint-bg w-12 h-12 rounded-lg flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<span class="bg-mint-bg text-secondary font-label-caps text-label-caps px-2 py-1 rounded">INGRESO</span>
+</div>
+<div>
+<h3 class="font-body-bold text-body-bold text-primary">Sueldo</h3>
+<p class="font-stat-lg text-stat-lg md:font-stat-lg md:text-stat-lg text-secondary mt-1">+$850.000</p>
+</div>
+<div class="w-full bg-border-soft h-2 rounded-full overflow-hidden mt-auto">
+<div class="bg-secondary h-full rounded-full" style="width: 100%;"></div>
+</div>
+</div>
+<!-- Gasto Cards -->
+<div class="bg-soft-card border border-border-soft rounded-xl p-md ambient-shadow flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="bg-muted-surface w-12 h-12 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+</div>
+<span class="bg-soft-coral-bg text-muted-coral font-label-caps text-label-caps px-2 py-1 rounded">GASTO</span>
+</div>
+<div>
+<h3 class="font-body-bold text-body-bold text-primary">Vivienda</h3>
+<p class="font-body-base text-body-base text-primary mt-1">-$250.000</p>
+</div>
+<div class="w-full bg-border-soft h-2 rounded-full overflow-hidden mt-auto">
+<div class="bg-muted-coral h-full rounded-full" style="width: 45%;"></div>
+</div>
+</div>
+<div class="bg-soft-card border border-border-soft rounded-xl p-md ambient-shadow flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="bg-muted-surface w-12 h-12 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<span class="bg-soft-coral-bg text-muted-coral font-label-caps text-label-caps px-2 py-1 rounded">GASTO</span>
+</div>
+<div>
+<h3 class="font-body-bold text-body-bold text-primary">Alimentación</h3>
+<p class="font-body-base text-body-base text-primary mt-1">-$180.500</p>
+</div>
+<div class="w-full bg-border-soft h-2 rounded-full overflow-hidden mt-auto">
+<div class="bg-muted-coral h-full rounded-full" style="width: 32%;"></div>
+</div>
+</div>
+<div class="bg-soft-card border border-border-soft rounded-xl p-md ambient-shadow flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="bg-muted-surface w-12 h-12 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">directions_car</span>
+</div>
+<span class="bg-soft-coral-bg text-muted-coral font-label-caps text-label-caps px-2 py-1 rounded">GASTO</span>
+</div>
+<div>
+<h3 class="font-body-bold text-body-bold text-primary">Movilidad</h3>
+<p class="font-body-base text-body-base text-primary mt-1">-$45.000</p>
+</div>
+<div class="w-full bg-border-soft h-2 rounded-full overflow-hidden mt-auto">
+<div class="bg-muted-coral h-full rounded-full" style="width: 8%;"></div>
+</div>
+</div>
+<div class="bg-soft-card border border-border-soft rounded-xl p-md ambient-shadow flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="bg-muted-surface w-12 h-12 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_activity</span>
+</div>
+<span class="bg-soft-coral-bg text-muted-coral font-label-caps text-label-caps px-2 py-1 rounded">GASTO</span>
+</div>
+<div>
+<h3 class="font-body-bold text-body-bold text-primary">Salidas</h3>
+<p class="font-body-base text-body-base text-primary mt-1">-$35.000</p>
+</div>
+<div class="w-full bg-border-soft h-2 rounded-full overflow-hidden mt-auto">
+<div class="bg-muted-coral h-full rounded-full" style="width: 6%;"></div>
+</div>
+</div>
+<div class="bg-soft-card border border-border-soft rounded-xl p-md ambient-shadow flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="bg-muted-surface w-12 h-12 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">subscriptions</span>
+</div>
+<span class="bg-soft-coral-bg text-muted-coral font-label-caps text-label-caps px-2 py-1 rounded">GASTO</span>
+</div>
+<div>
+<h3 class="font-body-bold text-body-bold text-primary">Suscripciones</h3>
+<p class="font-body-base text-body-base text-primary mt-1">-$28.900</p>
+</div>
+<div class="w-full bg-border-soft h-2 rounded-full overflow-hidden mt-auto">
+<div class="bg-muted-coral h-full rounded-full" style="width: 5%;"></div>
+</div>
+</div>
+<div class="bg-soft-card border border-border-soft rounded-xl p-md ambient-shadow flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="bg-muted-surface w-12 h-12 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+</div>
+<span class="bg-soft-coral-bg text-muted-coral font-label-caps text-label-caps px-2 py-1 rounded">GASTO</span>
+</div>
+<div>
+<h3 class="font-body-bold text-body-bold text-primary">Salud</h3>
+<p class="font-body-base text-body-base text-primary mt-1">-$15.000</p>
+</div>
+<div class="w-full bg-border-soft h-2 rounded-full overflow-hidden mt-auto">
+<div class="bg-muted-coral h-full rounded-full" style="width: 3%;"></div>
+</div>
+</div>
+<!-- Empty State / Add New placeholder -->
+<div class="border-2 border-dashed border-border-strong rounded-xl p-md flex flex-col items-center justify-center text-center gap-4 hover:bg-muted-surface transition-colors cursor-pointer min-h-[200px]">
+<div class="w-12 h-12 rounded-full bg-soft-card border border-border-soft flex items-center justify-center text-text-secondary">
+<span class="material-symbols-outlined">add</span>
+</div>
+<div>
+<h3 class="font-body-bold text-body-bold text-primary">Crear nueva</h3>
+<p class="font-body-base text-body-base text-text-secondary mt-1">Personaliza tus gastos</p>
+</div>
+</div>
+</div>
+</main>
+</body></html>

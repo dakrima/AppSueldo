@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AppSueldo - Dashboard de David</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config injected from System Prompt -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#071f23",
+                        "on-tertiary-fixed-variant": "#633f00",
+                        "primary": "#002627",
+                        "tertiary": "#321d00",
+                        "on-tertiary-container": "#d29437",
+                        "warm-canvas": "#F7F3EA",
+                        "surface-bright": "#eefcff",
+                        "on-surface-variant": "#404848",
+                        "on-primary-fixed": "#002020",
+                        "outline-variant": "#c0c8c8",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#145128",
+                        "error": "#ba1a1a",
+                        "secondary": "#2f6a3e",
+                        "text-muted": "#7A898B",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#291800",
+                        "on-primary-container": "#7da8a8",
+                        "on-secondary-fixed": "#00210b",
+                        "border-soft": "#E3D8C8",
+                        "inverse-surface": "#1d3438",
+                        "primary-fixed-dim": "#a3cfcf",
+                        "surface-tint": "#3b6566",
+                        "inverse-on-surface": "#dcf5fa",
+                        "primary-container": "#0f3d3e",
+                        "tertiary-fixed-dim": "#fdba5a",
+                        "on-primary": "#ffffff",
+                        "amber-bg": "#F8E7C6",
+                        "secondary-container": "#b2f2ba",
+                        "surface-container-high": "#d4edf2",
+                        "muted-coral": "#C96B5A",
+                        "tertiary-container": "#4e3100",
+                        "surface-container-low": "#dff8fd",
+                        "surface-container": "#d9f2f7",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#97d5a0",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffddb4",
+                        "surface": "#eefcff",
+                        "surface-dim": "#c6dee3",
+                        "surface-variant": "#cee7ec",
+                        "secondary-fixed": "#b2f2ba",
+                        "soft-card": "#FFFCF6",
+                        "mint-bg": "#E6F1E8",
+                        "inverse-primary": "#a3cfcf",
+                        "primary-fixed": "#beebeb",
+                        "on-error-container": "#93000a",
+                        "muted-surface": "#EFE7D8",
+                        "background": "#eefcff",
+                        "surface-container-highest": "#cee7ec",
+                        "outline": "#717978",
+                        "border-strong": "#C9BCA8",
+                        "on-surface": "#071f23",
+                        "on-primary-fixed-variant": "#224d4e",
+                        "text-secondary": "#526365",
+                        "on-secondary-container": "#367044",
+                        "soft-coral-bg": "#F6DCD6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "margin-mobile": "16px",
+                        "gutter": "16px",
+                        "margin-desktop": "32px",
+                        "container-max": "1280px",
+                        "unit": "4px",
+                        "xs": "4px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Geist", "sans-serif"],
+                        "body-bold": ["Geist", "sans-serif"],
+                        "body-base": ["Geist", "sans-serif"],
+                        "headline-md": ["Geist", "sans-serif"],
+                        "stat-lg-mobile": ["Geist", "sans-serif"],
+                        "stat-lg": ["Geist", "sans-serif"],
+                        "label-caps": ["Geist", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-bold": ["16px", {"lineHeight": "24px", "letterSpacing": "0", "fontWeight": "600"}],
+                        "body-base": ["16px", {"lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0", "fontWeight": "600"}],
+                        "stat-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "stat-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&display=swap');
+        
+        body {
+            background-color: theme('colors.warm-canvas');
+            color: theme('colors.on-background');
+            font-family: 'Geist', sans-serif;
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        .ambient-shadow {
+            box-shadow: 0 4px 12px rgba(0, 38, 39, 0.05);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col md:flex-row">
+<!-- Desktop Sidebar Navigation (SideNavBar) -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 py-xl px-lg bg-muted-surface border-r border-border-soft z-50">
+<div class="mb-xl flex items-center gap-sm">
+<span class="font-display-lg text-display-lg font-bold text-primary">AppSueldo</span>
+</div>
+<div class="flex-1 flex flex-col gap-sm mt-lg">
+<!-- Active Tab: Inicio -->
+<a class="flex items-center gap-md p-md rounded-lg bg-warm-canvas/50 text-primary font-bold border-r-4 border-primary transition-transform duration-200" href="#" style="transform: scale(0.98);">
+<span class="material-symbols-outlined filled">home</span>
+<span class="font-body-bold text-body-bold">Inicio</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-text-secondary hover:bg-warm-canvas transition-colors" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-body-base text-body-base">Movimientos</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-text-secondary hover:bg-warm-canvas transition-colors" href="#">
+<span class="material-symbols-outlined">category</span>
+<span class="font-body-base text-body-base">Categorías</span>
+</a>
+<a class="flex items-center gap-md p-md rounded-lg text-text-secondary hover:bg-warm-canvas transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-base text-body-base">Ajustes</span>
+</a>
+</div>
+<div class="mt-auto">
+<button class="w-full bg-primary text-on-primary font-body-bold text-body-bold py-md rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined">add</span>
+                Agregar movimiento
+            </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 w-full max-w-container-max mx-auto pb-xl">
+<!-- TopAppBar (Desktop Top Area / Mobile Header) -->
+<header class="w-full flex justify-between items-center px-margin-mobile md:px-margin-desktop py-lg bg-warm-canvas sticky top-0 z-40">
+<div class="md:hidden">
+<span class="font-display-lg text-display-lg font-bold text-primary">AppSueldo</span>
+</div>
+<div class="hidden md:block">
+<!-- Empty space for layout balance on desktop where sidebar has logo -->
+</div>
+<div class="flex items-center gap-md text-on-background">
+<button class="p-xs hover:opacity-80 transition-opacity hover:scale-110 duration-150">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-xs hover:opacity-80 transition-opacity hover:scale-110 duration-150">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="px-margin-mobile md:px-margin-desktop flex flex-col gap-lg md:gap-xl mt-md">
+<!-- Welcome Header -->
+<div class="mb-sm">
+<h1 class="font-headline-md text-headline-md text-primary">Hola, David 👋 Así va tu mes de junio</h1>
+</div>
+<!-- Primary Dashboard Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg md:gap-xl items-start">
+<!-- Left Column (Main Balance & Details) -->
+<div class="lg:col-span-8 flex flex-col gap-lg md:gap-xl">
+<!-- Main Balance Card -->
+<div class="bg-soft-card border border-border-soft rounded-[1.5rem] p-lg md:p-xl ambient-shadow">
+<h2 class="font-body-base text-body-base text-text-secondary mb-sm">Te queda para el mes</h2>
+<div class="font-stat-lg-mobile md:font-stat-lg text-stat-lg-mobile md:text-stat-lg text-primary mb-xs">
+                            $317.700
+                        </div>
+<p class="font-body-base text-body-base text-text-secondary">Considerando tus gastos registrados y pagos fijos pendientes.</p>
+</div>
+<!-- Mini Summary Cards -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-md">
+<!-- Ingresos -->
+<div class="bg-soft-card border border-border-soft rounded-xl p-md flex flex-col justify-between">
+<div class="flex items-center gap-xs mb-sm text-text-secondary">
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span>
+<span class="font-label-caps text-label-caps">INGRESOS</span>
+</div>
+<span class="font-body-bold text-body-bold text-secondary">+$850.000</span>
+</div>
+<!-- Gastos -->
+<div class="bg-soft-card border border-border-soft rounded-xl p-md flex flex-col justify-between">
+<div class="flex items-center gap-xs mb-sm text-text-secondary">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span>
+<span class="font-label-caps text-label-caps">GASTOS</span>
+</div>
+<span class="font-body-bold text-body-bold text-muted-coral">-$412.300</span>
+</div>
+<!-- Ahorro -->
+<div class="bg-soft-card border border-border-soft rounded-xl p-md flex flex-col justify-between">
+<div class="flex items-center gap-xs mb-sm text-text-secondary">
+<span class="material-symbols-outlined text-[16px]">savings</span>
+<span class="font-label-caps text-label-caps">AHORRO EST.</span>
+</div>
+<span class="font-body-bold text-body-bold text-primary">$120.000</span>
+</div>
+<!-- Gastos Fijos -->
+<div class="bg-soft-card border border-border-soft rounded-xl p-md flex flex-col justify-between">
+<div class="flex items-center gap-xs mb-sm text-text-secondary">
+<span class="material-symbols-outlined text-[16px]">event_repeat</span>
+<span class="font-label-caps text-label-caps">FIJOS RESTANTES</span>
+</div>
+<span class="font-body-bold text-body-bold text-text-secondary">$95.000</span>
+</div>
+</div>
+<!-- Últimos movimientos -->
+<div class="bg-soft-card border border-border-soft rounded-[1.5rem] p-lg md:p-xl">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-body-bold text-body-bold text-primary">Últimos movimientos</h3>
+<button class="font-body-base text-body-base text-text-secondary hover:text-primary transition-colors">Ver todos</button>
+</div>
+<div class="flex flex-col gap-sm">
+<!-- Transaction Item 1 -->
+<div class="flex items-center justify-between p-md rounded-lg hover:bg-warm-canvas transition-colors group cursor-pointer border border-transparent hover:border-border-soft">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-md bg-mint-bg flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<div>
+<div class="font-body-bold text-body-bold text-primary">Sueldo mensual</div>
+<div class="font-body-base text-body-base text-text-secondary text-sm">Ingresos</div>
+</div>
+</div>
+<div class="font-body-bold text-body-bold text-secondary">+$850.000</div>
+</div>
+<!-- Transaction Item 2 -->
+<div class="flex items-center justify-between p-md rounded-lg hover:bg-warm-canvas transition-colors group cursor-pointer border border-transparent hover:border-border-soft">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-md bg-soft-coral-bg flex items-center justify-center text-muted-coral">
+<span class="material-symbols-outlined">shopping_cart</span>
+</div>
+<div>
+<div class="font-body-bold text-body-bold text-primary">Supermercado</div>
+<div class="font-body-base text-body-base text-text-secondary text-sm">Alimentación</div>
+</div>
+</div>
+<div class="font-body-bold text-body-bold text-on-background">-$46.800</div>
+</div>
+<!-- Transaction Item 3 -->
+<div class="flex items-center justify-between p-md rounded-lg hover:bg-warm-canvas transition-colors group cursor-pointer border border-transparent hover:border-border-soft">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-md bg-amber-bg flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined">directions_bus</span>
+</div>
+<div>
+<div class="font-body-bold text-body-bold text-primary">Metro / transporte</div>
+<div class="font-body-base text-body-base text-text-secondary text-sm">Movilidad</div>
+</div>
+</div>
+<div class="font-body-bold text-body-bold text-on-background">-$12.000</div>
+</div>
+<!-- Transaction Item 4 -->
+<div class="flex items-center justify-between p-md rounded-lg hover:bg-warm-canvas transition-colors group cursor-pointer border border-transparent hover:border-border-soft">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-md bg-surface-container-highest flex items-center justify-center text-surface-tint">
+<span class="material-symbols-outlined">savings</span>
+</div>
+<div>
+<div class="font-body-bold text-body-bold text-primary">Transferencia ahorro</div>
+<div class="font-body-base text-body-base text-text-secondary text-sm">Ahorro</div>
+</div>
+</div>
+<div class="font-body-bold text-body-bold text-on-background">-$80.000</div>
+</div>
+<!-- Transaction Item 5 -->
+<div class="flex items-center justify-between p-md rounded-lg hover:bg-warm-canvas transition-colors group cursor-pointer border border-transparent hover:border-border-soft">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-md bg-muted-surface flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">local_cafe</span>
+</div>
+<div>
+<div class="font-body-bold text-body-bold text-primary">Café con amigos</div>
+<div class="font-body-base text-body-base text-text-secondary text-sm">Salidas</div>
+</div>
+</div>
+<div class="font-body-bold text-body-bold text-on-background">-$9.500</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column (Insights & Categories) -->
+<div class="lg:col-span-4 flex flex-col gap-lg md:gap-xl">
+<!-- Gasto por categoría -->
+<div class="bg-soft-card border border-border-soft rounded-[1.5rem] p-lg md:p-xl ambient-shadow">
+<h3 class="font-body-bold text-body-bold text-primary mb-lg">Gasto por categoría</h3>
+<div class="flex flex-col gap-lg">
+<!-- Category 1 -->
+<div>
+<div class="flex justify-between items-end mb-xs">
+<span class="font-body-base text-body-base text-primary">Alimentación</span>
+<span class="font-body-bold text-body-bold text-primary">$180.500</span>
+</div>
+<div class="w-full bg-warm-canvas rounded-full h-2 overflow-hidden border border-border-soft">
+<div class="bg-muted-coral h-full rounded-full" style="width: 75%"></div>
+</div>
+</div>
+<!-- Category 2 -->
+<div>
+<div class="flex justify-between items-end mb-xs">
+<span class="font-body-base text-body-base text-primary">Vivienda</span>
+<span class="font-body-bold text-body-bold text-primary">$250.000</span>
+</div>
+<div class="w-full bg-warm-canvas rounded-full h-2 overflow-hidden border border-border-soft">
+<div class="bg-primary-container h-full rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<!-- Category 3 -->
+<div>
+<div class="flex justify-between items-end mb-xs">
+<span class="font-body-base text-body-base text-primary">Movilidad</span>
+<span class="font-body-bold text-body-bold text-primary">$45.000</span>
+</div>
+<div class="w-full bg-warm-canvas rounded-full h-2 overflow-hidden border border-border-soft">
+<div class="bg-secondary h-full rounded-full" style="width: 40%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Soft Alert Insight -->
+<div class="bg-amber-bg/30 border border-amber-bg rounded-[1.5rem] p-lg flex gap-md items-start">
+<span class="material-symbols-outlined text-on-tertiary-container mt-xs">lightbulb</span>
+<p class="font-body-base text-body-base text-primary">
+                            Gastaste un 12% más en comida que el mes pasado, pero todavía estás dentro de tu presupuesto de transporte.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Bottom Navigation (Visible only on mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full bg-soft-card border-t border-border-soft flex justify-around items-center py-sm pb-safe z-50">
+<!-- Active -->
+<a class="flex flex-col items-center p-sm text-primary font-bold" href="#">
+<span class="material-symbols-outlined filled mb-1">home</span>
+<span class="font-label-caps text-[10px]">Inicio</span>
+</a>
+<a class="flex flex-col items-center p-sm text-text-secondary hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">account_balance_wallet</span>
+<span class="font-label-caps text-[10px]">Movimientos</span>
+</a>
+<a class="flex flex-col items-center p-sm text-text-secondary hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">category</span>
+<span class="font-label-caps text-[10px]">Categorías</span>
+</a>
+<a class="flex flex-col items-center p-sm text-text-secondary hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">settings</span>
+<span class="font-label-caps text-[10px]">Ajustes</span>
+</a>
+</nav>
+</body></html>

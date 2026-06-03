@@ -1,21 +1,42 @@
+import Link from "next/link";
+import { Plus } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { CategoryBreakdown } from "@/components/dashboard/CategoryBreakdown";
+import { InsightCard } from "@/components/dashboard/InsightCard";
+import { MainBalanceCard } from "@/components/dashboard/MainBalanceCard";
 import { SummaryCard } from "@/components/dashboard/SummaryCard";
 import { TransactionList } from "@/components/transactions/TransactionList";
-import { monthlySummary, recentTransactions } from "@/lib/mock-data";
+import { Button } from "@/components/ui/Button";
+import { insights, monthlySummary, recentTransactions } from "@/lib/mock-data";
 
 export default function DashboardPage() {
   return (
-    <AppShell title="Dashboard" description="Resumen mensual preparado para datos del usuario autenticado.">
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
-        {monthlySummary.map((item) => (
-          <SummaryCard key={item.label} {...item} />
-        ))}
-      </div>
-
-      <div className="grid gap-5 lg:grid-cols-[1.3fr_0.9fr]">
-        <TransactionList title="Ultimos movimientos" transactions={recentTransactions} />
-        <CategoryBreakdown />
+    <AppShell
+      title="Hola, David"
+      description="Así va tu mes de junio"
+      action={
+        <Button asChild>
+          <Link href="/transactions/new">
+            <Plus size={20} />
+            Agregar movimiento
+          </Link>
+        </Button>
+      }
+    >
+      <div className="grid gap-6 xl:grid-cols-[1fr_360px]">
+        <div className="grid gap-6">
+          <MainBalanceCard />
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {monthlySummary.map((item) => (
+              <SummaryCard key={item.label} {...item} />
+            ))}
+          </div>
+          <TransactionList title="Últimos movimientos" transactions={recentTransactions} showViewAll />
+        </div>
+        <div className="grid content-start gap-6">
+          <CategoryBreakdown />
+          <InsightCard description={insights[1].description} tone={insights[1].tone} />
+        </div>
       </div>
     </AppShell>
   );

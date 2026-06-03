@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AppSueldo - Tu sueldo, explicado sin vueltas</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Geist -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config from Design System -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#b2f2ba",
+                    "tertiary": "#321d00",
+                    "on-tertiary-container": "#d29437",
+                    "surface-container-high": "#d4edf2",
+                    "surface-container": "#d9f2f7",
+                    "warm-canvas": "#F7F3EA",
+                    "surface-variant": "#cee7ec",
+                    "surface-dim": "#c6dee3",
+                    "on-error": "#ffffff",
+                    "surface-tint": "#3b6566",
+                    "soft-coral-bg": "#F6DCD6",
+                    "border-strong": "#C9BCA8",
+                    "on-surface-variant": "#404848",
+                    "inverse-surface": "#1d3438",
+                    "on-tertiary-fixed": "#291800",
+                    "surface-container-highest": "#cee7ec",
+                    "on-secondary-fixed-variant": "#145128",
+                    "on-error-container": "#93000a",
+                    "border-soft": "#E3D8C8",
+                    "on-surface": "#071f23",
+                    "on-background": "#071f23",
+                    "primary": "#002627",
+                    "surface-container-low": "#dff8fd",
+                    "amber-bg": "#F8E7C6",
+                    "on-secondary-container": "#367044",
+                    "inverse-primary": "#a3cfcf",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#eefcff",
+                    "primary-fixed": "#beebeb",
+                    "primary-container": "#0f3d3e",
+                    "background": "#eefcff",
+                    "tertiary-container": "#4e3100",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#2f6a3e",
+                    "on-primary-fixed": "#002020",
+                    "on-tertiary-fixed-variant": "#633f00",
+                    "muted-surface": "#EFE7D8",
+                    "primary-fixed-dim": "#a3cfcf",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#00210b",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#c0c8c8",
+                    "mint-bg": "#E6F1E8",
+                    "outline": "#717978",
+                    "on-primary-fixed-variant": "#224d4e",
+                    "soft-card": "#FFFCF6",
+                    "muted-coral": "#C96B5A",
+                    "surface-bright": "#eefcff",
+                    "text-muted": "#7A898B",
+                    "secondary-fixed-dim": "#97d5a0",
+                    "on-primary-container": "#7da8a8",
+                    "tertiary-fixed": "#ffddb4",
+                    "text-secondary": "#526365",
+                    "tertiary-fixed-dim": "#fdba5a",
+                    "inverse-on-surface": "#dcf5fa",
+                    "secondary-container": "#b2f2ba",
+                    "on-primary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "32px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "gutter": "16px",
+                    "unit": "4px",
+                    "margin-mobile": "16px",
+                    "md": "16px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Geist", "sans-serif"],
+                    "body-bold": ["Geist", "sans-serif"],
+                    "stat-lg": ["Geist", "sans-serif"],
+                    "label-caps": ["Geist", "sans-serif"],
+                    "body-base": ["Geist", "sans-serif"],
+                    "stat-lg-mobile": ["Geist", "sans-serif"],
+                    "headline-md": ["Geist", "sans-serif"]
+            },
+            "fontSize": {
+                    "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-bold": ["16px", {"lineHeight": "24px", "letterSpacing": "0", "fontWeight": "600"}],
+                    "stat-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-base": ["16px", {"lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "stat-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Custom soft shadows for tactile feel */
+        .tactile-shadow {
+            box-shadow: 0 4px 12px rgba(0, 38, 39, 0.05); /* Tinted with primary */
+        }
+        .tactile-glow {
+            background: radial-gradient(circle at top right, rgba(227, 216, 200, 0.3) 0%, transparent 70%);
+        }
+    </style>
+</head>
+<body class="bg-warm-canvas text-on-surface font-body-base text-body-base antialiased selection:bg-mint-bg selection:text-secondary min-h-screen flex flex-col">
+<!-- TopAppBar (from JSON) -->
+<header class="w-full top-0 sticky bg-warm-canvas border-b border-border-soft flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto z-50">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary font-bold" data-weight="fill" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<span class="text-headline-md font-headline-md text-primary">AppSueldo</span>
+</div>
+<!-- Search bar hidden based on JSON -->
+<!-- Trailing Action -->
+<button class="bg-white border border-[#DADCE0] text-[#3C4043] font-body-bold text-body-bold px-md py-sm rounded-md flex items-center gap-sm hover:bg-gray-50 transition-colors shadow-sm">
+<svg class="w-5 h-5" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M23.52 12.2727C23.52 11.4218 23.4436 10.6036 23.3018 9.81818H12V14.4545H18.4582C18.1745 15.9491 17.3345 17.2255 16.0582 18.0764V21.0873H19.9418C22.2109 18.9927 23.52 15.9273 23.52 12.2727Z" fill="#4285F4" fill-rule="evenodd"></path><path clip-rule="evenodd" d="M12 24C15.24 24 17.9564 22.92 19.9418 21.0873L16.0582 18.0764C14.9891 18.7964 13.6145 19.2218 12 19.2218C8.87998 19.2218 6.23998 17.1164 5.3018 14.28H1.28723V17.3891C3.2618 21.3164 7.30907 24 12 24Z" fill="#34A853" fill-rule="evenodd"></path><path clip-rule="evenodd" d="M5.30182 14.28C5.06182 13.56 4.93091 12.7964 4.93091 12C4.93091 11.2036 5.06182 10.44 5.30182 9.72V6.6109H1.28727C0.469091 8.24727 0 10.0691 0 12C0 13.9309 0.469091 15.7527 1.28727 17.3891L5.30182 14.28Z" fill="#FBBC05" fill-rule="evenodd"></path><path clip-rule="evenodd" d="M12 4.77818C13.7673 4.77818 15.3491 5.38909 16.5927 6.57818L20.0291 3.14182C17.9455 1.18909 15.24 0 12 0C7.30909 0 3.26182 2.68364 1.28727 6.61091L5.30182 9.72C6.23998 6.88364 8.87998 4.77818 12 4.77818Z" fill="#EA4335" fill-rule="evenodd"></path></svg>
+            Entrar con Google
+        </button>
+</header>
+<main class="flex-grow">
+<!-- Safety Banner -->
+<div class="bg-amber-bg border-b border-border-soft py-sm px-margin-mobile text-center">
+<p class="font-label-caps text-label-caps text-on-tertiary-container flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">shield_lock</span>
+                No guardamos credenciales bancarias. Registro manual para mayor seguridad.
+            </p>
+</div>
+<!-- Hero & Product Preview Split -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative overflow-hidden">
+<!-- Decorative tactile element behind content -->
+<div class="absolute top-0 right-0 w-[800px] h-[800px] bg-muted-surface rounded-full opacity-20 blur-3xl -z-10 pointer-events-none translate-x-1/3 -translate-y-1/4"></div>
+<!-- Hero Content -->
+<div class="flex flex-col gap-lg z-10">
+<h1 class="font-display-lg text-display-lg text-primary max-w-[15ch]">
+                    Tu sueldo, explicado sin vueltas.
+                </h1>
+<p class="font-body-base text-body-base text-text-secondary max-w-[40ch]">
+                    Ordena ingresos, gastos y movimientos para tomar mejores decisiones cada mes. Sin jerga financiera, sin complicaciones.
+                </p>
+<div class="flex flex-col sm:flex-row gap-md mt-md">
+<button class="bg-primary text-white font-body-bold text-body-bold px-lg py-md rounded-md flex items-center justify-center gap-sm hover:opacity-90 transition-opacity shadow-sm">
+                        Comenzar ahora
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="bg-soft-card border border-border-strong text-primary font-body-bold text-body-bold px-lg py-md rounded-md flex items-center justify-center gap-sm hover:bg-muted-surface transition-colors">
+                        Ver ejemplo
+                    </button>
+</div>
+</div>
+<!-- Product Preview Card (High Fidelity) -->
+<div class="z-10 w-full relative group">
+<!-- Outer glow for depth without heavy shadow -->
+<div class="absolute inset-0 bg-border-soft rounded-xl blur-lg opacity-40 translate-y-4 group-hover:translate-y-2 transition-transform duration-500"></div>
+<div class="bg-soft-card border border-border-soft rounded-xl p-lg md:p-xl tactile-shadow relative overflow-hidden tactile-glow">
+<!-- Top row: Month & Action -->
+<div class="flex justify-between items-center mb-xl">
+<h2 class="font-body-bold text-body-bold text-text-secondary flex items-center gap-xs">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+                            Junio 2026
+                        </h2>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<!-- Main Balance (The Anchor) -->
+<div class="mb-xl">
+<p class="font-body-base text-body-base text-text-muted mb-xs">Te queda para el mes</p>
+<p class="font-stat-lg text-stat-lg text-primary">$317.700</p>
+<p class="font-label-caps text-label-caps text-text-muted mt-sm tracking-wider">CONSIDERANDO GASTOS PENDIENTES</p>
+</div>
+<!-- Breakdown (Asymmetrical grid) -->
+<div class="grid grid-cols-2 gap-md border-t border-border-soft pt-lg mb-xl">
+<div>
+<p class="font-label-caps text-label-caps text-text-muted mb-xs">INGRESOS</p>
+<p class="font-body-bold text-body-bold text-secondary flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span>
+                                $850.000
+                            </p>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-text-muted mb-xs">GASTOS</p>
+<p class="font-body-bold text-body-bold text-muted-coral flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span>
+                                $412.300
+                            </p>
+</div>
+</div>
+<!-- Gentle Insight -->
+<div class="bg-mint-bg text-secondary rounded-lg p-md flex items-start gap-sm border border-secondary-fixed-dim">
+<span class="material-symbols-outlined mt-0.5 text-[20px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<p class="font-body-base text-body-base leading-tight">
+<strong class="font-body-bold block mb-1">Vas bien</strong>
+                            Tus gastos fijos principales ya están cubiertos.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Value Props -->
+<section class="bg-white border-y border-border-soft">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-24">
+<div class="text-center mb-16 max-w-2xl mx-auto">
+<h2 class="font-headline-md text-headline-md text-primary mb-md">Control financiero en tus propios términos</h2>
+<p class="font-body-base text-body-base text-text-secondary">Diseñado para darte paz mental sin la complejidad de las apps bancarias tradicionales.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<!-- Prop 1 -->
+<div class="bg-warm-canvas border border-border-soft rounded-xl p-xl flex flex-col items-start hover:border-border-strong transition-colors">
+<div class="bg-soft-card border border-border-soft rounded-md p-md mb-lg shadow-sm">
+<span class="material-symbols-outlined text-primary text-[28px]">tune</span>
+</div>
+<h3 class="font-body-bold text-body-bold text-primary mb-sm">Simple y Directo</h3>
+<p class="font-body-base text-body-base text-text-secondary">Entiende tu dinero al instante. Sin métricas confusas, solo lo que necesitas saber para el mes.</p>
+</div>
+<!-- Prop 2 -->
+<div class="bg-warm-canvas border border-border-soft rounded-xl p-xl flex flex-col items-start hover:border-border-strong transition-colors">
+<div class="bg-soft-card border border-border-soft rounded-md p-md mb-lg shadow-sm">
+<span class="material-symbols-outlined text-primary text-[28px]">lock</span>
+</div>
+<h3 class="font-body-bold text-body-bold text-primary mb-sm">Privacidad Total</h3>
+<p class="font-body-base text-body-base text-text-secondary">Tus datos son tuyos. No almacenamos credenciales bancarias ni nos conectamos a tus cuentas.</p>
+</div>
+<!-- Prop 3 -->
+<div class="bg-warm-canvas border border-border-soft rounded-xl p-xl flex flex-col items-start hover:border-border-strong transition-colors">
+<div class="bg-soft-card border border-border-soft rounded-md p-md mb-lg shadow-sm">
+<span class="material-symbols-outlined text-primary text-[28px]">edit_note</span>
+</div>
+<h3 class="font-body-bold text-body-bold text-primary mb-sm">MVP Manual</h3>
+<p class="font-body-base text-body-base text-text-secondary">El método ideal para empezar a organizarte. Ingresa tus movimientos manualmente para mayor consciencia.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (from JSON) -->
+<footer class="w-full py-xl border-t border-border-soft bg-muted-surface mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center gap-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Brand -->
+<div class="font-headline-md text-headline-md text-primary">
+                AppSueldo
+            </div>
+<!-- Links (Inicio is semantically active for the landing page) -->
+<nav class="flex flex-wrap items-center justify-center gap-lg">
+<a class="font-label-caps text-label-caps text-primary font-bold transition-colors duration-200 hover:text-secondary" href="#">
+                    Inicio
+                </a>
+<a class="font-label-caps text-label-caps text-text-muted transition-colors duration-200 hover:text-secondary" href="#">
+                    Movimientos
+                </a>
+<a class="font-label-caps text-label-caps text-text-muted transition-colors duration-200 hover:text-secondary" href="#">
+                    Categorías
+                </a>
+</nav>
+<!-- Copyright -->
+<p class="font-label-caps text-label-caps text-on-surface text-center md:text-right">
+                AppSueldo - Sin conexión bancaria por ahora
+            </p>
+</div>
+</footer>
+</body></html>

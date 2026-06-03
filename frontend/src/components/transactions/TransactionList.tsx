@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Transaction, recentTransactions } from "@/lib/mock-data";
 import { TransactionItem } from "@/components/transactions/TransactionItem";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -5,19 +6,31 @@ import { EmptyState } from "@/components/ui/EmptyState";
 type TransactionListProps = {
   title: string;
   transactions?: Transaction[];
+  description?: string;
+  showViewAll?: boolean;
 };
 
-export function TransactionList({ title, transactions = recentTransactions }: TransactionListProps) {
+export function TransactionList({
+  title,
+  transactions = recentTransactions,
+  description,
+  showViewAll = false,
+}: TransactionListProps) {
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="flex items-center justify-between gap-4">
+    <section className="rounded-2xl border border-border-soft bg-soft-card p-5 shadow-[var(--shadow-paper)] sm:p-7">
+      <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="font-semibold text-slate-950">{title}</h2>
-          <p className="mt-1 text-sm text-slate-500">Datos mock hasta conectar los endpoints.</p>
+          <h2 className="text-xl font-semibold text-primary">{title}</h2>
+          {description ? <p className="mt-2 text-base text-text-secondary">{description}</p> : null}
         </div>
+        {showViewAll ? (
+          <Link href="/transactions" className="text-sm font-semibold text-text-secondary transition hover:text-primary">
+            Ver todo
+          </Link>
+        ) : null}
       </div>
       {transactions.length > 0 ? (
-        <ul className="mt-2">
+        <ul className="mt-5">
           {transactions.map((transaction) => (
             <TransactionItem key={transaction.id} transaction={transaction} />
           ))}

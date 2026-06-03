@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AppSueldo - Agregar Movimiento</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        /* Custom scrollbar for form */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #E3D8C8; border-radius: 4px; }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#4e3100",
+                    "surface-variant": "#cee7ec",
+                    "muted-coral": "#C96B5A",
+                    "on-surface": "#071f23",
+                    "surface-tint": "#3b6566",
+                    "tertiary-fixed": "#ffddb4",
+                    "on-tertiary-fixed": "#291800",
+                    "text-secondary": "#526365",
+                    "on-primary": "#ffffff",
+                    "primary-fixed-dim": "#a3cfcf",
+                    "surface-container": "#d9f2f7",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#b2f2ba",
+                    "primary-fixed": "#beebeb",
+                    "secondary-container": "#b2f2ba",
+                    "on-secondary-container": "#367044",
+                    "on-surface-variant": "#404848",
+                    "on-primary-container": "#7da8a8",
+                    "error": "#ba1a1a",
+                    "border-soft": "#E3D8C8",
+                    "warm-canvas": "#F7F3EA",
+                    "tertiary": "#321d00",
+                    "soft-coral-bg": "#F6DCD6",
+                    "secondary-fixed-dim": "#97d5a0",
+                    "on-tertiary": "#ffffff",
+                    "outline": "#717978",
+                    "inverse-surface": "#1d3438",
+                    "on-secondary-fixed": "#00210b",
+                    "soft-card": "#FFFCF6",
+                    "on-tertiary-container": "#d29437",
+                    "error-container": "#ffdad6",
+                    "border-strong": "#C9BCA8",
+                    "surface-container-low": "#dff8fd",
+                    "background": "#eefcff",
+                    "inverse-primary": "#a3cfcf",
+                    "secondary": "#2f6a3e",
+                    "surface-container-highest": "#cee7ec",
+                    "tertiary-fixed-dim": "#fdba5a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "muted-surface": "#EFE7D8",
+                    "inverse-on-surface": "#dcf5fa",
+                    "primary": "#002627",
+                    "on-tertiary-fixed-variant": "#633f00",
+                    "primary-container": "#0f3d3e",
+                    "surface-dim": "#c6dee3",
+                    "surface-bright": "#eefcff",
+                    "mint-bg": "#E6F1E8",
+                    "on-primary-fixed": "#002020",
+                    "on-background": "#071f23",
+                    "text-muted": "#7A898B",
+                    "surface-container-high": "#d4edf2",
+                    "surface": "#eefcff",
+                    "on-primary-fixed-variant": "#224d4e",
+                    "outline-variant": "#c0c8c8",
+                    "on-error": "#ffffff",
+                    "amber-bg": "#F8E7C6",
+                    "on-secondary-fixed-variant": "#145128"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "gutter": "16px",
+                    "container-max": "1280px",
+                    "lg": "24px",
+                    "margin-mobile": "16px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "xs": "4px",
+                    "margin-desktop": "32px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "stat-lg-mobile": ["Geist"],
+                    "label-caps": ["Geist"],
+                    "body-base": ["Geist"],
+                    "headline-md": ["Geist"],
+                    "display-lg": ["Geist"],
+                    "body-bold": ["Geist"],
+                    "stat-lg": ["Geist"]
+            },
+            "fontSize": {
+                    "stat-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-base": ["16px", {"lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0", "fontWeight": "600"}],
+                    "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-bold": ["16px", {"lineHeight": "24px", "letterSpacing": "0", "fontWeight": "600"}],
+                    "stat-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-warm-canvas text-on-background font-body-base text-body-base antialiased min-h-screen flex selection:bg-mint-bg selection:text-primary">
+<!-- JSON Component: SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 border-r border-soft bg-soft-card py-xl px-md z-40">
+<!-- Header -->
+<div class="flex items-center gap-sm mb-xl px-sm">
+<div class="w-10 h-10 rounded-full bg-mint-bg flex items-center justify-center overflow-hidden border border-soft shrink-0">
+<span class="material-symbols-outlined text-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">AppSueldo</h1>
+<p class="font-body-base text-body-base text-text-secondary text-sm">Control y alivio</p>
+</div>
+</div>
+<!-- Main Navigation -->
+<ul class="flex flex-col gap-sm flex-1">
+<!-- Dashboard (Inactive) -->
+<li>
+<a class="flex items-center gap-md px-sm py-sm rounded-lg text-text-secondary font-body-base hover:bg-mint-bg hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+</li>
+<!-- Movimientos (Active - adding a transaction belongs here) -->
+<li>
+<a class="flex items-center gap-md px-sm py-sm rounded-lg text-primary font-bold border-l-4 border-secondary translate-x-1 transition-transform duration-200 bg-mint-bg/50" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span>Movimientos</span>
+</a>
+</li>
+<!-- Presupuesto (Inactive) -->
+<li>
+<a class="flex items-center gap-md px-sm py-sm rounded-lg text-text-secondary font-body-base hover:bg-mint-bg hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span>Presupuesto</span>
+</a>
+</li>
+<!-- Ahorros (Inactive) -->
+<li>
+<a class="flex items-center gap-md px-sm py-sm rounded-lg text-text-secondary font-body-base hover:bg-mint-bg hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="savings">savings</span>
+<span>Ahorros</span>
+</a>
+</li>
+</ul>
+<!-- CTA Button -->
+<button class="mt-lg mb-xl w-full py-sm bg-primary-container text-on-primary rounded-lg font-body-bold text-body-bold flex justify-center items-center gap-sm hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">add</span>
+            Agregar movimiento
+        </button>
+<!-- Footer Navigation -->
+<ul class="flex flex-col gap-sm pt-md border-t border-soft">
+<li>
+<a class="flex items-center gap-md px-sm py-sm rounded-lg text-text-secondary font-body-base hover:bg-mint-bg hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Configuración</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-sm py-sm rounded-lg text-text-secondary font-body-base hover:bg-mint-bg hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Cerrar sesión</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-64 p-margin-mobile md:p-margin-desktop min-h-screen flex items-start justify-center pt-12 md:pt-20">
+<!-- Dedicated Form Card / Modal feel -->
+<div class="w-full max-w-lg bg-soft-card rounded-xl border border-soft shadow-[0_4px_12px_rgba(15,61,62,0.05)] p-lg md:p-xl relative overflow-hidden">
+<!-- Close icon for task-focused context -->
+<button class="absolute top-lg right-lg text-text-muted hover:text-primary transition-colors p-1 rounded-full hover:bg-muted-surface">
+<span class="material-symbols-outlined">close</span>
+</button>
+<!-- Header -->
+<div class="mb-xl text-center md:text-left">
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Nuevo movimiento</h2>
+<p class="font-body-base text-body-base text-text-secondary mt-1">Registra tus ingresos o gastos del mes.</p>
+</div>
+<form class="space-y-xl">
+<!-- Toggle Type -->
+<div class="flex bg-muted-surface p-1 rounded-lg w-full relative">
+<div class="absolute inset-y-1 left-1 w-[calc(50%-4px)] bg-soft-card rounded-md shadow-sm border border-soft transition-transform duration-300" id="toggle-indicator"></div>
+<button class="relative z-10 flex-1 py-2 text-center font-body-bold text-body-bold text-primary transition-colors" onclick="document.getElementById('toggle-indicator').style.transform='translateX(0)'; this.classList.add('text-primary'); this.nextElementSibling.classList.remove('text-primary'); this.nextElementSibling.classList.add('text-text-secondary');" type="button">
+                        Gasto
+                    </button>
+<button class="relative z-10 flex-1 py-2 text-center font-body-bold text-body-bold text-text-secondary transition-colors" onclick="document.getElementById('toggle-indicator').style.transform='translateX(100%)'; this.classList.add('text-primary'); this.previousElementSibling.classList.remove('text-primary'); this.previousElementSibling.classList.add('text-text-secondary');" type="button">
+                        Ingreso
+                    </button>
+</div>
+<!-- Amount Input -->
+<div class="text-center py-md">
+<label class="block font-label-caps text-label-caps text-text-secondary mb-2 uppercase tracking-wider">Monto</label>
+<div class="flex items-center justify-center gap-xs">
+<span class="font-display-lg text-display-lg text-text-muted">$</span>
+<input class="w-full max-w-[200px] bg-transparent border-none p-0 focus:ring-0 font-display-lg text-display-lg text-primary text-left placeholder:text-outline-variant outline-none hide-arrows" placeholder="0" style="-moz-appearance: textfield;" type="number"/>
+</div>
+</div>
+<div class="space-y-lg">
+<!-- Description -->
+<div>
+<label class="block font-body-bold text-body-bold text-primary mb-2">Descripción</label>
+<input class="w-full bg-soft-card border border-soft rounded-lg px-md py-3 text-primary placeholder:text-text-muted focus:border-secondary focus:ring-2 focus:ring-mint-bg outline-none transition-shadow font-body-base text-body-base" placeholder="Ej: Supermercado, Sueldo..." type="text"/>
+</div>
+<!-- Category Pills -->
+<div>
+<label class="block font-body-bold text-body-bold text-primary mb-2">Categoría</label>
+<div class="flex flex-wrap gap-sm">
+<button class="px-md py-2 rounded-full border border-soft bg-soft-card text-text-secondary hover:border-strong hover:bg-muted-surface transition-colors flex items-center gap-xs text-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">restaurant</span>
+                                Alimentación
+                            </button>
+<button class="px-md py-2 rounded-full border border-soft bg-soft-card text-text-secondary hover:border-strong hover:bg-muted-surface transition-colors flex items-center gap-xs text-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">home</span>
+                                Vivienda
+                            </button>
+<button class="px-md py-2 rounded-full border border-secondary bg-mint-bg text-secondary font-bold transition-colors flex items-center gap-xs text-sm shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">directions_car</span>
+                                Movilidad
+                            </button>
+<button class="px-md py-2 rounded-full border border-soft bg-soft-card text-text-secondary hover:border-strong hover:bg-muted-surface transition-colors flex items-center gap-xs text-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">movie</span>
+                                Ocio
+                            </button>
+</div>
+</div>
+<!-- Date & Note Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div>
+<label class="block font-body-bold text-body-bold text-primary mb-2">Fecha</label>
+<div class="relative">
+<input class="w-full bg-soft-card border border-soft rounded-lg pl-md pr-10 py-3 text-primary focus:border-secondary focus:ring-2 focus:ring-mint-bg outline-none transition-shadow font-body-base text-body-base appearance-none" type="date" value="2023-10-24"/>
+</div>
+</div>
+<div>
+<label class="block font-body-bold text-body-bold text-primary mb-2">Nota <span class="text-text-muted font-normal text-sm">(Opcional)</span></label>
+<input class="w-full bg-soft-card border border-soft rounded-lg px-md py-3 text-primary placeholder:text-text-muted focus:border-secondary focus:ring-2 focus:ring-mint-bg outline-none transition-shadow font-body-base text-body-base" placeholder="Detalles extra..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center justify-end gap-md pt-lg border-t border-soft mt-xl">
+<button class="px-lg py-3 rounded-lg font-body-bold text-body-bold text-text-secondary bg-soft-card border border-soft hover:bg-muted-surface transition-colors" type="button">
+                        Cancelar
+                    </button>
+<button class="px-lg py-3 rounded-lg font-body-bold text-body-bold text-on-primary bg-primary-container hover:opacity-90 transition-opacity shadow-sm" type="submit">
+                        Guardar movimiento
+                    </button>
+</div>
+</form>
+</div>
+</main>
+<style>
+        /* CSS to hide number input arrows */
+        .hide-arrows::-webkit-outer-spin-button,
+        .hide-arrows::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</body></html>

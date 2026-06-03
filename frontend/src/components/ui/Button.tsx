@@ -9,27 +9,29 @@ import {
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   asChild?: false;
-  variant?: "primary" | "secondary" | "ghost";
-  size?: "sm" | "md";
+  variant?: "primary" | "secondary" | "ghost" | "danger";
+  size?: "sm" | "md" | "lg";
 };
 
 type ChildButtonProps = {
   asChild: true;
   children: ReactNode;
   className?: string;
-  variant?: "primary" | "secondary" | "ghost";
-  size?: "sm" | "md";
+  variant?: "primary" | "secondary" | "ghost" | "danger";
+  size?: "sm" | "md" | "lg";
 };
 
 const variants = {
-  primary: "bg-emerald-600 text-white hover:bg-emerald-700 focus-visible:outline-emerald-600",
-  secondary: "border border-slate-200 bg-white text-slate-800 hover:bg-slate-50 focus-visible:outline-slate-500",
-  ghost: "text-slate-700 hover:bg-slate-100 focus-visible:outline-slate-500",
+  primary: "bg-primary text-white shadow-[var(--shadow-paper)] hover:bg-primary-container focus-visible:outline-primary",
+  secondary: "border border-border-soft bg-soft-card text-primary hover:border-border-strong hover:bg-white focus-visible:outline-border-strong",
+  ghost: "text-text-secondary hover:bg-muted-surface/70 hover:text-primary focus-visible:outline-border-strong",
+  danger: "bg-danger text-white hover:bg-red-800 focus-visible:outline-danger",
 };
 
 const sizes = {
   sm: "h-9 px-3 text-sm",
   md: "h-11 px-4 text-sm",
+  lg: "h-14 px-6 text-base",
 };
 
 function classNames(...values: Array<string | undefined>) {
@@ -40,7 +42,7 @@ export function Button(props: ButtonProps | ChildButtonProps) {
   const variant = props.variant ?? "primary";
   const size = props.size ?? "md";
   const className = classNames(
-    "inline-flex items-center gap-2 rounded-lg font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60",
+    "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60",
     variants[variant],
     sizes[size],
     props.className,
