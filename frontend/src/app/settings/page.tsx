@@ -1,13 +1,13 @@
 import {
   ChevronDown,
   Download,
-  LogOut,
   Pencil,
   ShieldCheck,
   SlidersHorizontal,
   UserRound,
 } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
+import { LogoutButton } from "@/components/auth/LogoutButton";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 
@@ -46,10 +46,9 @@ export default function SettingsPage() {
               </div>
               <Badge tone="income">Conectado</Badge>
             </div>
-            <button className="mt-8 flex items-center gap-3 text-lg font-semibold text-danger">
-              <LogOut size={22} />
-              Cerrar sesión
-            </button>
+            <div className="mt-8">
+              <LogoutButton variant="button" />
+            </div>
           </section>
 
           <section className="rounded-2xl border border-border-soft bg-soft-card p-6 shadow-[var(--shadow-paper)] sm:p-8">

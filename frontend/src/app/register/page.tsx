@@ -11,23 +11,31 @@ import { useAuth } from "@/hooks/useAuth";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { register } = useAuth();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
+
+    if (password !== confirmPassword) {
+      setError("Las contraseñas no coinciden.");
+      return;
+    }
+
     setIsSubmitting(true);
     try {
-      await login(email, password);
+      await register(name, email, password);
       router.replace("/dashboard");
     } catch (error) {
-      setError(error instanceof Error ? error.message : "No pudimos iniciar sesión.");
+      setError(error instanceof Error ? error.message : "No pudimos crear tu cuenta.");
     } finally {
       setIsSubmitting(false);
     }
@@ -43,9 +51,9 @@ export default function LoginPage() {
             </span>
             AppSueldo
           </Link>
-          <h1 className="mt-10 text-4xl font-semibold leading-tight tracking-normal">Entra a tu espacio financiero</h1>
+          <h1 className="mt-10 text-4xl font-semibold leading-tight tracking-normal">Crea tu cuenta</h1>
           <p className="mt-4 text-lg leading-8 text-text-secondary">
-            Continúa con Google o usa tu cuenta propia de AppSueldo.
+            Parte con una cuenta local o continúa con Google. La sesión se maneja de forma segura desde el backend.
           </p>
 
           <Button asChild size="lg" className="mt-8 w-full">
@@ -59,11 +67,18 @@ export default function LoginPage() {
 
           <div className="my-7 flex items-center gap-3 text-sm text-text-muted">
             <span className="h-px flex-1 bg-border-soft" />
-            o entra con email
+            o crea una cuenta
             <span className="h-px flex-1 bg-border-soft" />
           </div>
 
           <form onSubmit={handleSubmit} className="grid gap-4">
+            <Input
+              label="Nombre"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              placeholder="David Kripper"
+              required
+            />
             <Input
               label="Email"
               type="email"
@@ -77,7 +92,17 @@ export default function LoginPage() {
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              placeholder="Tu contraseña"
+              placeholder="Mínimo 8 caracteres, letras y números"
+              minLength={8}
+              required
+            />
+            <Input
+              label="Confirmar contraseña"
+              type="password"
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
+              placeholder="Repite tu contraseña"
+              minLength={8}
               required
             />
             {error ? (
@@ -86,14 +111,14 @@ export default function LoginPage() {
               </p>
             ) : null}
             <Button type="submit" size="lg" disabled={isSubmitting}>
-              {isSubmitting ? "Entrando..." : "Iniciar sesión"}
+              {isSubmitting ? "Creando cuenta..." : "Crear cuenta"}
             </Button>
           </form>
 
           <p className="mt-5 text-center text-sm text-text-secondary">
-            ¿No tienes cuenta?{" "}
-            <Link href="/register" className="font-semibold text-primary underline underline-offset-4">
-              Crear cuenta
+            ¿Ya tienes cuenta?{" "}
+            <Link href="/login" className="font-semibold text-primary underline underline-offset-4">
+              Iniciar sesión
             </Link>
           </p>
 

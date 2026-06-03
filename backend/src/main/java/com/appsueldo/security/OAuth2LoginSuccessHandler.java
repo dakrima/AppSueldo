@@ -1,6 +1,5 @@
 package com.appsueldo.security;
 
-import com.appsueldo.entity.RefreshToken;
 import com.appsueldo.entity.User;
 import com.appsueldo.service.AuthService;
 import com.appsueldo.service.RefreshTokenService;
@@ -21,17 +20,20 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final AuthService authService;
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
+    private final AuthCookieService authCookieService;
     private final String frontendUrl;
 
     public OAuth2LoginSuccessHandler(
         AuthService authService,
         JwtService jwtService,
         RefreshTokenService refreshTokenService,
+        AuthCookieService authCookieService,
         @Value("${app.frontend-url}") String frontendUrl
     ) {
         this.authService = authService;
         this.jwtService = jwtService;
         this.refreshTokenService = refreshTokenService;
+        this.authCookieService = authCookieService;
         this.frontendUrl = frontendUrl;
     }
 
@@ -44,12 +46,11 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
         User user = authService.upsertGoogleUser(oauth2User.getAttributes());
         String accessToken = jwtService.createAccessToken(user);
-        RefreshToken refreshToken = refreshTokenService.create(user);
+        RefreshTokenService.CreatedRefreshToken refreshToken = refreshTokenService.create(user);
+        authCookieService.addAuthCookies(response, accessToken, refreshToken.rawToken());
 
         String redirectUrl = UriComponentsBuilder.fromUriString(frontendUrl)
             .path("/dashboard")
-            .queryParam("accessToken", accessToken)
-            .queryParam("refreshToken", refreshToken.getToken())
             .build()
             .toUriString();
 

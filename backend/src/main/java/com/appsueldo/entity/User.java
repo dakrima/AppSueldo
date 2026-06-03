@@ -15,7 +15,7 @@ public class User extends BaseTimestamps {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String googleId;
 
     @Column(nullable = false, unique = true)
@@ -26,6 +26,12 @@ public class User extends BaseTimestamps {
 
     @Column(columnDefinition = "text")
     private String pictureUrl;
+
+    @Column(columnDefinition = "text")
+    private String passwordHash;
+
+    @Column(nullable = false)
+    private boolean emailVerified;
 
     public Long getId() {
         return id;
@@ -61,5 +67,21 @@ public class User extends BaseTimestamps {
 
     public void setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
     }
 }

@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FolderKanban, Home, LogOut, Plus, Settings, WalletCards } from "lucide-react";
+import { FolderKanban, Home, Plus, Settings, WalletCards } from "lucide-react";
+import { LogoutButton } from "@/components/auth/LogoutButton";
 import { Button } from "@/components/ui/Button";
 
 const navItems = [
@@ -53,10 +54,7 @@ export function Sidebar() {
         </Button>
 
         <div className="mt-8 border-t border-border-soft pt-6">
-          <button className="flex h-11 items-center gap-3 rounded-lg px-2 text-base font-medium text-text-secondary transition hover:text-primary">
-            <LogOut size={21} />
-            Cerrar sesión
-          </button>
+          <LogoutButton />
         </div>
       </div>
     </aside>

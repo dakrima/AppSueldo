@@ -1,6 +1,6 @@
 package com.appsueldo.controller;
 
-import com.appsueldo.dto.UserProfileDto;
+import com.appsueldo.dto.MeResponse;
 import com.appsueldo.service.CurrentUserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public UserProfileDto me() {
-        return UserProfileDto.from(currentUserService.currentUser());
+    public MeResponse me() {
+        return MeResponse.from(currentUserService.currentUser());
     }
 }
