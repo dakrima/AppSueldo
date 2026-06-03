@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: appsueldo-backend
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/appsueldo}
+    username: ${SPRING_DATASOURCE_USERNAME:appsueldo}
+    password: ${SPRING_DATASOURCE_PASSWORD:appsueldo}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID:dev-google-client-id}
+            client-secret: ${GOOGLE_CLIENT_SECRET:dev-google-client-secret}
+            scope:
+              - openid
+              - email
+              - profile
+        provider:
+          google:
+            user-name-attribute: sub
+
+app:
+  frontend-url: ${FRONTEND_URL:http://localhost:3000}
+  jwt:
+    secret: ${JWT_SECRET:change-this-secret-to-at-least-32-characters}
+    expiration: ${JWT_EXPIRATION:900000}
+  refresh-token:
+    expiration: ${REFRESH_TOKEN_EXPIRATION:2592000000}
