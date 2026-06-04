@@ -3,15 +3,21 @@ package com.appsueldo.repository;
 import com.appsueldo.entity.Transaction;
 import com.appsueldo.entity.TransactionType;
 import com.appsueldo.entity.User;
+import com.appsueldo.entity.BankAccount;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     List<Transaction> findByUserOrderByTransactionDateDescIdDesc(User user);
+
+    List<Transaction> findByBankAccountOrderByTransactionDateDescIdDesc(BankAccount bankAccount);
+
+    Optional<Transaction> findByIdAndUser(Long id, User user);
 
     @Query("""
         select coalesce(sum(t.amount), 0)
@@ -26,4 +32,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         @Param("from") LocalDate from,
         @Param("to") LocalDate to
     );
+
+    long countByUserAndTransactionDateBetween(User user, LocalDate from, LocalDate to);
 }

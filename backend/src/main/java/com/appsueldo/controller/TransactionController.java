@@ -1,11 +1,14 @@
 package com.appsueldo.controller;
 
+import com.appsueldo.dto.AssignTransactionCategoryRequest;
 import com.appsueldo.dto.TransactionRequest;
 import com.appsueldo.dto.TransactionResponse;
 import com.appsueldo.service.TransactionService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,5 +32,13 @@ public class TransactionController {
     @PostMapping
     public TransactionResponse create(@Valid @RequestBody TransactionRequest request) {
         return transactionService.create(request);
+    }
+
+    @PatchMapping("/{id}/category")
+    public TransactionResponse assignCategory(
+        @PathVariable Long id,
+        @RequestBody AssignTransactionCategoryRequest request
+    ) {
+        return transactionService.assignCategory(id, request);
     }
 }

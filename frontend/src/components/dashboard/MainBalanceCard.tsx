@@ -1,7 +1,9 @@
 import { CalendarDays, MoreHorizontal } from "lucide-react";
-import { mainBalance } from "@/lib/mock-data";
+import { getMainBalanceData } from "@/features/dashboard/data";
 
 export function MainBalanceCard() {
+  const mainBalance = getMainBalanceData();
+
   return (
     <section className="rounded-2xl border border-border-soft bg-soft-card p-6 shadow-[var(--shadow-paper)] sm:p-8 lg:p-10">
       <div className="flex items-center justify-between gap-4">

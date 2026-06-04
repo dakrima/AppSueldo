@@ -4,11 +4,13 @@ import { AppShell } from "@/components/layout/AppShell";
 import { PeriodSummaryCard } from "@/components/transactions/PeriodSummaryCard";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { Button } from "@/components/ui/Button";
-import { transactions } from "@/lib/mock-data";
+import { getTransactionsData } from "@/features/transactions/data";
 
 const filters = ["Tipo: Todos", "Categoría: Todas", "Mes: Actual"];
 
 export default function TransactionsPage() {
+  const transactions = getTransactionsData();
+
   return (
     <AppShell
       title="Movimientos"

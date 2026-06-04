@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import type { Tone } from "@/lib/mock-data";
+import type { Tone } from "@/types/presentation";
 
 type SummaryCardProps = {
   label: string;

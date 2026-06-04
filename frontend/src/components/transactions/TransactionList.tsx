@@ -1,18 +1,19 @@
 import Link from "next/link";
-import { Transaction, recentTransactions } from "@/lib/mock-data";
 import { TransactionItem } from "@/components/transactions/TransactionItem";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { getRecentTransactionsData } from "@/features/transactions/data";
+import type { TransactionListItem } from "@/types/presentation";
 
 type TransactionListProps = {
   title: string;
-  transactions?: Transaction[];
+  transactions?: TransactionListItem[];
   description?: string;
   showViewAll?: boolean;
 };
 
 export function TransactionList({
   title,
-  transactions = recentTransactions,
+  transactions = getRecentTransactionsData(),
   description,
   showViewAll = false,
 }: TransactionListProps) {

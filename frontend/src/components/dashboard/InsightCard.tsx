@@ -1,5 +1,5 @@
 import { CircleCheck, Lightbulb } from "lucide-react";
-import type { Tone } from "@/lib/mock-data";
+import type { Tone } from "@/types/presentation";
 
 type InsightCardProps = {
   title?: string;

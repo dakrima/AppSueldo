@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
-import type { Category } from "@/lib/mock-data";
+import type { CategoryCardModel } from "@/types/presentation";
 
 const toneClasses = {
   income: {
@@ -35,7 +35,7 @@ const toneClasses = {
   },
 };
 
-export function CategoryCard({ category }: { category: Category }) {
+export function CategoryCard({ category }: { category: CategoryCardModel }) {
   const Icon = category.icon;
   const tone = toneClasses[category.tone];
 

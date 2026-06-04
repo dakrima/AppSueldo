@@ -1,4 +1,4 @@
-import { Transaction } from "@/lib/mock-data";
+import type { TransactionListItem } from "@/types/presentation";
 
 const toneClasses = {
   income: {
@@ -23,7 +23,7 @@ const toneClasses = {
   },
 };
 
-export function TransactionItem({ transaction }: { transaction: Transaction }) {
+export function TransactionItem({ transaction }: { transaction: TransactionListItem }) {
   const Icon = transaction.icon;
   const tone = toneClasses[transaction.tone];
 

@@ -10,9 +10,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Locale;
+import java.util.UUID;
 
 @Entity
 @Table(name = "transactions")
@@ -30,8 +33,15 @@ public class Transaction extends BaseTimestamps {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "bank_account_id", nullable = false)
+    private BankAccount bankAccount;
+
     @Column(nullable = false, precision = 14, scale = 2)
     private BigDecimal amount;
+
+    @Column(nullable = false, length = 3)
+    private String currency = BankAccount.DEFAULT_CURRENCY;
 
     @Column(nullable = false)
     private String description;
@@ -49,6 +59,21 @@ public class Transaction extends BaseTimestamps {
 
     @Column(columnDefinition = "text")
     private String notes;
+
+    @Column(length = 255)
+    private String externalId;
+
+    private UUID transferGroupId;
+
+    @PrePersist
+    void applyTransactionDefaults() {
+        if (currency == null || currency.isBlank()) {
+            currency = BankAccount.DEFAULT_CURRENCY;
+        }
+        if (source == null) {
+            source = TransactionSource.MANUAL;
+        }
+    }
 
     public Long getId() {
         return id;
@@ -70,12 +95,35 @@ public class Transaction extends BaseTimestamps {
         this.category = category;
     }
 
+    public BankAccount getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
+    }
+
     public BigDecimal getAmount() {
         return amount;
     }
 
     public void setAmount(BigDecimal amount) {
+        if (amount != null && amount.signum() <= 0) {
+            throw new IllegalArgumentException("Transaction amount must be positive.");
+        }
         this.amount = amount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        if (currency == null || currency.isBlank()) {
+            this.currency = BankAccount.DEFAULT_CURRENCY;
+            return;
+        }
+        this.currency = currency.trim().toUpperCase(Locale.ROOT);
     }
 
     public String getDescription() {
@@ -116,5 +164,21 @@ public class Transaction extends BaseTimestamps {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
+
+    public UUID getTransferGroupId() {
+        return transferGroupId;
+    }
+
+    public void setTransferGroupId(UUID transferGroupId) {
+        this.transferGroupId = transferGroupId;
     }
 }

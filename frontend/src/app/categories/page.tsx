@@ -2,9 +2,11 @@ import { Plus } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { CategoryCard, CreateCategoryCard } from "@/components/categories/CategoryCard";
 import { Button } from "@/components/ui/Button";
-import { categories } from "@/lib/mock-data";
+import { getCategoriesData } from "@/features/categories/data";
 
 export default function CategoriesPage() {
+  const categories = getCategoriesData();
+
   return (
     <AppShell
       title="Categorías"

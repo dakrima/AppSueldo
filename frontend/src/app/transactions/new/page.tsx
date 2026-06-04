@@ -6,7 +6,7 @@ import { useState } from "react";
 import { AppShell } from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { newTransactionCategories } from "@/lib/mock-data";
+import { getNewTransactionCategoryOptions } from "@/features/transactions/data";
 
 const transactionTypes = ["Gasto", "Ingreso", "Transferencia"];
 
@@ -14,6 +14,7 @@ export default function NewTransactionPage() {
   const [type, setType] = useState("Gasto");
   const [category, setCategory] = useState("Movilidad");
   const [saved, setSaved] = useState(false);
+  const newTransactionCategories = getNewTransactionCategoryOptions();
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

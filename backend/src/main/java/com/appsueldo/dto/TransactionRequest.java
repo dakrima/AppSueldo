@@ -10,8 +10,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record TransactionRequest(
+    Long bankAccountId,
     Long categoryId,
     @NotNull @Positive BigDecimal amount,
+    @Size(min = 3, max = 3) String currency,
     @NotBlank @Size(max = 255) String description,
     @NotNull LocalDate transactionDate,
     @NotNull TransactionType type,

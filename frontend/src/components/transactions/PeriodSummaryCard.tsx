@@ -1,7 +1,9 @@
 import { ArrowDown, ArrowUp } from "lucide-react";
-import { periodSummary } from "@/lib/mock-data";
+import { getPeriodSummaryData } from "@/features/transactions/data";
 
 export function PeriodSummaryCard() {
+  const periodSummary = getPeriodSummaryData();
+
   return (
     <aside className="rounded-2xl border border-border-soft bg-soft-card p-6 shadow-[var(--shadow-paper)]">
       <h2 className="text-2xl font-semibold text-primary">Resumen del periodo</h2>

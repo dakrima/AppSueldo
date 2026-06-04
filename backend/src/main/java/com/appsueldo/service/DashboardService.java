@@ -30,8 +30,16 @@ public class DashboardService {
 
         BigDecimal income = transactionRepository.sumByUserAndTypeBetweenDates(user, TransactionType.INCOME, from, to);
         BigDecimal expenses = transactionRepository.sumByUserAndTypeBetweenDates(user, TransactionType.EXPENSE, from, to);
-        BigDecimal estimatedSavings = income.subtract(expenses);
+        BigDecimal monthlyBalance = income.subtract(expenses);
+        long transactionCount = transactionRepository.countByUserAndTransactionDateBetween(user, from, to);
 
-        return new MonthlySummaryDto(income, expenses, estimatedSavings, estimatedSavings);
+        return new MonthlySummaryDto(
+            income,
+            expenses,
+            monthlyBalance,
+            monthlyBalance,
+            monthlyBalance,
+            transactionCount
+        );
     }
 }

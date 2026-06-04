@@ -1,4 +1,4 @@
-import { categoryBreakdown } from "@/lib/mock-data";
+import { getCategoryBreakdownData } from "@/features/dashboard/data";
 
 const barClasses = {
   income: "bg-secondary",
@@ -9,6 +9,8 @@ const barClasses = {
 };
 
 export function CategoryBreakdown() {
+  const categoryBreakdown = getCategoryBreakdownData();
+
   return (
     <section className="rounded-2xl border border-border-soft bg-soft-card p-6 shadow-[var(--shadow-paper)]">
       <h2 className="text-xl font-semibold text-primary">Gasto por categoría</h2>

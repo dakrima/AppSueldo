@@ -1,9 +1,9 @@
 "use client";
 
 import { createContext, ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import { ApiError } from "@/lib/api-client";
-import * as authApi from "@/lib/auth-api";
-import type { AuthUser } from "@/lib/auth-api";
+import { ApiError } from "@/lib/api/client";
+import * as authApi from "@/features/auth/api";
+import type { AuthUser } from "@/features/auth/api";
 
 type AuthStatus = "loading" | "authenticated" | "unauthenticated";
 

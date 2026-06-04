@@ -7,9 +7,17 @@ import { MainBalanceCard } from "@/components/dashboard/MainBalanceCard";
 import { SummaryCard } from "@/components/dashboard/SummaryCard";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { Button } from "@/components/ui/Button";
-import { insights, monthlySummary, recentTransactions } from "@/lib/mock-data";
+import {
+  getDashboardInsights,
+  getDashboardSummaryCards,
+} from "@/features/dashboard/data";
+import { getRecentTransactionsData } from "@/features/transactions/data";
 
 export default function DashboardPage() {
+  const insights = getDashboardInsights();
+  const summaryCards = getDashboardSummaryCards();
+  const recentTransactions = getRecentTransactionsData();
+
   return (
     <AppShell
       title="Hola, David"
@@ -27,7 +35,7 @@ export default function DashboardPage() {
         <div className="grid gap-6">
           <MainBalanceCard />
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {monthlySummary.map((item) => (
+            {summaryCards.map((item) => (
               <SummaryCard key={item.label} {...item} />
             ))}
           </div>

@@ -6,6 +6,8 @@ public record MonthlySummaryDto(
     BigDecimal monthlyIncome,
     BigDecimal monthlyExpenses,
     BigDecimal estimatedSavings,
-    BigDecimal availableBalance
+    BigDecimal availableBalance,
+    BigDecimal monthlyBalance,
+    long transactionCount
 ) {
 }

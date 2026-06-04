@@ -8,7 +8,7 @@ import { PublicOnlyRoute } from "@/components/auth/PublicOnlyRoute";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { useAuth } from "@/hooks/useAuth";
-import { API_URL } from "@/lib/api-client";
+import { API_URL } from "@/lib/api/client";
 
 export default function RegisterPage() {
   const router = useRouter();
