@@ -48,6 +48,16 @@ source .env
 set +a
 mvn spring-boot:run
 ```
+Una vez que ya se levantó el backend por primera vez, solamente hacer:
+
+```bash
+cd backend
+set -a
+source .env
+set +a
+mvn spring-boot:run
+```
+
 
 Variables esperadas:
 
