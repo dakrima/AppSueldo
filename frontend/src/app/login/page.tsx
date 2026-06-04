@@ -8,8 +8,7 @@ import { PublicOnlyRoute } from "@/components/auth/PublicOnlyRoute";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { useAuth } from "@/hooks/useAuth";
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
+import { API_URL } from "@/lib/api-client";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -49,7 +48,7 @@ export default function LoginPage() {
           </p>
 
           <Button asChild size="lg" className="mt-8 w-full">
-            <a href={`${apiUrl}/api/auth/google`}>
+            <a href={`${API_URL}/api/auth/google`}>
               <span className="flex size-6 items-center justify-center rounded bg-white text-sm font-bold text-[#4285f4]">
                 G
               </span>

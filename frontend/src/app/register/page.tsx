@@ -8,8 +8,7 @@ import { PublicOnlyRoute } from "@/components/auth/PublicOnlyRoute";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { useAuth } from "@/hooks/useAuth";
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
+import { API_URL } from "@/lib/api-client";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -27,6 +26,11 @@ export default function RegisterPage() {
 
     if (password !== confirmPassword) {
       setError("Las contraseñas no coinciden.");
+      return;
+    }
+
+    if (!/[A-Za-z]/.test(password) || !/\d/.test(password)) {
+      setError("La contrasena debe incluir letras y numeros.");
       return;
     }
 
@@ -57,7 +61,7 @@ export default function RegisterPage() {
           </p>
 
           <Button asChild size="lg" className="mt-8 w-full">
-            <a href={`${apiUrl}/api/auth/google`}>
+            <a href={`${API_URL}/api/auth/google`}>
               <span className="flex size-6 items-center justify-center rounded bg-white text-sm font-bold text-[#4285f4]">
                 G
               </span>

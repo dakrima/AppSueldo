@@ -105,6 +105,13 @@ cp .env.example .env.local
 npm run dev
 ```
 
+Cuando ya se ejecutó el código de arriba por primera vez, luego solamente ejecutar lo siguiente:
+
+```bash
+cd frontend
+npm run dev
+```
+
 Variable esperada:
 
 ```env
