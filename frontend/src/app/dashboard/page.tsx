@@ -20,8 +20,10 @@ export default function DashboardPage() {
 
   return (
     <AppShell
+      eyebrow="Dashboard"
       title="Hola, David"
-      description="Así va tu mes de junio"
+      description="Resumen de junio con movimientos ingresados manualmente."
+      headerVariant="compact"
       action={
         <Button asChild>
           <Link href="/transactions/new">
@@ -43,7 +45,7 @@ export default function DashboardPage() {
         </div>
         <div className="grid content-start gap-6">
           <CategoryBreakdown />
-          <InsightCard description={insights[1].description} tone={insights[1].tone} />
+          <InsightCard title={insights[1].title} description={insights[1].description} tone={insights[1].tone} />
         </div>
       </div>
     </AppShell>

@@ -13,7 +13,12 @@ import { Button } from "@/components/ui/Button";
 
 export default function SettingsPage() {
   return (
-    <AppShell title="Ajustes" description="Configura tus preferencias y administra tu cuenta.">
+    <AppShell
+      eyebrow="Cuenta"
+      title="Ajustes"
+      description="Revisa tu cuenta, privacidad y preferencias preparadas para el MVP."
+      headerVariant="compact"
+    >
       <div className="grid gap-6 xl:grid-cols-[1fr_380px]">
         <div className="grid gap-6">
           <section className="rounded-2xl border border-border-soft bg-soft-card p-6 shadow-[var(--shadow-paper)] sm:p-8">
@@ -31,7 +36,7 @@ export default function SettingsPage() {
                   <p className="text-lg text-text-secondary">david@ejemplo.com</p>
                 </div>
               </div>
-              <Button variant="secondary">
+              <Button variant="secondary" disabled title="Editar perfil estará disponible en una próxima etapa">
                 <Pencil size={18} />
                 Editar perfil
               </Button>
@@ -65,9 +70,16 @@ export default function SettingsPage() {
                   <p className="text-lg font-semibold">{label}</p>
                   <p className="mt-1 text-text-secondary">{helper}</p>
                 </div>
-                <button className="flex h-12 min-w-48 items-center justify-between rounded-lg border border-border-soft bg-soft-card px-4 text-base shadow-[var(--shadow-paper)]">
-                  {value}
-                  <ChevronDown size={19} />
+                <button
+                  className="flex h-12 min-w-48 cursor-not-allowed items-center justify-between rounded-lg border border-border-soft bg-soft-card px-4 text-base opacity-75 shadow-[var(--shadow-paper)]"
+                  disabled
+                  title={`${label} preparado para una próxima etapa`}
+                >
+                  <span className="grid text-left">
+                    <span>{value}</span>
+                    <span className="text-xs font-semibold text-text-muted">Preparado</span>
+                  </span>
+                  <ChevronDown className="text-text-muted" size={19} />
                 </button>
               </div>
             ))}
@@ -92,10 +104,18 @@ export default function SettingsPage() {
               <p className="mt-3 text-base leading-7 text-text-secondary">
                 Descarga una copia de todos tus movimientos para tu propio respaldo o análisis en hojas de cálculo.
               </p>
-              <Button className="mt-6 w-full" size="lg">
+              <Button
+                className="mt-6 w-full"
+                size="lg"
+                disabled
+                title="La exportación CSV se activará en una próxima etapa"
+              >
                 <Download size={22} />
                 Descargar movimientos (CSV)
               </Button>
+              <div className="mt-3">
+                <Badge tone="amber">Próximamente</Badge>
+              </div>
             </div>
           </section>
 
@@ -104,7 +124,13 @@ export default function SettingsPage() {
             <p className="mt-4 leading-7 text-primary">
               Eliminar tu cuenta borrará permanentemente todos tus registros de AppSueldo. Esta acción no se puede deshacer.
             </p>
-            <button className="mt-5 font-semibold underline underline-offset-4">Eliminar mi cuenta</button>
+            <button
+              className="mt-5 cursor-not-allowed font-semibold underline underline-offset-4 opacity-70"
+              disabled
+              title="Eliminar cuenta requiere confirmación y se implementará más adelante"
+            >
+              Eliminar mi cuenta
+            </button>
           </section>
         </aside>
       </div>

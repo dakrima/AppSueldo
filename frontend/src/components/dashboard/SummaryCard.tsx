@@ -20,7 +20,7 @@ const toneClasses = {
 const valueClasses = {
   income: "text-secondary",
   expense: "text-muted-coral",
-  transfer: "text-primary",
+  transfer: "text-primary-container",
   amber: "text-text-secondary",
   neutral: "text-primary",
 };

@@ -1,4 +1,5 @@
 import {
+  ArrowRightLeft,
   Banknote,
   Bus,
   CalendarClock,
@@ -128,8 +129,8 @@ export const insights: InsightViewModel[] = [
 
 export const periodSummary: PeriodSummaryViewModel = {
   income: "+$850.000",
-  expenses: "-$138.800",
-  note: "Incluye gastos y transferencias salientes.",
+  expenses: "-$58.800",
+  note: "Transferencias registradas aparte: $80.000.",
 };
 
 export const newTransactionCategoryOptions: NewTransactionCategoryOption[] = [
@@ -151,6 +152,7 @@ function toTransactionListItem(transaction: Transaction): TransactionListItem {
     category: transaction.categoryName ?? "Sin categoría",
     amount: signedAmount(transaction),
     date: formatShortDate(transaction.transactionDate),
+    typeLabel: transactionTypeLabel(transaction),
     type: transaction.type,
     source: transaction.source,
     currency: transaction.currency,
@@ -186,7 +188,20 @@ function signedAmount(transaction: Transaction) {
   if (transaction.type === "INCOME") {
     return `+${formatClp(transaction.amount)}`;
   }
+  if (transaction.type === "TRANSFER") {
+    return formatClp(transaction.amount);
+  }
   return `-${formatClp(transaction.amount)}`;
+}
+
+function transactionTypeLabel(transaction: Transaction) {
+  if (transaction.type === "INCOME") {
+    return "Ingreso";
+  }
+  if (transaction.type === "TRANSFER") {
+    return "Transferencia";
+  }
+  return "Gasto";
 }
 
 function formatClp(value: number) {
@@ -207,14 +222,14 @@ function transactionIcon(transaction: Transaction, categoryId?: number) {
   if (description.includes("café")) {
     return Coffee;
   }
+  if (transaction.type === "TRANSFER") {
+    return ArrowRightLeft;
+  }
   if (categoryId) {
     return categoryIcons[categoryId];
   }
   if (transaction.type === "INCOME") {
     return Banknote;
-  }
-  if (transaction.type === "TRANSFER") {
-    return PiggyBank;
   }
   return ReceiptText;
 }

@@ -9,6 +9,7 @@ export type TransactionListItem = {
   category: string;
   amount: string;
   date: string;
+  typeLabel: string;
   type: TransactionType;
   source: TransactionSource;
   currency: string;

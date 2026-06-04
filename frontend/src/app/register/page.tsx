@@ -57,7 +57,7 @@ export default function RegisterPage() {
           </Link>
           <h1 className="mt-10 text-4xl font-semibold leading-tight tracking-normal">Crea tu cuenta</h1>
           <p className="mt-4 text-lg leading-8 text-text-secondary">
-            Parte con una cuenta local o continúa con Google. La sesión se maneja de forma segura desde el backend.
+            Parte con una cuenta local o continúa con Google. Tu sesión se mantiene segura en AppSueldo.
           </p>
 
           <Button asChild size="lg" className="mt-8 w-full">

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CalendarDays, CheckCircle2, X } from "lucide-react";
+import { ArrowLeft, CalendarDays, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { AppShell } from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/Button";
@@ -30,12 +30,14 @@ export default function NewTransactionPage() {
         >
           <div className="flex items-start justify-between gap-4">
             <div>
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-text-muted">Movimientos</p>
               <h2 className="text-3xl font-semibold">Nuevo movimiento</h2>
-              <p className="mt-2 text-lg text-text-secondary">Registra tus ingresos o gastos del mes.</p>
+              <p className="mt-2 text-lg text-text-secondary">Registra ingresos, gastos o transferencias del mes.</p>
             </div>
-            <Button asChild variant="ghost" size="sm" aria-label="Cerrar">
+            <Button asChild variant="ghost" size="sm" aria-label="Volver a movimientos">
               <Link href="/transactions">
-                <X size={22} />
+                <ArrowLeft size={18} />
+                <span className="hidden sm:inline">Volver</span>
               </Link>
             </Button>
           </div>
@@ -108,7 +110,7 @@ export default function NewTransactionPage() {
             <div className="mt-7 rounded-lg border border-green-300 bg-mint-bg p-4 text-secondary">
               <p className="flex items-center gap-2 font-semibold">
                 <CheckCircle2 size={20} />
-                Movimiento listo para conectar con POST /api/transactions.
+                Movimiento guardado en el historial manual.
               </p>
             </div>
           ) : null}

@@ -34,9 +34,16 @@ export function TransactionItem({ transaction }: { transaction: TransactionListI
           <Icon size={22} />
         </span>
         <div className="min-w-0">
-          <p className="truncate text-base font-semibold text-primary">{transaction.description}</p>
+          <div className="flex min-w-0 items-center gap-2">
+            <p className="min-w-0 flex-1 truncate text-base font-semibold text-primary">{transaction.description}</p>
+            {transaction.type === "TRANSFER" ? (
+              <span className="shrink-0 rounded-md bg-soft-blue-bg px-2 py-0.5 text-xs font-bold text-primary-container">
+                Transferencia
+              </span>
+            ) : null}
+          </div>
           <p className="mt-1 text-sm text-text-secondary">
-            {transaction.category} · {transaction.date}
+            {transaction.typeLabel} · {transaction.category} · {transaction.date}
           </p>
         </div>
       </div>

@@ -6,8 +6,8 @@ import { FolderKanban, Home, Settings, WalletCards } from "lucide-react";
 
 const navItems = [
   { href: "/dashboard", label: "Inicio", icon: Home },
-  { href: "/transactions", label: "Mov.", icon: WalletCards },
-  { href: "/categories", label: "Cat.", icon: FolderKanban },
+  { href: "/transactions", label: "Movimientos", icon: WalletCards },
+  { href: "/categories", label: "Categorías", icon: FolderKanban },
   { href: "/settings", label: "Ajustes", icon: Settings },
 ];
 
@@ -23,12 +23,15 @@ export function MobileNav() {
           <Link
             key={item.href}
             href={item.href}
-            className={`grid justify-items-center gap-1 rounded-lg px-2 py-2 text-xs font-semibold ${
-              active ? "bg-soft-card text-primary shadow-[var(--shadow-paper)]" : "text-text-secondary"
+            aria-current={active ? "page" : undefined}
+            className={`grid min-w-0 justify-items-center gap-1 rounded-lg px-1 py-2 text-[11px] font-semibold sm:text-xs ${
+              active
+                ? "border border-border-strong bg-soft-card text-primary shadow-[var(--shadow-paper)]"
+                : "border border-transparent text-text-secondary"
             }`}
           >
             <Icon size={18} />
-            {item.label}
+            <span className="max-w-full truncate">{item.label}</span>
           </Link>
         );
       })}

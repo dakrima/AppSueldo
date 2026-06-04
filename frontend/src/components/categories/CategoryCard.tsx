@@ -58,14 +58,18 @@ export function CategoryCard({ category }: { category: CategoryCardModel }) {
 
 export function CreateCategoryCard() {
   return (
-    <button className="grid min-h-60 place-items-center rounded-xl border-2 border-dashed border-border-strong bg-transparent p-6 text-center transition hover:bg-soft-card/70">
+    <button
+      className="grid min-h-60 cursor-not-allowed place-items-center rounded-xl border-2 border-dashed border-border-strong bg-transparent p-6 text-center opacity-75"
+      disabled
+      title="Crear categorías estará disponible en una próxima etapa"
+    >
       <span className="grid gap-4 justify-items-center">
         <span className="flex size-14 items-center justify-center rounded-full border border-border-soft bg-soft-card text-primary">
           <Plus size={26} />
         </span>
         <span>
           <span className="block text-xl font-semibold text-primary">Crear nueva</span>
-          <span className="mt-2 block text-base text-text-secondary">Personaliza tus gastos</span>
+          <span className="mt-2 block text-base text-text-secondary">Próximamente</span>
         </span>
       </span>
     </button>
