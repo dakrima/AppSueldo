@@ -3,6 +3,11 @@ package com.appsueldo.dto.fintoc;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.appsueldo.config.FintocProperties;
+import com.appsueldo.dto.BankAccountSummaryDto;
+import com.appsueldo.dto.BankConnectionResponse;
+import com.appsueldo.dto.CreateFintocLinkIntentResponse;
+import com.appsueldo.entity.BankConnectionStatus;
+import com.appsueldo.entity.BankProvider;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +17,7 @@ class FintocSensitiveDtoTest {
     void fintocPropertiesDoesNotExposeSecretsInToString() {
         FintocProperties properties = new FintocProperties(
             "sk_test_secret",
+            "pk_test_public",
             "https://api.fintoc.com/",
             "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=",
             "test",
@@ -24,7 +30,38 @@ class FintocSensitiveDtoTest {
         assertThat(text).doesNotContain("MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=");
         assertThat(text).doesNotContain("whsec_secret");
         assertThat(text).contains("secretKey=****");
+        assertThat(text).contains("publicKey=pk_test_public");
         assertThat(properties.baseUrl()).isEqualTo("https://api.fintoc.com");
+    }
+
+    @Test
+    void publicAppDtosDoNotExposeFintocSecretsOrRawTokens() {
+        CreateFintocLinkIntentResponse linkIntentResponse = new CreateFintocLinkIntentResponse(
+            BankProvider.FINTOC,
+            "pk_test_public",
+            "widget_token_secret",
+            "cl",
+            "movements"
+        );
+        BankConnectionResponse bankConnectionResponse = new BankConnectionResponse(
+            1L,
+            BankProvider.FINTOC,
+            "Banco",
+            BankConnectionStatus.ACTIVE,
+            List.of(new BankAccountSummaryDto(10L, "Cuenta Vista", "sight_account", "CLP", null))
+        );
+
+        assertThat(CreateFintocLinkIntentResponse.class.getRecordComponents())
+            .extracting(component -> component.getName())
+            .doesNotContain("secretKey", "linkToken", "accessTokenRef", "exchangeToken", "authorization");
+        assertThat(BankConnectionResponse.class.getRecordComponents())
+            .extracting(component -> component.getName())
+            .doesNotContain("secretKey", "linkToken", "accessTokenRef", "exchangeToken", "authorization");
+        assertThat(BankAccountSummaryDto.class.getRecordComponents())
+            .extracting(component -> component.getName())
+            .doesNotContain("number", "holderId", "holderName", "rawPayload");
+        assertThat(linkIntentResponse.toString()).doesNotContain("sk_test_secret", "link_token_secret");
+        assertThat(bankConnectionResponse.toString()).doesNotContain("link_token_secret", "encryptedLinkToken");
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.appsueldo.repository;
 
 import com.appsueldo.entity.BankAccount;
+import com.appsueldo.entity.BankConnection;
 import com.appsueldo.entity.BankProvider;
 import com.appsueldo.entity.User;
 import java.util.List;
@@ -15,4 +16,10 @@ public interface BankAccountRepository extends JpaRepository<BankAccount, Long> 
     Optional<BankAccount> findFirstByUserAndBankConnectionProviderOrderByIdAsc(User user, BankProvider provider);
 
     Optional<BankAccount> findByUserAndExternalId(User user, String externalId);
+
+    Optional<BankAccount> findByUserAndBankConnectionAndExternalId(
+        User user,
+        BankConnection bankConnection,
+        String externalId
+    );
 }

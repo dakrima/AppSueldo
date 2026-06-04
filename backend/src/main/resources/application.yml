@@ -44,6 +44,7 @@ app:
     expiration: ${REFRESH_TOKEN_EXPIRATION:2592000000}
   fintoc:
     secret-key: ${FINTOC_SECRET_KEY:sk_test_xxx}
+    public-key: ${FINTOC_PUBLIC_KEY:pk_test_xxx}
     base-url: ${FINTOC_BASE_URL:https://api.fintoc.com}
     token-encryption-key: ${FINTOC_TOKEN_ENCRYPTION_KEY:MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=}
     env: ${FINTOC_ENV:test}

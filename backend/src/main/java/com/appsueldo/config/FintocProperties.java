@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "app.fintoc")
 public record FintocProperties(
     @NotBlank String secretKey,
+    @NotBlank String publicKey,
     @NotBlank String baseUrl,
     @NotBlank String tokenEncryptionKey,
     @NotBlank String env,
@@ -15,6 +16,7 @@ public record FintocProperties(
 ) {
     public FintocProperties {
         secretKey = trim(secretKey);
+        publicKey = trim(publicKey);
         baseUrl = stripTrailingSlash(trim(baseUrl));
         tokenEncryptionKey = trim(tokenEncryptionKey);
         env = trim(env);
@@ -23,7 +25,8 @@ public record FintocProperties(
 
     @Override
     public String toString() {
-        return "FintocProperties[secretKey=****, baseUrl=" + baseUrl
+        return "FintocProperties[secretKey=****, publicKey=" + publicKey
+            + ", baseUrl=" + baseUrl
             + ", tokenEncryptionKey=****, env=" + env
             + ", webhookSecret=" + (webhookSecret.isBlank() ? "" : "****") + "]";
     }

@@ -24,6 +24,7 @@ class FintocTokenCryptoTest {
     void failsWithInvalidEncryptionKey() {
         FintocProperties properties = new FintocProperties(
             "sk_test_secret",
+            "pk_test_public",
             "https://api.fintoc.com",
             "not-base64",
             "test",
@@ -47,6 +48,7 @@ class FintocTokenCryptoTest {
     private FintocProperties validProperties() {
         return new FintocProperties(
             "sk_test_secret",
+            "pk_test_public",
             "https://api.fintoc.com",
             "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=",
             "test",
