@@ -1,6 +1,8 @@
 export type TransactionType = "INCOME" | "EXPENSE" | "TRANSFER";
 
-export type TransactionSource = "MANUAL" | "FINTOC";
+export type TransactionSource = "MANUAL" | "FINTOC" | "CSV_IMPORT";
+
+export type ImportBatchStatus = "PROCESSING" | "COMPLETED" | "FAILED";
 
 export type CategoryType = "INCOME" | "EXPENSE";
 
@@ -55,4 +57,20 @@ export type MonthlySummary = {
   availableBalance: number;
   monthlyBalance: number;
   transactionCount: number;
+};
+
+export type ImportBatch = {
+  id: number;
+  status: ImportBatchStatus;
+  originalFilename: string;
+  importSource: string;
+  bankAccountId: number;
+  bankAccountName: string;
+  totalRows: number;
+  createdCount: number;
+  skippedCount: number;
+  invalidCount: number;
+  failureReason: string | null;
+  createdAt: string;
+  updatedAt: string;
 };

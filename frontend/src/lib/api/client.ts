@@ -10,15 +10,18 @@ export class ApiError extends Error {
 }
 
 export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise<T> {
+  const isFormData = typeof FormData !== "undefined" && init.body instanceof FormData;
   let response: Response;
   try {
     response = await fetch(`${API_URL}${path}`, {
       ...init,
       credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        ...init.headers,
-      },
+      headers: isFormData
+        ? init.headers
+        : {
+            "Content-Type": "application/json",
+            ...init.headers,
+          },
     });
   } catch {
     throw new ApiError(0, "No pudimos conectar con el servidor. Revisa que el backend este corriendo.");

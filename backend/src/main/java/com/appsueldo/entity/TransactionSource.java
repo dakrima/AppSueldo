@@ -2,5 +2,6 @@ package com.appsueldo.entity;
 
 public enum TransactionSource {
     MANUAL,
-    FINTOC
+    FINTOC,
+    CSV_IMPORT
 }

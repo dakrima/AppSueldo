@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ChevronDown, Plus, Search } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
+import { CsvImportCard } from "@/components/transactions/CsvImportCard";
 import { PeriodSummaryCard } from "@/components/transactions/PeriodSummaryCard";
 import { TransactionList } from "@/components/transactions/TransactionList";
 import { Button } from "@/components/ui/Button";
@@ -26,6 +27,8 @@ export default function TransactionsPage() {
         </Button>
       }
     >
+      <CsvImportCard />
+
       <section className="grid gap-3 lg:grid-cols-[1fr_180px_210px_180px]">
         <label className="flex h-14 items-center gap-3 rounded-lg border border-border-soft bg-soft-card px-4 opacity-75 shadow-[var(--shadow-paper)]">
           <Search className="text-text-muted" size={22} />

@@ -1,6 +1,7 @@
 package com.appsueldo.repository;
 
 import com.appsueldo.entity.Transaction;
+import com.appsueldo.entity.TransactionSource;
 import com.appsueldo.entity.TransactionType;
 import com.appsueldo.entity.User;
 import com.appsueldo.entity.BankAccount;
@@ -18,6 +19,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     List<Transaction> findByBankAccountOrderByTransactionDateDescIdDesc(BankAccount bankAccount);
 
     Optional<Transaction> findByIdAndUser(Long id, User user);
+
+    boolean existsByBankAccountAndSourceAndExternalId(BankAccount bankAccount, TransactionSource source, String externalId);
 
     @Query("""
         select coalesce(sum(t.amount), 0)

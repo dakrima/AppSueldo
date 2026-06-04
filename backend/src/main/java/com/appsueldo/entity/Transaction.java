@@ -37,6 +37,10 @@ public class Transaction extends BaseTimestamps {
     @JoinColumn(name = "bank_account_id", nullable = false)
     private BankAccount bankAccount;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "import_batch_id")
+    private ImportBatch importBatch;
+
     @Column(nullable = false, precision = 14, scale = 2)
     private BigDecimal amount;
 
@@ -101,6 +105,14 @@ public class Transaction extends BaseTimestamps {
 
     public void setBankAccount(BankAccount bankAccount) {
         this.bankAccount = bankAccount;
+    }
+
+    public ImportBatch getImportBatch() {
+        return importBatch;
+    }
+
+    public void setImportBatch(ImportBatch importBatch) {
+        this.importBatch = importBatch;
     }
 
     public BigDecimal getAmount() {

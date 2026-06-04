@@ -1,5 +1,5 @@
 import { apiFetch } from "@/lib/api/client";
-import type { Transaction, TransactionSource, TransactionType } from "@/types/finance";
+import type { ImportBatch, Transaction, TransactionSource, TransactionType } from "@/types/finance";
 
 export type CreateTransactionRequest = {
   bankAccountId?: number | null;
@@ -33,4 +33,17 @@ export function assignTransactionCategory(transactionId: number, request: Assign
     method: "PATCH",
     body: JSON.stringify(request),
   });
+}
+
+export function importTransactionsCsv(file: File) {
+  const formData = new FormData();
+  formData.append("file", file);
+  return apiFetch<ImportBatch>("/api/transactions/imports", {
+    method: "POST",
+    body: formData,
+  });
+}
+
+export function getImportBatch(batchId: number) {
+  return apiFetch<ImportBatch>(`/api/transactions/imports/${batchId}`);
 }
