@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, CalendarDays, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, CalendarDays } from "lucide-react";
 import { useState } from "react";
 import { AppShell } from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/Button";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { FormActions } from "@/components/ui/FormActions";
 import { Input } from "@/components/ui/Input";
+import { SuccessState } from "@/components/ui/SuccessState";
 import { getNewTransactionCategoryOptions } from "@/features/transactions/data";
 
 const transactionTypes = ["Gasto", "Ingreso", "Transferencia"];
@@ -13,11 +16,27 @@ const transactionTypes = ["Gasto", "Ingreso", "Transferencia"];
 export default function NewTransactionPage() {
   const [type, setType] = useState("Gasto");
   const [category, setCategory] = useState("Movilidad");
+  const [amount, setAmount] = useState("");
+  const [description, setDescription] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({ amount: "", description: "" });
   const [saved, setSaved] = useState(false);
   const newTransactionCategories = getNewTransactionCategoryOptions();
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    const nextErrors = {
+      amount: amount.trim() ? "" : "Ingresa un monto para guardar el movimiento.",
+      description: description.trim() ? "" : "Agrega una descripción breve para reconocer el movimiento.",
+    };
+
+    setFieldErrors(nextErrors);
+
+    if (nextErrors.amount || nextErrors.description) {
+      setSaved(false);
+      return;
+    }
+
     setSaved(true);
   }
 
@@ -47,7 +66,10 @@ export default function NewTransactionPage() {
               <button
                 key={item}
                 type="button"
-                onClick={() => setType(item)}
+                onClick={() => {
+                  setType(item);
+                  setSaved(false);
+                }}
                 className={`h-12 rounded-md text-sm font-semibold transition sm:text-base ${
                   type === item ? "bg-soft-card text-primary shadow-[var(--shadow-paper)]" : "text-text-secondary"
                 }`}
@@ -58,16 +80,47 @@ export default function NewTransactionPage() {
           </div>
 
           <div className="mt-10 text-center">
-            <label className="text-xs font-bold uppercase tracking-[0.12em] text-text-secondary">Monto</label>
+            <label htmlFor="transaction-amount" className="text-xs font-bold uppercase tracking-[0.12em] text-text-secondary">
+              Monto
+            </label>
             <input
+              id="transaction-amount"
               inputMode="numeric"
+              value={amount}
+              onChange={(event) => {
+                setAmount(event.target.value);
+                setFieldErrors((current) => ({ ...current, amount: "" }));
+                setSaved(false);
+              }}
+              aria-describedby={fieldErrors.amount ? "transaction-amount-error" : undefined}
+              aria-invalid={fieldErrors.amount ? true : undefined}
               placeholder="$0"
-              className="mt-2 w-full bg-transparent text-center text-6xl font-semibold tracking-normal text-primary outline-none placeholder:text-text-muted/60"
+              className={[
+                "mt-2 w-full rounded-lg bg-transparent text-center text-6xl font-semibold tracking-normal text-primary outline-none placeholder:text-text-muted/60 focus:ring-2 focus:ring-mint-bg",
+                fieldErrors.amount ? "ring-2 ring-soft-coral-bg" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
             />
+            {fieldErrors.amount ? (
+              <div className="mt-3 text-left">
+                <ErrorMessage id="transaction-amount-error" title="Revisa el monto" message={fieldErrors.amount} />
+              </div>
+            ) : null}
           </div>
 
           <div className="mt-8 grid gap-5">
-            <Input label="Descripción" placeholder="Ej: Supermercado, Sueldo..." />
+            <Input
+              label="Descripción"
+              value={description}
+              onChange={(event) => {
+                setDescription(event.target.value);
+                setFieldErrors((current) => ({ ...current, description: "" }));
+                setSaved(false);
+              }}
+              placeholder="Ej: Supermercado, Sueldo..."
+              error={fieldErrors.description}
+            />
 
             <div>
               <p className="text-sm font-semibold text-primary">Categoría</p>
@@ -79,7 +132,10 @@ export default function NewTransactionPage() {
                     <button
                       key={item.name}
                       type="button"
-                      onClick={() => setCategory(item.name)}
+                      onClick={() => {
+                        setCategory(item.name);
+                        setSaved(false);
+                      }}
                       className={`inline-flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition ${
                         active
                           ? "border-secondary bg-mint-bg text-secondary"
@@ -96,10 +152,13 @@ export default function NewTransactionPage() {
 
             <div className="grid gap-5 sm:grid-cols-2">
               <label className="grid gap-2 text-sm font-semibold text-primary">
-                Fecha
+                Fecha del registro
                 <span className="flex h-12 items-center justify-between rounded-lg border border-border-soft bg-soft-card px-4 text-base font-normal">
                   10/06/2026
                   <CalendarDays size={20} />
+                </span>
+                <span className="text-xs font-normal leading-5 text-text-secondary">
+                  Fecha fija de ejemplo para este MVP manual.
                 </span>
               </label>
               <Input label="Nota (opcional)" placeholder="Detalles extra..." />
@@ -107,19 +166,20 @@ export default function NewTransactionPage() {
           </div>
 
           {saved ? (
-            <div className="mt-7 rounded-lg border border-green-300 bg-mint-bg p-4 text-secondary">
-              <p className="flex items-center gap-2 font-semibold">
-                <CheckCircle2 size={20} />
-                Movimiento guardado en el historial manual.
-              </p>
+            <div className="mt-7">
+              <SuccessState title="Movimiento guardado" message="Se agregó al historial manual de este MVP." />
             </div>
           ) : null}
 
-          <div className="mt-8 flex flex-col gap-3 border-t border-border-soft pt-6 sm:flex-row sm:justify-end">
-            <Button asChild variant="secondary">
-              <Link href="/transactions">Cancelar</Link>
-            </Button>
-            <Button type="submit">Guardar movimiento</Button>
+          <div className="mt-8">
+            <FormActions
+              secondary={
+                <Button asChild variant="secondary">
+                  <Link href="/transactions">Cancelar</Link>
+                </Button>
+              }
+              primary={<Button type="submit">Guardar movimiento</Button>}
+            />
           </div>
         </form>
       </div>

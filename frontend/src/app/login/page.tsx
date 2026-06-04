@@ -6,9 +6,23 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PublicOnlyRoute } from "@/components/auth/PublicOnlyRoute";
 import { Button } from "@/components/ui/Button";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { FormActions } from "@/components/ui/FormActions";
 import { Input } from "@/components/ui/Input";
 import { useAuth } from "@/hooks/useAuth";
 import { API_URL } from "@/lib/api/client";
+
+function userFacingError(error: unknown, fallback: string) {
+  if (!(error instanceof Error)) {
+    return fallback;
+  }
+
+  if (/api|backend|server|servidor|token|jwt|stack|fetch/i.test(error.message)) {
+    return fallback;
+  }
+
+  return error.message;
+}
 
 export default function LoginPage() {
   const router = useRouter();
@@ -26,7 +40,7 @@ export default function LoginPage() {
       await login(email, password);
       router.replace("/dashboard");
     } catch (error) {
-      setError(error instanceof Error ? error.message : "No pudimos iniciar sesión.");
+      setError(userFacingError(error, "No pudimos iniciar sesión. Revisa tus datos e inténtalo nuevamente."));
     } finally {
       setIsSubmitting(false);
     }
@@ -79,14 +93,14 @@ export default function LoginPage() {
               placeholder="Tu contraseña"
               required
             />
-            {error ? (
-              <p className="rounded-lg border border-red-200 bg-soft-coral-bg p-3 text-sm font-medium text-danger">
-                {error}
-              </p>
-            ) : null}
-            <Button type="submit" size="lg" disabled={isSubmitting}>
-              {isSubmitting ? "Entrando..." : "Iniciar sesión"}
-            </Button>
+            {error ? <ErrorMessage title="No pudimos iniciar sesión" message={error} /> : null}
+            <FormActions
+              primary={
+                <Button type="submit" size="lg" disabled={isSubmitting} className="w-full">
+                  {isSubmitting ? "Validando datos..." : "Iniciar sesión"}
+                </Button>
+              }
+            />
           </form>
 
           <p className="mt-5 text-center text-sm text-text-secondary">

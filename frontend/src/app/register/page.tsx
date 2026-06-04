@@ -6,9 +6,23 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PublicOnlyRoute } from "@/components/auth/PublicOnlyRoute";
 import { Button } from "@/components/ui/Button";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { FormActions } from "@/components/ui/FormActions";
 import { Input } from "@/components/ui/Input";
 import { useAuth } from "@/hooks/useAuth";
 import { API_URL } from "@/lib/api/client";
+
+function userFacingError(error: unknown, fallback: string) {
+  if (!(error instanceof Error)) {
+    return fallback;
+  }
+
+  if (/api|backend|server|servidor|token|jwt|stack|fetch/i.test(error.message)) {
+    return fallback;
+  }
+
+  return error.message;
+}
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -30,7 +44,7 @@ export default function RegisterPage() {
     }
 
     if (!/[A-Za-z]/.test(password) || !/\d/.test(password)) {
-      setError("La contrasena debe incluir letras y numeros.");
+      setError("La contraseña debe incluir letras y números.");
       return;
     }
 
@@ -39,7 +53,7 @@ export default function RegisterPage() {
       await register(name, email, password);
       router.replace("/dashboard");
     } catch (error) {
-      setError(error instanceof Error ? error.message : "No pudimos crear tu cuenta.");
+      setError(userFacingError(error, "No pudimos crear tu cuenta. Revisa los datos e inténtalo nuevamente."));
     } finally {
       setIsSubmitting(false);
     }
@@ -97,6 +111,7 @@ export default function RegisterPage() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               placeholder="Mínimo 8 caracteres, letras y números"
+              helperText="Usa al menos 8 caracteres e incluye letras y números."
               minLength={8}
               required
             />
@@ -109,14 +124,14 @@ export default function RegisterPage() {
               minLength={8}
               required
             />
-            {error ? (
-              <p className="rounded-lg border border-red-200 bg-soft-coral-bg p-3 text-sm font-medium text-danger">
-                {error}
-              </p>
-            ) : null}
-            <Button type="submit" size="lg" disabled={isSubmitting}>
-              {isSubmitting ? "Creando cuenta..." : "Crear cuenta"}
-            </Button>
+            {error ? <ErrorMessage title="No pudimos crear tu cuenta" message={error} /> : null}
+            <FormActions
+              primary={
+                <Button type="submit" size="lg" disabled={isSubmitting} className="w-full">
+                  {isSubmitting ? "Creando cuenta..." : "Crear cuenta"}
+                </Button>
+              }
+            />
           </form>
 
           <p className="mt-5 text-center text-sm text-text-secondary">
