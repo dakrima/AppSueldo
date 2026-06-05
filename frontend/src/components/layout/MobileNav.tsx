@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { FolderKanban, Home, Settings, WalletCards } from "lucide-react";
 
 const navItems = [
-  { href: "/dashboard", label: "Inicio", icon: Home },
+  { href: "/dashboard", label: "Dashboard", icon: Home },
   { href: "/transactions", label: "Movimientos", icon: WalletCards },
   { href: "/categories", label: "Categorías", icon: FolderKanban },
   { href: "/settings", label: "Ajustes", icon: Settings },
@@ -30,7 +30,7 @@ export function MobileNav() {
                 : "border border-transparent text-text-secondary"
             }`}
           >
-            <Icon size={18} />
+            <Icon size={18} aria-hidden="true" />
             <span className="max-w-full truncate">{item.label}</span>
           </Link>
         );

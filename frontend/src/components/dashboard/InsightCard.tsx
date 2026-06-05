@@ -19,12 +19,13 @@ export function InsightCard({ title, description, tone = "amber" }: InsightCardP
   const Icon = tone === "income" ? CircleCheck : Lightbulb;
 
   return (
-    <aside className={`rounded-2xl border p-6 shadow-[var(--shadow-paper)] ${toneClasses[tone]}`}>
-      <div className="flex gap-4">
-        <Icon className="mt-1 shrink-0" size={22} />
-        <div>
-          {title ? <h2 className="text-lg font-semibold">{title}</h2> : null}
-          <p className="text-lg leading-8 text-primary">{description}</p>
+    <aside className={`rounded-2xl border p-5 shadow-[var(--shadow-paper)] sm:p-6 ${toneClasses[tone]}`}>
+      <div className="flex gap-3">
+        <Icon className="mt-1 shrink-0" size={20} aria-hidden="true" />
+        <div className="min-w-0">
+          <p className="text-xs font-bold uppercase tracking-[0.12em]">Lectura del mes</p>
+          {title ? <h2 className="mt-2 text-lg font-semibold">{title}</h2> : null}
+          <p className="mt-1 text-sm leading-6 text-primary">{description}</p>
         </div>
       </div>
     </aside>

@@ -28,10 +28,10 @@ export function AppShell({
     <ProtectedRoute>
       <div className="min-h-screen bg-warm-canvas text-primary">
         <Sidebar />
-        <div className="lg:pl-72">
+        <div className="min-w-0 lg:pl-72">
           <Navbar />
           <MobileNav />
-          <main className="mx-auto grid w-full max-w-[1280px] gap-8 px-4 py-6 sm:px-6 lg:px-8 lg:py-10">
+          <main className="mx-auto grid min-w-0 w-full max-w-[1280px] gap-8 px-4 py-6 sm:px-6 lg:px-8 lg:py-10">
             {hideHeader ? null : (
               <PageHeader
                 eyebrow={eyebrow}

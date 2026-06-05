@@ -36,17 +36,53 @@ export type SummaryCardModel = {
   icon: LucideIcon;
 };
 
+export type BalanceAccountViewModel = {
+  id: number;
+  name: string;
+  kind: string;
+  institutionName?: string | null;
+  balance: string;
+  currency: string;
+};
+
+export type BalanceOverviewViewModel = {
+  label: string;
+  total: string;
+  helper: string;
+  updatedCopy: string;
+  transferNote?: string;
+  accounts: BalanceAccountViewModel[];
+};
+
 export type MainBalanceViewModel = {
   month: string;
   label: string;
   value: string;
   helper: string;
+  supportingFacts: Array<{
+    label: string;
+    value: string;
+  }>;
 };
 
 export type CategoryBreakdownItem = {
   name: string;
   amount: string;
   percent: number;
+  tone: Tone;
+};
+
+export type CategoryDistributionItem = {
+  id: string;
+  name: string;
+  type: TransactionType;
+  typeLabel: string;
+  amount: string;
+  rawAmount: number;
+  movementCount: number;
+  percent: number;
+  percentLabel: string;
+  lastMovement: string;
   tone: Tone;
 };
 

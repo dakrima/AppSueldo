@@ -9,6 +9,8 @@ type TransactionListProps = {
   transactions?: TransactionListItem[];
   description?: string;
   showViewAll?: boolean;
+  emptyTitle?: string;
+  emptyDescription?: string;
 };
 
 export function TransactionList({
@@ -16,9 +18,11 @@ export function TransactionList({
   transactions = getRecentTransactionsData(),
   description,
   showViewAll = false,
+  emptyTitle = "Sin movimientos",
+  emptyDescription = "Agrega el primer movimiento manual para empezar a construir tu resumen.",
 }: TransactionListProps) {
   return (
-    <section className="rounded-2xl border border-border-soft bg-soft-card p-5 shadow-[var(--shadow-paper)] sm:p-7">
+    <section className="min-w-0 rounded-2xl border border-border-soft bg-soft-card p-5 shadow-[var(--shadow-paper)] sm:p-7">
       <div className="flex items-start justify-between gap-4">
         <div>
           <h2 className="text-xl font-semibold text-primary">{title}</h2>
@@ -38,7 +42,7 @@ export function TransactionList({
         </ul>
       ) : (
         <div className="mt-5">
-          <EmptyState title="Sin movimientos" description="Agrega el primer movimiento manual para empezar a construir tu resumen." />
+          <EmptyState title={emptyTitle} description={emptyDescription} />
         </div>
       )}
     </section>

@@ -27,14 +27,16 @@ const valueClasses = {
 
 export function SummaryCard({ label, value, helper, tone, icon: Icon }: SummaryCardProps) {
   return (
-    <article className="rounded-xl border border-border-soft bg-soft-card p-4 shadow-[var(--shadow-paper)] sm:p-5">
-      <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-text-secondary">
-        <span className={`flex size-8 items-center justify-center rounded-lg ${toneClasses[tone]}`}>
+    <article className="min-w-0 rounded-xl border border-border-soft bg-soft-card p-4 shadow-[var(--shadow-paper)] sm:p-5">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-xs font-bold uppercase tracking-[0.12em] text-text-muted">{label}</p>
+          <p className={`mt-3 text-2xl font-semibold tracking-normal ${valueClasses[tone]}`}>{value}</p>
+        </div>
+        <span className={`flex size-9 shrink-0 items-center justify-center rounded-lg ${toneClasses[tone]}`}>
           <Icon size={17} />
         </span>
-        {label}
       </div>
-      <p className={`mt-5 text-2xl font-semibold tracking-normal ${valueClasses[tone]}`}>{value}</p>
       {helper ? <p className="mt-2 text-sm leading-5 text-text-secondary">{helper}</p> : null}
     </article>
   );

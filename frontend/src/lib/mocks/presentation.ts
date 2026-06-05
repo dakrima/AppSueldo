@@ -2,7 +2,6 @@ import {
   ArrowRightLeft,
   Banknote,
   Bus,
-  CalendarClock,
   Clapperboard,
   Coffee,
   ForkKnife,
@@ -14,8 +13,9 @@ import {
   Ticket,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { mockCategories, mockMonthlySummary, mockTransactions } from "@/lib/mocks/finance";
+import { mockBankConnections, mockCategories, mockMonthlySummary, mockTransactions } from "@/lib/mocks/finance";
 import type {
+  BalanceOverviewViewModel,
   CategoryBreakdownItem,
   CategoryCardModel,
   InsightViewModel,
@@ -60,6 +60,33 @@ export const transactionListItems: TransactionListItem[] = mockTransactions.map(
 
 export const recentTransactionListItems = transactionListItems.slice(0, 5);
 
+const transferTotal = mockTransactions
+  .filter((transaction) => transaction.type === "TRANSFER")
+  .reduce((total, transaction) => total + transaction.amount, 0);
+
+const accountItems = mockBankConnections.flatMap((connection) =>
+  connection.accounts.map((account) => ({
+    id: account.id,
+    name: account.name,
+    kind: accountKindLabel(account.accountType),
+    balance: account.balance === null ? "Saldo no disponible" : formatClp(account.balance),
+    currency: account.currency,
+  })),
+);
+
+const consolidatedBalance = mockBankConnections
+  .flatMap((connection) => connection.accounts)
+  .reduce((total, account) => total + (account.balance ?? 0), 0);
+
+export const balanceOverview: BalanceOverviewViewModel = {
+  label: "Saldo disponible hoy",
+  total: formatClp(consolidatedBalance),
+  helper: "Actualizado con movimientos registrados hasta hoy.",
+  updatedCopy: "Composición por cuentas registradas.",
+  transferNote: transferTotal > 0 ? `Transferencias registradas aparte: ${formatClp(transferTotal)}.` : undefined,
+  accounts: accountItems,
+};
+
 export const categoryCardItems: CategoryCardModel[] = [
   categoryCard(1, "+$850.000", 100),
   categoryCard(2, "-$250.000", 62),
@@ -72,46 +99,43 @@ export const categoryCardItems: CategoryCardModel[] = [
 
 export const mainBalance: MainBalanceViewModel = {
   month: "Junio 2026",
-  label: "Te queda para el mes",
+  label: "Saldo disponible estimado",
   value: formatClp(mockMonthlySummary.availableBalance),
-  helper: "Considerando tus gastos registrados y pagos fijos pendientes.",
+  helper: "Considera ingresos y gastos reales registrados. Las transferencias se muestran aparte para no inflar el gasto.",
+  supportingFacts: [
+    { label: "Base del saldo", value: "Ingresos menos gastos reales" },
+    { label: "Transferencias", value: "Separadas del gasto" },
+  ],
 };
 
 export const dashboardSummaryCards: SummaryCardModel[] = [
   {
-    label: "Ingresos",
+    label: "Ingresos del mes",
     value: `+${formatClp(mockMonthlySummary.monthlyIncome)}`,
-    helper: "Sueldo y entradas manuales",
+    helper: "Sueldo y entradas registradas",
     tone: "income",
     icon: Banknote,
   },
   {
-    label: "Gastos",
+    label: "Egresos del mes",
     value: `-${formatClp(mockMonthlySummary.monthlyExpenses)}`,
-    helper: "Gastos registrados del mes",
+    helper: "Salida real, sin transferencias",
     tone: "expense",
     icon: ReceiptText,
   },
   {
-    label: "Ahorro estimado",
+    label: "Disponible para ahorrar",
     value: formatClp(mockMonthlySummary.estimatedSavings),
-    helper: "Proyección simple del periodo",
+    helper: "Estimación del periodo",
     tone: "neutral",
     icon: PiggyBank,
-  },
-  {
-    label: "Fijos restantes",
-    value: "$95.000",
-    helper: "Pagos pendientes por registrar",
-    tone: "amber",
-    icon: CalendarClock,
   },
 ];
 
 export const categoryBreakdown: CategoryBreakdownItem[] = [
-  { name: "Alimentación", amount: "$180.500", percent: 72, tone: "expense" },
   { name: "Vivienda", amount: "$250.000", percent: 100, tone: "neutral" },
-  { name: "Movilidad", amount: "$45.000", percent: 38, tone: "income" },
+  { name: "Alimentación", amount: "$180.500", percent: 72, tone: "expense" },
+  { name: "Movilidad", amount: "$45.000", percent: 18, tone: "amber" },
 ];
 
 export const insights: InsightViewModel[] = [
@@ -206,6 +230,13 @@ function transactionTypeLabel(transaction: Transaction) {
 
 function formatClp(value: number) {
   return clpFormatter.format(value);
+}
+
+function accountKindLabel(accountType: string | null) {
+  if (!accountType || accountType === "MANUAL") {
+    return "Cuenta manual";
+  }
+  return accountType;
 }
 
 function formatShortDate(value: string) {
