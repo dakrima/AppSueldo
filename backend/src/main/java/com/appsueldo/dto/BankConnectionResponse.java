@@ -10,18 +10,34 @@ public record BankConnectionResponse(
     BankProvider provider,
     String institutionName,
     BankConnectionStatus status,
-    List<BankAccountSummaryDto> accounts
+    List<BankAccountSummaryDto> accounts,
+    Integer importedTransactionsCount,
+    Integer skippedTransactionsCount,
+    String syncStatus
 ) {
     public static BankConnectionResponse from(
         BankConnection bankConnection,
         List<BankAccountSummaryDto> accounts
+    ) {
+        return from(bankConnection, accounts, null, null, null);
+    }
+
+    public static BankConnectionResponse from(
+        BankConnection bankConnection,
+        List<BankAccountSummaryDto> accounts,
+        Integer importedTransactionsCount,
+        Integer skippedTransactionsCount,
+        String syncStatus
     ) {
         return new BankConnectionResponse(
             bankConnection.getId(),
             bankConnection.getProvider(),
             bankConnection.getInstitutionName(),
             bankConnection.getStatus(),
-            accounts
+            accounts,
+            importedTransactionsCount,
+            skippedTransactionsCount,
+            syncStatus
         );
     }
 }

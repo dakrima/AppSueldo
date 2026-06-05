@@ -3,7 +3,6 @@ package com.appsueldo.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -12,8 +11,6 @@ import com.appsueldo.config.FintocProperties;
 import com.appsueldo.dto.BankConnectionResponse;
 import com.appsueldo.dto.CreateFintocLinkIntentResponse;
 import com.appsueldo.dto.ExchangeFintocTokenRequest;
-import com.appsueldo.dto.fintoc.FintocAccountResponse;
-import com.appsueldo.dto.fintoc.FintocBalanceResponse;
 import com.appsueldo.dto.fintoc.FintocInstitutionResponse;
 import com.appsueldo.dto.fintoc.FintocLinkIntentRequest;
 import com.appsueldo.dto.fintoc.FintocLinkIntentResponse;
@@ -24,7 +21,6 @@ import com.appsueldo.entity.BankConnectionStatus;
 import com.appsueldo.entity.BankProvider;
 import com.appsueldo.entity.User;
 import com.appsueldo.exception.BadRequestException;
-import com.appsueldo.repository.BankAccountRepository;
 import com.appsueldo.repository.BankConnectionRepository;
 import com.appsueldo.service.bankprovider.BankProviderClient;
 import com.appsueldo.service.fintoc.FintocTokenCrypto;
@@ -46,10 +42,8 @@ class FintocConnectionServiceTest {
     @Mock
     private BankConnectionRepository bankConnectionRepository;
 
-    @Mock
-    private BankAccountRepository bankAccountRepository;
-
     private FintocTokenCrypto fintocTokenCrypto;
+    private FakeFintocSyncService fintocSyncService;
     private FakeCurrentUserService currentUserService;
     private FintocConnectionService service;
 
@@ -57,6 +51,7 @@ class FintocConnectionServiceTest {
     void setUp() {
         FintocProperties properties = properties();
         fintocTokenCrypto = new FintocTokenCrypto(properties);
+        fintocSyncService = new FakeFintocSyncService();
         currentUserService = new FakeCurrentUserService();
         service = new FintocConnectionService(
             bankProviderClient,
@@ -64,7 +59,7 @@ class FintocConnectionServiceTest {
             properties,
             currentUserService,
             bankConnectionRepository,
-            bankAccountRepository
+            fintocSyncService
         );
     }
 
@@ -107,15 +102,16 @@ class FintocConnectionServiceTest {
             .isInstanceOf(BadRequestException.class)
             .hasMessage("exchangeToken es requerido.");
 
-        verifyNoInteractions(bankProviderClient, bankConnectionRepository, bankAccountRepository);
+        verifyNoInteractions(bankProviderClient, bankConnectionRepository);
         assertThat(currentUserService.calls()).isZero();
     }
 
     @Test
-    void exchangeCreatesEncryptedConnectionAndAccounts() {
+    void exchangeCreatesEncryptedConnectionAndRunsInitialSync() {
         User user = user();
         FintocLinkResponse link = linkResponse("active");
-        FintocAccountResponse account = accountResponse("acc_123", "Cuenta Vista", "CuentaRUT");
+        BankAccount account = account(user, "Cuenta Vista");
+        fintocSyncService.result = FintocSyncResult.completed(2, 1, List.of(account));
         currentUserService.setUser(user);
         when(bankProviderClient.exchangeToken("exchange_token_secret")).thenReturn(link);
         when(bankConnectionRepository.findByUserAndProviderAndProviderConnectionId(
@@ -127,17 +123,6 @@ class FintocConnectionServiceTest {
             BankConnection connection = invocation.getArgument(0);
             setId(connection, 10L);
             return connection;
-        });
-        when(bankProviderClient.listAccounts("link_token_secret")).thenReturn(List.of(account));
-        when(bankAccountRepository.findByUserAndBankConnectionAndExternalId(
-            eq(user),
-            any(BankConnection.class),
-            eq("acc_123")
-        )).thenReturn(Optional.empty());
-        when(bankAccountRepository.save(any(BankAccount.class))).thenAnswer(invocation -> {
-            BankAccount bankAccount = invocation.getArgument(0);
-            setId(bankAccount, 20L);
-            return bankAccount;
         });
 
         BankConnectionResponse response = service.exchangeForCurrentUser(
@@ -156,20 +141,16 @@ class FintocConnectionServiceTest {
         assertThat(savedConnection.getAccessTokenRef()).doesNotContain("link_token_secret");
         assertThat(savedConnection.getAccessTokenRef()).isNotEqualTo("link_token_secret");
 
-        ArgumentCaptor<BankAccount> accountCaptor = ArgumentCaptor.forClass(BankAccount.class);
-        verify(bankAccountRepository).save(accountCaptor.capture());
-        BankAccount savedAccount = accountCaptor.getValue();
-        assertThat(savedAccount.getUser()).isSameAs(user);
-        assertThat(savedAccount.getBankConnection()).isSameAs(savedConnection);
-        assertThat(savedAccount.getExternalId()).isEqualTo("acc_123");
-        assertThat(savedAccount.getName()).isEqualTo("Cuenta Vista");
-        assertThat(savedAccount.getAccountType()).isEqualTo("sight_account");
-        assertThat(savedAccount.getCurrency()).isEqualTo("CLP");
-        assertThat(savedAccount.getBalance()).isEqualByComparingTo("5000");
+        assertThat(fintocSyncService.calls).isEqualTo(1);
+        assertThat(fintocSyncService.user).isSameAs(user);
+        assertThat(fintocSyncService.connection).isSameAs(savedConnection);
 
         assertThat(response.id()).isEqualTo(10L);
         assertThat(response.provider()).isEqualTo(BankProvider.FINTOC);
         assertThat(response.accounts()).hasSize(1);
+        assertThat(response.importedTransactionsCount()).isEqualTo(2);
+        assertThat(response.skippedTransactionsCount()).isEqualTo(1);
+        assertThat(response.syncStatus()).isEqualTo("COMPLETED");
         assertThat(response.toString()).doesNotContain(
             "link_token_secret",
             "exchange_token_secret",
@@ -193,6 +174,7 @@ class FintocConnectionServiceTest {
         existingAccount.setExternalId("acc_123");
         existingAccount.setName("Cuenta antigua");
         setId(existingAccount, 20L);
+        fintocSyncService.result = FintocSyncResult.completed(0, 1, List.of(existingAccount));
 
         currentUserService.setUser(user);
         when(bankProviderClient.exchangeToken("exchange_token_secret")).thenReturn(linkResponse("active"));
@@ -202,27 +184,50 @@ class FintocConnectionServiceTest {
             "link_123"
         )).thenReturn(Optional.of(existingConnection));
         when(bankConnectionRepository.save(existingConnection)).thenReturn(existingConnection);
-        when(bankProviderClient.listAccounts("link_token_secret")).thenReturn(List.of(
-            accountResponse("acc_123", null, "CuentaRUT")
-        ));
-        when(bankAccountRepository.findByUserAndBankConnectionAndExternalId(
-            user,
-            existingConnection,
-            "acc_123"
-        )).thenReturn(Optional.of(existingAccount));
-        when(bankAccountRepository.save(existingAccount)).thenReturn(existingAccount);
 
         BankConnectionResponse response = service.exchangeForCurrentUser(
             new ExchangeFintocTokenRequest("exchange_token_secret")
         );
 
         verify(bankConnectionRepository).save(existingConnection);
-        ArgumentCaptor<BankAccount> accountCaptor = ArgumentCaptor.forClass(BankAccount.class);
-        verify(bankAccountRepository).save(accountCaptor.capture());
-        assertThat(accountCaptor.getValue()).isSameAs(existingAccount);
         assertThat(existingConnection.getAccessTokenRef()).doesNotContain("link_token_secret");
-        assertThat(existingAccount.getName()).isEqualTo("CuentaRUT");
+        assertThat(fintocSyncService.calls).isEqualTo(1);
+        assertThat(fintocSyncService.connection).isSameAs(existingConnection);
         assertThat(response.accounts()).hasSize(1);
+        assertThat(response.importedTransactionsCount()).isZero();
+        assertThat(response.skippedTransactionsCount()).isEqualTo(1);
+        assertThat(response.syncStatus()).isEqualTo("COMPLETED");
+    }
+
+    @Test
+    void exchangeKeepsConnectionWhenInitialSyncFails() {
+        User user = user();
+        currentUserService.setUser(user);
+        fintocSyncService.fail = true;
+        when(bankProviderClient.exchangeToken("exchange_token_secret")).thenReturn(linkResponse("active"));
+        when(bankConnectionRepository.findByUserAndProviderAndProviderConnectionId(
+            user,
+            BankProvider.FINTOC,
+            "link_123"
+        )).thenReturn(Optional.empty());
+        when(bankConnectionRepository.save(any(BankConnection.class))).thenAnswer(invocation -> {
+            BankConnection connection = invocation.getArgument(0);
+            setId(connection, 10L);
+            return connection;
+        });
+
+        BankConnectionResponse response = service.exchangeForCurrentUser(
+            new ExchangeFintocTokenRequest("exchange_token_secret")
+        );
+
+        ArgumentCaptor<BankConnection> connectionCaptor = ArgumentCaptor.forClass(BankConnection.class);
+        verify(bankConnectionRepository).save(connectionCaptor.capture());
+        assertThat(connectionCaptor.getValue().getAccessTokenRef()).doesNotContain("link_token_secret");
+        assertThat(response.id()).isEqualTo(10L);
+        assertThat(response.accounts()).isEmpty();
+        assertThat(response.importedTransactionsCount()).isZero();
+        assertThat(response.skippedTransactionsCount()).isZero();
+        assertThat(response.syncStatus()).isEqualTo("ERROR");
     }
 
     private FintocProperties properties() {
@@ -232,6 +237,7 @@ class FintocConnectionServiceTest {
             "https://api.fintoc.com",
             "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=",
             "test",
+            90,
             "whsec_secret"
         );
     }
@@ -254,23 +260,14 @@ class FintocConnectionServiceTest {
         );
     }
 
-    private FintocAccountResponse accountResponse(String id, String name, String officialName) {
-        return new FintocAccountResponse(
-            id,
-            "account",
-            name,
-            officialName,
-            "123456789",
-            "11111111-1",
-            "Persona AppSueldo",
-            "sight_account",
-            "CLP",
-            new FintocBalanceResponse(null, 5000L, null),
-            null,
-            null,
-            false,
-            "succeeded"
-        );
+    private BankAccount account(User user, String name) {
+        BankAccount account = new BankAccount();
+        account.setUser(user);
+        account.setName(name);
+        account.setAccountType("sight_account");
+        account.setCurrency("CLP");
+        setId(account, 20L);
+        return account;
     }
 
     private void setId(Object entity, Long id) {
@@ -303,6 +300,29 @@ class FintocConnectionServiceTest {
         public User currentUser() {
             calls++;
             return user;
+        }
+    }
+
+    private static class FakeFintocSyncService extends FintocSyncService {
+        private FintocSyncResult result = FintocSyncResult.completed(0, 0, List.of());
+        private boolean fail;
+        private User user;
+        private BankConnection connection;
+        private int calls;
+
+        FakeFintocSyncService() {
+            super(null, null, null, null, null, null);
+        }
+
+        @Override
+        public FintocSyncResult syncInitial(User user, BankConnection connection) {
+            calls++;
+            this.user = user;
+            this.connection = connection;
+            if (fail) {
+                throw new IllegalStateException("Fintoc request failed while listing movements.");
+            }
+            return result;
         }
     }
 }

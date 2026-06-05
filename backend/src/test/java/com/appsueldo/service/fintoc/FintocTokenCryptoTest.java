@@ -28,6 +28,7 @@ class FintocTokenCryptoTest {
             "https://api.fintoc.com",
             "not-base64",
             "test",
+            90,
             "whsec_secret"
         );
 
@@ -52,6 +53,7 @@ class FintocTokenCryptoTest {
             "https://api.fintoc.com",
             "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=",
             "test",
+            90,
             "whsec_secret"
         );
     }

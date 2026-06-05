@@ -21,6 +21,7 @@ class FintocSensitiveDtoTest {
             "https://api.fintoc.com/",
             "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=",
             "test",
+            90,
             "whsec_secret"
         );
 
@@ -48,7 +49,10 @@ class FintocSensitiveDtoTest {
             BankProvider.FINTOC,
             "Banco",
             BankConnectionStatus.ACTIVE,
-            List.of(new BankAccountSummaryDto(10L, "Cuenta Vista", "sight_account", "CLP", null))
+            List.of(new BankAccountSummaryDto(10L, "Cuenta Vista", "sight_account", "CLP", null)),
+            3,
+            1,
+            "COMPLETED"
         );
 
         assertThat(CreateFintocLinkIntentResponse.class.getRecordComponents())

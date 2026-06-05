@@ -1,6 +1,7 @@
 package com.appsueldo.config;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
@@ -12,6 +13,7 @@ public record FintocProperties(
     @NotBlank String baseUrl,
     @NotBlank String tokenEncryptionKey,
     @NotBlank String env,
+    @Positive int initialSyncDays,
     String webhookSecret
 ) {
     public FintocProperties {
