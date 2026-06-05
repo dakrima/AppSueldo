@@ -10,6 +10,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { LogoutButton } from "@/components/auth/LogoutButton";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { BankConnectionsPanel } from "@/features/bank-connections/BankConnectionsPanel";
 
 export default function SettingsPage() {
   return (
@@ -21,6 +22,8 @@ export default function SettingsPage() {
     >
       <div className="grid gap-6 xl:grid-cols-[1fr_380px]">
         <div className="grid gap-6">
+          <BankConnectionsPanel />
+
           <section className="rounded-2xl border border-border-soft bg-soft-card p-6 shadow-[var(--shadow-paper)] sm:p-8">
             <h2 className="flex items-center gap-3 text-3xl font-semibold">
               <UserRound size={27} />
@@ -95,8 +98,8 @@ export default function SettingsPage() {
             <div className="mt-8 rounded-lg border border-green-300 bg-mint-bg p-5">
               <p className="text-xl font-semibold text-secondary">Tu tranquilidad es lo primero</p>
               <p className="mt-4 text-lg leading-8 text-primary">
-                En este MVP <strong>no conectamos bancos ni almacenamos credenciales bancarias.</strong> Tus datos
-                financieros son ingresados manualmente, locales y completamente privados.
+                La conexión bancaria se realiza con Fintoc y AppSueldo <strong>no almacena credenciales bancarias.</strong>{" "}
+                Los movimientos aún no se sincronizan automáticamente en esta etapa.
               </p>
             </div>
             <div className="mt-8">

@@ -34,6 +34,14 @@ export type BankConnection = {
   accounts: BankAccount[];
 };
 
+export type CreateFintocLinkIntentResponse = {
+  provider: BankProvider;
+  publicKey: string;
+  widgetToken: string;
+  country: string;
+  product: string;
+};
+
 export type Transaction = {
   id: number;
   categoryId: number | null;
