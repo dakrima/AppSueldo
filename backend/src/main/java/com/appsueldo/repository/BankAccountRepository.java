@@ -17,6 +17,8 @@ public interface BankAccountRepository extends JpaRepository<BankAccount, Long> 
 
     Optional<BankAccount> findByUserAndExternalId(User user, String externalId);
 
+    Optional<BankAccount> findFirstByExternalIdAndBankConnectionProvider(String externalId, BankProvider provider);
+
     Optional<BankAccount> findByUserAndBankConnectionAndExternalId(
         User user,
         BankConnection bankConnection,

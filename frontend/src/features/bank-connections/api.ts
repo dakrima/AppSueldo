@@ -1,5 +1,5 @@
 import { apiFetch } from "@/lib/api/client";
-import type { BankConnection, CreateFintocLinkIntentResponse } from "@/types/finance";
+import type { BankConnection, BankConnectionSyncResponse, CreateFintocLinkIntentResponse } from "@/types/finance";
 
 export function listBankConnections() {
   return apiFetch<BankConnection[]>("/api/bank-connections");
@@ -15,5 +15,11 @@ export function exchangeFintocToken(exchangeToken: string) {
   return apiFetch<BankConnection>("/api/bank-connections/fintoc/exchange", {
     method: "POST",
     body: JSON.stringify({ exchangeToken }),
+  });
+}
+
+export function syncBankConnection(connectionId: number) {
+  return apiFetch<BankConnectionSyncResponse>(`/api/bank-connections/${connectionId}/sync`, {
+    method: "POST",
   });
 }

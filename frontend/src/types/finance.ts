@@ -32,6 +32,9 @@ export type BankConnection = {
   institutionName: string | null;
   status: BankConnectionStatus;
   accounts: BankAccount[];
+  importedTransactionsCount?: number | null;
+  skippedTransactionsCount?: number | null;
+  syncStatus?: string | null;
 };
 
 export type CreateFintocLinkIntentResponse = {
@@ -40,6 +43,15 @@ export type CreateFintocLinkIntentResponse = {
   widgetToken: string;
   country: string;
   product: string;
+};
+
+export type BankConnectionSyncResponse = {
+  status: string;
+  requiresMfa: boolean;
+  widgetToken: string | null;
+  importedTransactionsCount: number | null;
+  skippedTransactionsCount: number | null;
+  syncStatus: string | null;
 };
 
 export type Transaction = {

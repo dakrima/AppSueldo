@@ -1,6 +1,7 @@
 package com.appsueldo.controller;
 
 import com.appsueldo.dto.BankConnectionResponse;
+import com.appsueldo.dto.BankConnectionSyncResponse;
 import com.appsueldo.dto.CreateFintocLinkIntentResponse;
 import com.appsueldo.dto.ExchangeFintocTokenRequest;
 import com.appsueldo.service.BankConnectionService;
@@ -8,6 +9,7 @@ import com.appsueldo.service.FintocConnectionService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,5 +45,10 @@ public class BankConnectionController {
         @Valid @RequestBody ExchangeFintocTokenRequest request
     ) {
         return fintocConnectionService.exchangeForCurrentUser(request);
+    }
+
+    @PostMapping("/{id}/sync")
+    public BankConnectionSyncResponse syncBankConnection(@PathVariable Long id) {
+        return fintocConnectionService.syncConnectionForCurrentUser(id);
     }
 }

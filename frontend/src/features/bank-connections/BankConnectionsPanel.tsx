@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useRef, useState, useEffect } from "react";
-import { Building2, Landmark, PlugZap, ShieldCheck } from "lucide-react";
+import { Building2, Landmark, PlugZap, RefreshCw, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -12,8 +12,9 @@ import {
   createFintocLinkIntent,
   exchangeFintocToken,
   listBankConnections,
+  syncBankConnection,
 } from "@/features/bank-connections/api";
-import type { BankAccount, BankConnection, BankConnectionStatus } from "@/types/finance";
+import type { BankAccount, BankConnection, BankConnectionStatus, BankConnectionSyncResponse } from "@/types/finance";
 
 type FintocSuccessPayload = {
   exchangeToken?: unknown;
@@ -51,12 +52,19 @@ let fintocScriptPromise: Promise<void> | null = null;
 
 type ConnectState = "idle" | "loading-script" | "creating-intent" | "widget-open" | "exchanging" | "success" | "cancelled" | "error";
 
+type SyncFeedback = {
+  tone: "success" | "pending" | "error" | "mfa";
+  message: string;
+};
+
 export function BankConnectionsPanel() {
   const [connections, setConnections] = useState<BankConnection[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [connectState, setConnectState] = useState<ConnectState>("idle");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [syncingConnectionId, setSyncingConnectionId] = useState<number | null>(null);
+  const [syncFeedbackByConnection, setSyncFeedbackByConnection] = useState<Record<number, SyncFeedback>>({});
   const widgetRef = useRef<FintocWidget | null>(null);
 
   const bankConnections = useMemo(
@@ -165,6 +173,38 @@ export function BankConnectionsPanel() {
     }
   }
 
+  async function handleSyncConnection(connectionId: number) {
+    setError("");
+    setSuccessMessage("");
+    setSyncingConnectionId(connectionId);
+    setSyncFeedbackByConnection((current) => {
+      const next = { ...current };
+      delete next[connectionId];
+      return next;
+    });
+
+    try {
+      const response = await syncBankConnection(connectionId);
+      setSyncFeedbackByConnection((current) => ({
+        ...current,
+        [connectionId]: syncFeedback(response),
+      }));
+      if (!response.requiresMfa) {
+        await loadConnections();
+      }
+    } catch (error) {
+      setSyncFeedbackByConnection((current) => ({
+        ...current,
+        [connectionId]: {
+          tone: "error",
+          message: error instanceof Error ? error.message : "No pudimos sincronizar esta conexión.",
+        },
+      }));
+    } finally {
+      setSyncingConnectionId(null);
+    }
+  }
+
   const isConnecting = ["loading-script", "creating-intent", "widget-open", "exchanging"].includes(connectState);
 
   return (
@@ -176,7 +216,7 @@ export function BankConnectionsPanel() {
             Conexiones bancarias
           </h2>
           <p className="mt-3 max-w-2xl text-base leading-7 text-text-secondary">
-            Conecta tu banco para preparar la lectura automática de cuentas. Los movimientos se sincronizarán en una etapa posterior.
+            Conecta tu banco para leer cuentas y mantener tus movimientos actualizados desde AppSueldo.
           </p>
         </div>
         <Button type="button" size="lg" onClick={handleConnectBank} disabled={isConnecting || isLoading}>
@@ -224,7 +264,13 @@ export function BankConnectionsPanel() {
         ) : (
           <div className="grid gap-4">
             {bankConnections.map((connection) => (
-              <BankConnectionCard key={connection.id} connection={connection} />
+              <BankConnectionCard
+                key={connection.id}
+                connection={connection}
+                feedback={syncFeedbackByConnection[connection.id]}
+                isSyncing={syncingConnectionId === connection.id}
+                onSync={handleSyncConnection}
+              />
             ))}
           </div>
         )}
@@ -243,7 +289,17 @@ export function BankConnectionsPanel() {
   );
 }
 
-function BankConnectionCard({ connection }: { connection: BankConnection }) {
+function BankConnectionCard({
+  connection,
+  feedback,
+  isSyncing,
+  onSync,
+}: {
+  connection: BankConnection;
+  feedback?: SyncFeedback;
+  isSyncing: boolean;
+  onSync: (connectionId: number) => void;
+}) {
   return (
     <article className="rounded-xl border border-border-soft bg-warm-canvas/60 p-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -258,8 +314,27 @@ function BankConnectionCard({ connection }: { connection: BankConnection }) {
             </p>
           </div>
         </div>
-        <Badge tone={connection.status === "ACTIVE" ? "income" : "amber"}>{statusLabel(connection.status)}</Badge>
+        <div className="flex flex-wrap items-center gap-2 sm:justify-end">
+          <Badge tone={connection.status === "ACTIVE" ? "income" : "amber"}>{statusLabel(connection.status)}</Badge>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={() => onSync(connection.id)}
+            disabled={isSyncing || connection.status !== "ACTIVE"}
+            title={connection.status === "ACTIVE" ? "Sincronizar movimientos" : "La conexión debe estar activa para sincronizar"}
+          >
+            <RefreshCw size={16} className={isSyncing ? "animate-spin" : undefined} />
+            {isSyncing ? "Sincronizando..." : "Sincronizar"}
+          </Button>
+        </div>
       </div>
+
+      {feedback ? (
+        <div className={`mt-4 rounded-lg border p-4 text-sm font-medium ${syncFeedbackClasses(feedback.tone)}`} role="status">
+          {feedback.message}
+        </div>
+      ) : null}
 
       <div className="mt-5 grid gap-3">
         {connection.accounts.map((account) => (
@@ -311,6 +386,67 @@ function statusLabel(status: BankConnectionStatus) {
     return "Requiere atención";
   }
   return "Inactivo";
+}
+
+function syncFeedback(response: BankConnectionSyncResponse): SyncFeedback {
+  if (response.requiresMfa) {
+    return {
+      tone: "mfa",
+      message: "Fintoc requiere validación adicional. Esta parte se implementará después.",
+    };
+  }
+
+  if (isPendingStatus(response.status)) {
+    return {
+      tone: "pending",
+      message: "Sincronización en proceso. Se actualizará cuando Fintoc confirme.",
+    };
+  }
+
+  if (isSuccessStatus(response.syncStatus) || isSuccessStatus(response.status)) {
+    const imported = response.importedTransactionsCount ?? 0;
+    const skipped = response.skippedTransactionsCount ?? 0;
+    const detail = imported > 0
+      ? ` Se importaron ${imported} ${imported === 1 ? "movimiento nuevo" : "movimientos nuevos"}.`
+      : skipped > 0
+        ? " No había movimientos nuevos para importar."
+        : "";
+
+    return {
+      tone: "success",
+      message: `Movimientos actualizados.${detail}`,
+    };
+  }
+
+  if (isPendingStatus(response.syncStatus)) {
+    return {
+      tone: "pending",
+      message: "Sincronización en proceso. Se actualizará cuando Fintoc confirme.",
+    };
+  }
+
+  return {
+    tone: "error",
+    message: "No pudimos sincronizar esta conexión. Intenta nuevamente más tarde.",
+  };
+}
+
+function isSuccessStatus(status: string | null) {
+  return ["COMPLETED", "SUCCESS", "SUCCEEDED", "OK"].includes((status ?? "").toUpperCase());
+}
+
+function isPendingStatus(status: string | null) {
+  return ["PENDING", "CREATED", "PROCESSING"].includes((status ?? "").toUpperCase());
+}
+
+function syncFeedbackClasses(tone: SyncFeedback["tone"]) {
+  if (tone === "success") {
+    return "border-green-300 bg-mint-bg text-secondary";
+  }
+  if (tone === "pending" || tone === "mfa") {
+    return "border-amber-200 bg-amber-bg text-[#7a4b00]";
+  }
+  return "border-red-200 bg-soft-coral-bg text-danger";
 }
 
 function formatBalance(balance: number | null, currency: string) {

@@ -9,21 +9,27 @@ import static org.mockito.Mockito.when;
 
 import com.appsueldo.config.FintocProperties;
 import com.appsueldo.dto.BankConnectionResponse;
+import com.appsueldo.dto.BankConnectionSyncResponse;
 import com.appsueldo.dto.CreateFintocLinkIntentResponse;
 import com.appsueldo.dto.ExchangeFintocTokenRequest;
 import com.appsueldo.dto.fintoc.FintocInstitutionResponse;
 import com.appsueldo.dto.fintoc.FintocLinkIntentRequest;
 import com.appsueldo.dto.fintoc.FintocLinkIntentResponse;
 import com.appsueldo.dto.fintoc.FintocLinkResponse;
+import com.appsueldo.dto.fintoc.FintocRefreshIntentMfaResponse;
+import com.appsueldo.dto.fintoc.FintocRefreshIntentResponse;
 import com.appsueldo.entity.BankAccount;
 import com.appsueldo.entity.BankConnection;
 import com.appsueldo.entity.BankConnectionStatus;
 import com.appsueldo.entity.BankProvider;
 import com.appsueldo.entity.User;
 import com.appsueldo.exception.BadRequestException;
+import com.appsueldo.exception.ResourceNotFoundException;
 import com.appsueldo.repository.BankConnectionRepository;
 import com.appsueldo.service.bankprovider.BankProviderClient;
+import com.appsueldo.service.fintoc.FintocClientException;
 import com.appsueldo.service.fintoc.FintocTokenCrypto;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -230,6 +236,119 @@ class FintocConnectionServiceTest {
         assertThat(response.syncStatus()).isEqualTo("ERROR");
     }
 
+    @Test
+    void syncConnectionRejectsMissingOrForeignConnection() {
+        User user = user();
+        currentUserService.setUser(user);
+        when(bankConnectionRepository.findByIdAndUser(99L, user)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> service.syncConnectionForCurrentUser(99L))
+            .isInstanceOf(ResourceNotFoundException.class)
+            .hasMessage("Conexion bancaria no encontrada.");
+
+        verifyNoInteractions(bankProviderClient);
+        assertThat(fintocSyncService.calls).isZero();
+    }
+
+    @Test
+    void syncConnectionRejectsNonFintocConnection() {
+        User user = user();
+        currentUserService.setUser(user);
+        BankConnection connection = new BankConnection();
+        connection.setUser(user);
+        connection.setProvider(BankProvider.MANUAL);
+        setId(connection, 20L);
+        when(bankConnectionRepository.findByIdAndUser(20L, user)).thenReturn(Optional.of(connection));
+
+        assertThatThrownBy(() -> service.syncConnectionForCurrentUser(20L))
+            .isInstanceOf(BadRequestException.class)
+            .hasMessage("Solo se pueden sincronizar conexiones Fintoc.");
+
+        verifyNoInteractions(bankProviderClient);
+        assertThat(fintocSyncService.calls).isZero();
+    }
+
+    @Test
+    void syncConnectionCreatesRefreshIntentAndRunsSafeSyncWhenMfaIsNotRequired() {
+        User user = user();
+        BankConnection connection = fintocConnection(user);
+        BankAccount account = account(user, "Cuenta Vista");
+        currentUserService.setUser(user);
+        fintocSyncService.result = FintocSyncResult.completed(4, 2, List.of(account));
+        when(bankConnectionRepository.findByIdAndUser(10L, user)).thenReturn(Optional.of(connection));
+        when(bankProviderClient.createRefreshIntent("link_token_secret", "only_last"))
+            .thenReturn(refreshIntent("created", null));
+
+        BankConnectionSyncResponse response = service.syncConnectionForCurrentUser(10L);
+
+        verify(bankProviderClient).createRefreshIntent("link_token_secret", "only_last");
+        assertThat(fintocSyncService.calls).isEqualTo(1);
+        assertThat(fintocSyncService.user).isSameAs(user);
+        assertThat(fintocSyncService.connection).isSameAs(connection);
+        assertThat(response.status()).isEqualTo("PENDING");
+        assertThat(response.requiresMfa()).isFalse();
+        assertThat(response.widgetToken()).isNull();
+        assertThat(response.importedTransactionsCount()).isEqualTo(4);
+        assertThat(response.skippedTransactionsCount()).isEqualTo(2);
+        assertThat(response.syncStatus()).isEqualTo("COMPLETED");
+        assertThat(response.toString()).doesNotContain("link_token_secret", "sk_test_secret");
+    }
+
+    @Test
+    void syncConnectionReturnsMfaWidgetTokenWithoutRunningSync() {
+        User user = user();
+        BankConnection connection = fintocConnection(user);
+        currentUserService.setUser(user);
+        when(bankConnectionRepository.findByIdAndUser(10L, user)).thenReturn(Optional.of(connection));
+        when(bankProviderClient.createRefreshIntent("link_token_secret", "only_last"))
+            .thenReturn(refreshIntent("created", "ri_widget_token_secret"));
+
+        BankConnectionSyncResponse response = service.syncConnectionForCurrentUser(10L);
+
+        assertThat(response.status()).isEqualTo("REQUIRES_MFA");
+        assertThat(response.requiresMfa()).isTrue();
+        assertThat(response.widgetToken()).isEqualTo("ri_widget_token_secret");
+        assertThat(response.syncStatus()).isEqualTo("PENDING");
+        assertThat(response.toString()).doesNotContain("ri_widget_token_secret", "link_token_secret");
+        assertThat(fintocSyncService.calls).isZero();
+    }
+
+    @Test
+    void syncConnectionRejectedRefreshIntentReturnsControlledError() {
+        User user = user();
+        BankConnection connection = fintocConnection(user);
+        currentUserService.setUser(user);
+        when(bankConnectionRepository.findByIdAndUser(10L, user)).thenReturn(Optional.of(connection));
+        when(bankProviderClient.createRefreshIntent("link_token_secret", "only_last"))
+            .thenReturn(refreshIntent("rejected", null));
+
+        assertThatThrownBy(() -> service.syncConnectionForCurrentUser(10L))
+            .isInstanceOf(BadRequestException.class)
+            .hasMessage("El banco rechazo la actualizacion de la conexion.")
+            .message()
+            .doesNotContain("link_token_secret");
+
+        assertThat(fintocSyncService.calls).isZero();
+    }
+
+    @Test
+    void syncConnectionFintocErrorsDoNotExposeTokens() {
+        User user = user();
+        BankConnection connection = fintocConnection(user);
+        currentUserService.setUser(user);
+        when(bankConnectionRepository.findByIdAndUser(10L, user)).thenReturn(Optional.of(connection));
+        when(bankProviderClient.createRefreshIntent("link_token_secret", "only_last"))
+            .thenThrow(new FintocClientException("Fintoc request failed while creating refresh intent."));
+
+        assertThatThrownBy(() -> service.syncConnectionForCurrentUser(10L))
+            .isInstanceOf(FintocClientException.class)
+            .hasMessage("Fintoc request failed while creating refresh intent.")
+            .message()
+            .doesNotContain("link_token_secret");
+
+        assertThat(fintocSyncService.calls).isZero();
+    }
+
     private FintocProperties properties() {
         return new FintocProperties(
             "sk_test_secret",
@@ -268,6 +387,34 @@ class FintocConnectionServiceTest {
         account.setCurrency("CLP");
         setId(account, 20L);
         return account;
+    }
+
+    private BankConnection fintocConnection(User user) {
+        BankConnection connection = new BankConnection();
+        connection.setUser(user);
+        connection.setProvider(BankProvider.FINTOC);
+        connection.setProviderConnectionId("link_123");
+        connection.setAccessTokenRef(fintocTokenCrypto.encrypt("link_token_secret"));
+        setId(connection, 10L);
+        return connection;
+    }
+
+    private FintocRefreshIntentResponse refreshIntent(String status, String widgetToken) {
+        FintocRefreshIntentMfaResponse mfa = widgetToken == null
+            ? null
+            : new FintocRefreshIntentMfaResponse(widgetToken);
+        return new FintocRefreshIntentResponse(
+            "ri_123",
+            "refresh_intent",
+            "link",
+            "link_123",
+            status,
+            null,
+            OffsetDateTime.parse("2026-06-04T12:00:00Z"),
+            "only_last",
+            null,
+            mfa
+        );
     }
 
     private void setId(Object entity, Long id) {
