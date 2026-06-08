@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,6 +22,7 @@ public class FintocWebhookSignatureVerifier {
     private final FintocProperties properties;
     private final Clock clock;
 
+    @Autowired
     public FintocWebhookSignatureVerifier(FintocProperties properties) {
         this(properties, Clock.systemUTC());
     }

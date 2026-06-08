@@ -50,7 +50,20 @@ class FintocWebhookSignatureVerifierTest {
             .hasMessage("Firma Fintoc invalida.");
     }
 
+    @Test
+    void rejectsVerificationWhenWebhookSecretIsBlank() {
+        FintocWebhookSignatureVerifier verifier = verifierWithSecret("");
+
+        assertThatThrownBy(() -> verifier.verify("{}", "t=" + NOW.getEpochSecond() + ",v1=signature"))
+            .isInstanceOf(BadRequestException.class)
+            .hasMessage("Firma Fintoc invalida.");
+    }
+
     private FintocWebhookSignatureVerifier verifier() {
+        return verifierWithSecret(SECRET);
+    }
+
+    private FintocWebhookSignatureVerifier verifierWithSecret(String webhookSecret) {
         return new FintocWebhookSignatureVerifier(
             new FintocProperties(
                 "sk_test_secret",
@@ -59,7 +72,7 @@ class FintocWebhookSignatureVerifierTest {
                 "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=",
                 "test",
                 90,
-                SECRET
+                webhookSecret
             ),
             Clock.fixed(NOW, ZoneOffset.UTC)
         );
