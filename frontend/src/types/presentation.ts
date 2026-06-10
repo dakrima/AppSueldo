@@ -12,8 +12,11 @@ export type TransactionListItem = {
   typeLabel: string;
   type: TransactionType;
   source: TransactionSource;
+  sourceLabel?: string;
   currency: string;
   bankAccountName: string;
+  reviewStatus?: string;
+  reviewTone?: Tone;
   icon: LucideIcon;
   tone: Tone;
 };
@@ -32,6 +35,7 @@ export type SummaryCardModel = {
   label: string;
   value: string;
   helper?: string;
+  context?: string;
   tone: Tone;
   icon: LucideIcon;
 };
@@ -48,6 +52,7 @@ export type BalanceAccountViewModel = {
 export type BalanceOverviewViewModel = {
   label: string;
   total: string;
+  rawTotal?: number;
   helper: string;
   updatedCopy: string;
   transferNote?: string;
@@ -90,6 +95,75 @@ export type InsightViewModel = {
   title: string;
   description: string;
   tone: Tone;
+};
+
+export type FinancialHeroViewModel = {
+  title: string;
+  primaryLabel: string;
+  primaryValue: string;
+  primaryHelper: string;
+  monthlyLabel: string;
+  monthlyValue: string;
+  monthlyHelper: string;
+  headline: string;
+  explanation: string;
+  transferNote?: string;
+  tone: Tone;
+};
+
+export type MonthlyPriorityViewModel = {
+  title: string;
+  description: string;
+  whyItMatters: string;
+  analysisStatus: AnalysisStatusViewModel;
+  tone: Tone;
+  actions: DashboardActionItem[];
+};
+
+export type AnalysisStatusViewModel = {
+  label: string;
+  description: string;
+  tone: Tone;
+};
+
+export type DashboardActionItem = {
+  id: string;
+  title: string;
+  description: string;
+  ctaLabel?: string;
+  href?: string;
+  tone: Tone;
+  icon: LucideIcon;
+};
+
+export type TopExpenseCategoryItem = {
+  id: string;
+  name: string;
+  amount: string;
+  percent: number;
+  percentLabel: string;
+  movementCount: number;
+  tone: Tone;
+};
+
+export type CategoryReadinessViewModel = {
+  title: string;
+  description: string;
+  status: "ready" | "needs_categories" | "empty";
+  uncategorizedExpenseCount: number;
+  uncategorizedPercentLabel?: string;
+  items: TopExpenseCategoryItem[];
+};
+
+export type SalaryRhythmViewModel = {
+  title: string;
+  description: string;
+  note: string;
+  tone: Tone;
+  facts: Array<{
+    label: string;
+    value: string;
+  }>;
 };
 
 export type PeriodSummaryViewModel = {

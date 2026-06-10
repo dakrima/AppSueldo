@@ -19,8 +19,8 @@ export function CategoryBreakdown({ categories, periodLabel }: CategoryBreakdown
     <section className="min-w-0 rounded-2xl border border-border-soft bg-soft-card p-5 shadow-[var(--shadow-paper)] sm:p-6">
       <div>
         <p className="text-xs font-bold uppercase tracking-[0.12em] text-text-muted">{periodLabel}</p>
-        <h2 className="mt-2 text-xl font-semibold text-primary">Categorías principales</h2>
-        <p className="mt-2 text-sm leading-6 text-text-secondary">Gasto real del mes. Excluye transferencias entre cuentas.</p>
+        <h2 className="mt-2 text-xl font-semibold text-primary">Análisis por categoría</h2>
+        <p className="mt-2 text-sm leading-6 text-text-secondary">Gasto del mes. Excluye transferencias entre cuentas.</p>
       </div>
       {categories.length > 0 ? (
         <div className="mt-6 grid gap-5">

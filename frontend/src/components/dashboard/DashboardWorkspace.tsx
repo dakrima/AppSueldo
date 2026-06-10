@@ -2,20 +2,24 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AlertCircle, Plus } from "lucide-react";
-import { BalanceOverviewCard } from "@/components/dashboard/BalanceOverviewCard";
-import { CategoryBreakdown } from "@/components/dashboard/CategoryBreakdown";
-import { CategoryDistributionTable } from "@/components/dashboard/CategoryDistributionTable";
-import { InsightCard } from "@/components/dashboard/InsightCard";
-import { SummaryCard } from "@/components/dashboard/SummaryCard";
+import { AlertCircle, Plus, Upload } from "lucide-react";
+import { DashboardHeroCard } from "@/components/dashboard/DashboardHeroCard";
+import { MonthlyKpiGrid } from "@/components/dashboard/MonthlyKpiGrid";
+import { MonthlyPriorityCard } from "@/components/dashboard/MonthlyPriorityCard";
+import { RecentTransactionsPanel } from "@/components/dashboard/RecentTransactionsPanel";
+import { SalaryRhythmCard } from "@/components/dashboard/SalaryRhythmCard";
+import { TopExpenseCategoriesPanel } from "@/components/dashboard/TopExpenseCategoriesPanel";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { listBankConnections } from "@/features/bank-connections/api";
 import { listCategories } from "@/features/categories/api";
 import { getMonthlySummary } from "@/features/dashboard/api";
 import {
-  buildCategoryBreakdownData,
-  buildDashboardInsight,
+  buildCategoryReadiness,
+  buildFinancialHero,
+  buildMonthlyPriority,
+  buildRecentTransactions,
+  buildSalaryRhythm,
   buildSummaryCards,
   calculateAccountTotal,
   calculateCategoryDistribution,
@@ -41,9 +45,8 @@ export function DashboardWorkspace() {
   const { user } = useAuth();
   const [dashboardState, setDashboardState] = useState<DashboardState>({ status: "loading" });
   const [loadRequest, setLoadRequest] = useState(0);
-  const greeting = user?.name?.trim() ? `Hola, ${user.name.trim()}! 👋🏼` : "Hola! 👋🏼";
-  const todayLabel = formatToday();
   const periodLabel = formatCurrentPeriod();
+  const userName = user?.name?.trim();
 
   useEffect(() => {
     let active = true;
@@ -75,20 +78,28 @@ export function DashboardWorkspace() {
   }
 
   return (
-    <div className="grid min-w-0 gap-6">
-      <section className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div className="grid min-w-0 gap-5">
+      <section className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
-          <h1 className="text-2xl font-semibold tracking-normal text-primary sm:text-3xl">{greeting}</h1>
-          <p className="mt-2 text-sm leading-6 text-text-secondary sm:text-base">
-            Este es tu resumen al {todayLabel}.
+          <h1 className="text-2xl font-semibold tracking-normal text-primary sm:text-3xl">Resumen financiero</h1>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-text-secondary sm:text-base">
+            {userName ? `${userName}, ` : ""}este es tu control mensual para {periodLabel}.
           </p>
         </div>
-        <Button asChild variant="secondary" className="w-full sm:w-auto">
-          <Link href="/transactions/new">
-            <Plus size={18} aria-hidden="true" />
-            Agregar movimiento
-          </Link>
-        </Button>
+        <div className="grid gap-2 sm:flex sm:items-center">
+          <Button asChild className="w-full sm:w-auto">
+            <Link href="/transactions/new">
+              <Plus size={18} aria-hidden="true" />
+              Agregar movimiento
+            </Link>
+          </Button>
+          <Button asChild variant="secondary" className="w-full sm:w-auto">
+            <Link href="/transactions">
+              <Upload size={18} aria-hidden="true" />
+              Importar CSV
+            </Link>
+          </Button>
+        </div>
       </section>
 
       {dashboardState.status === "loading" ? <DashboardLoadingState /> : null}
@@ -107,108 +118,126 @@ function DashboardContent({ data, periodLabel }: { data: DashboardData; periodLa
 
   if (!hasData) {
     return (
-      <EmptyState
-        title="Aún no hay información financiera para mostrar."
-        description="Conecta una cuenta o registra movimientos para ver tu resumen."
-      />
+      <section className="grid gap-4 rounded-2xl border border-border-soft bg-soft-card p-5 shadow-[var(--shadow-paper)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-7">
+        <EmptyState
+          title="Aún no hay información financiera para mostrar."
+          description="Agrega un movimiento o conecta tu banco para empezar a construir tu cabina mensual."
+        />
+        <div className="grid gap-2 sm:w-52">
+          <Button asChild>
+            <Link href="/transactions/new">
+              <Plus size={18} aria-hidden="true" />
+              Agregar movimiento
+            </Link>
+          </Button>
+          <Button asChild variant="secondary">
+            <Link href="/settings">Conectar banco</Link>
+          </Button>
+        </div>
+      </section>
     );
   }
 
   const balance = calculateAccountTotal(data.bankConnections, data.monthlySummary, data.transactions);
-  const summaryCards = buildSummaryCards(data.monthlySummary);
+  const hero = buildFinancialHero(balance, data.monthlySummary);
+  const summaryCards = buildSummaryCards(data.monthlySummary, data.transactions, data.bankConnections);
   const categoryDistribution = calculateCategoryDistribution(data.transactions, data.categories);
-  const categoryBreakdown = buildCategoryBreakdownData(categoryDistribution);
-  const insight = buildDashboardInsight(categoryDistribution, data.monthlySummary);
+  const categoryReadiness = buildCategoryReadiness(categoryDistribution, data.transactions);
+  const monthlyPriority = buildMonthlyPriority(data.monthlySummary, data.transactions);
+  const salaryRhythm = buildSalaryRhythm(data.monthlySummary);
+  const recentTransactions = buildRecentTransactions(data.transactions);
 
   return (
-    <>
-      <section className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,1fr)_340px]">
-        <BalanceOverviewCard balance={balance} />
-        <div className="grid min-w-0 gap-3 sm:grid-cols-3 xl:grid-cols-1">
-          {summaryCards.map((item) => (
-            <SummaryCard key={item.label} {...item} />
-          ))}
-        </div>
-      </section>
+    <div className="grid min-w-0 gap-5">
+      <DashboardHeroCard hero={hero} />
 
-      <section className="grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
-        <CategoryDistributionTable items={categoryDistribution} />
-        <div className="grid min-w-0 content-start gap-6">
-          <CategoryBreakdown categories={categoryBreakdown} periodLabel={periodLabel} />
-          <InsightCard title={insight.title} description={insight.description} tone={insight.tone} />
-        </div>
+      <MonthlyPriorityCard priority={monthlyPriority} />
+
+      <MonthlyKpiGrid items={summaryCards} />
+
+      <SalaryRhythmCard rhythm={salaryRhythm} />
+
+      <section className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_420px]">
+        <RecentTransactionsPanel transactions={recentTransactions} />
+        <TopExpenseCategoriesPanel categoryReadiness={categoryReadiness} periodLabel={periodLabel} />
       </section>
-    </>
+    </div>
   );
 }
 
 function DashboardLoadingState() {
   return (
-    <div className="grid min-w-0 gap-6" aria-busy="true" aria-live="polite">
-      <section className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,1fr)_340px]">
-        <div className="min-h-[27rem] rounded-2xl border border-border-soft bg-soft-card p-5 shadow-[var(--shadow-paper)] sm:p-7 lg:p-8">
-          <div className="h-4 w-40 rounded-full bg-muted-surface" />
-          <div className="mt-5 h-12 w-64 max-w-full rounded-full bg-muted-surface" />
-          <div className="mt-4 h-4 w-full max-w-md rounded-full bg-muted-surface" />
-          <div className="mt-8 grid gap-3">
-            {[0, 1, 2].map((item) => (
-              <div key={item} className="flex items-center justify-between rounded-xl border border-border-soft px-4 py-4">
-                <div className="flex items-center gap-3">
-                  <div className="size-10 rounded-lg bg-muted-surface" />
-                  <div>
-                    <div className="h-4 w-36 rounded-full bg-muted-surface" />
-                    <div className="mt-2 h-3 w-24 rounded-full bg-muted-surface" />
-                  </div>
+    <div className="grid min-w-0 gap-5" aria-busy="true" aria-live="polite">
+      <section className="min-h-80 rounded-2xl border border-primary/10 bg-primary p-5 shadow-[var(--shadow-paper)] sm:p-7 lg:p-8">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_310px]">
+          <div>
+            <div className="h-4 w-44 rounded-full bg-white/15" />
+            <div className="mt-5 h-9 w-96 max-w-full rounded-lg bg-white/15" />
+            <div className="mt-6 h-16 w-72 max-w-full rounded-full bg-white/15" />
+            <div className="mt-5 h-4 w-full max-w-xl rounded-full bg-white/15" />
+          </div>
+          <div className="rounded-xl border border-white/15 bg-white/10 p-4">
+            <div className="h-4 w-36 rounded-full bg-white/15" />
+            <div className="mt-5 h-9 w-40 rounded-full bg-white/15" />
+            <div className="mt-4 h-4 w-full rounded-full bg-white/15" />
+          </div>
+        </div>
+      </section>
+
+      <div className="min-h-52 rounded-2xl border border-border-soft bg-soft-card p-5 shadow-[var(--shadow-paper)] sm:p-6">
+        <div className="h-3 w-36 rounded-full bg-muted-surface" />
+        <div className="mt-4 h-6 w-56 rounded-full bg-muted-surface" />
+        <div className="mt-4 h-4 w-full max-w-2xl rounded-full bg-muted-surface" />
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          {[0, 1, 2].map((item) => (
+            <div key={item} className="h-20 rounded-xl bg-muted-surface/70" />
+          ))}
+        </div>
+      </div>
+
+      <div className="grid min-w-0 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        {[0, 1, 2, 3].map((item) => (
+          <div key={item} className="min-h-32 rounded-xl border border-border-soft bg-soft-card p-4 shadow-[var(--shadow-paper)]">
+            <div className="h-3 w-32 rounded-full bg-muted-surface" />
+            <div className="mt-5 h-7 w-28 rounded-full bg-muted-surface" />
+            <div className="mt-4 h-3 w-40 max-w-full rounded-full bg-muted-surface" />
+          </div>
+        ))}
+      </div>
+
+      <div className="min-h-44 rounded-2xl border border-border-soft bg-soft-card p-5 shadow-[var(--shadow-paper)] sm:p-6">
+        <div className="h-3 w-32 rounded-full bg-muted-surface" />
+        <div className="mt-4 h-6 w-44 rounded-full bg-muted-surface" />
+        <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          {[0, 1, 2].map((item) => (
+            <div key={item} className="h-16 rounded-xl bg-muted-surface/70" />
+          ))}
+        </div>
+      </div>
+
+      <section className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_380px]">
+        <div className="min-h-80 rounded-2xl border border-border-soft bg-soft-card p-5 shadow-[var(--shadow-paper)] sm:p-6">
+          <div className="h-3 w-28 rounded-full bg-muted-surface" />
+          <div className="mt-4 h-6 w-56 rounded-full bg-muted-surface" />
+          <div className="mt-7 grid gap-5">
+            {[0, 1, 2, 3].map((item) => (
+              <div key={item} className="grid gap-2">
+                <div className="flex justify-between">
+                  <div className="h-4 w-28 rounded-full bg-muted-surface" />
+                  <div className="h-4 w-20 rounded-full bg-muted-surface" />
                 </div>
-                <div className="h-5 w-24 rounded-full bg-muted-surface" />
+                <div className="h-2 rounded-full bg-muted-surface" />
               </div>
             ))}
           </div>
         </div>
-        <div className="grid min-w-0 gap-3 sm:grid-cols-3 xl:grid-cols-1">
-          {[0, 1, 2].map((item) => (
-            <div
-              key={item}
-              className="min-h-32 rounded-xl border border-border-soft bg-soft-card p-4 shadow-[var(--shadow-paper)] sm:p-5"
-            >
-              <div className="h-3 w-32 rounded-full bg-muted-surface" />
-              <div className="mt-5 h-7 w-28 rounded-full bg-muted-surface" />
-              <div className="mt-4 h-3 w-40 max-w-full rounded-full bg-muted-surface" />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
-        <div className="min-h-80 rounded-2xl border border-border-soft bg-soft-card p-5 shadow-[var(--shadow-paper)] sm:p-7">
-          <div className="h-5 w-56 rounded-full bg-muted-surface" />
-          <div className="mt-3 h-4 w-full max-w-lg rounded-full bg-muted-surface" />
-          <div className="mt-7 grid gap-3">
+        <div className="min-h-80 rounded-2xl border border-border-soft bg-soft-card p-5 shadow-[var(--shadow-paper)] sm:p-6">
+          <div className="h-3 w-24 rounded-full bg-muted-surface" />
+          <div className="mt-4 h-6 w-52 rounded-full bg-muted-surface" />
+          <div className="mt-6 grid gap-3">
             {[0, 1, 2, 3].map((item) => (
               <div key={item} className="h-14 rounded-xl bg-muted-surface/70" />
             ))}
-          </div>
-        </div>
-        <div className="grid min-w-0 content-start gap-6">
-          <div className="min-h-72 rounded-2xl border border-border-soft bg-soft-card p-5 shadow-[var(--shadow-paper)] sm:p-6">
-            <div className="h-3 w-28 rounded-full bg-muted-surface" />
-            <div className="mt-4 h-5 w-48 rounded-full bg-muted-surface" />
-            <div className="mt-7 grid gap-5">
-              {[0, 1, 2].map((item) => (
-                <div key={item} className="grid gap-2">
-                  <div className="flex justify-between">
-                    <div className="h-4 w-28 rounded-full bg-muted-surface" />
-                    <div className="h-4 w-20 rounded-full bg-muted-surface" />
-                  </div>
-                  <div className="h-2 rounded-full bg-muted-surface" />
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="h-32 rounded-2xl border border-border-soft bg-soft-card p-5 shadow-[var(--shadow-paper)]">
-            <div className="h-4 w-32 rounded-full bg-muted-surface" />
-            <div className="mt-4 h-4 w-48 rounded-full bg-muted-surface" />
-            <div className="mt-3 h-3 w-full rounded-full bg-muted-surface" />
           </div>
         </div>
       </section>
@@ -254,15 +283,6 @@ async function fetchDashboardData(): Promise<DashboardData> {
     bankConnections,
     categories,
   };
-}
-
-function formatToday() {
-  return new Intl.DateTimeFormat("es-CL", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(new Date());
 }
 
 function formatCurrentPeriod() {
